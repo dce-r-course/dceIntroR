@@ -1,1 +1,1 @@
-Sitemap: https://r-registry-course.github.io/intro-r-registry/sitemap.xml
+Sitemap: https://dce-r-course.github.io/dceIntroR/sitemap.xml
