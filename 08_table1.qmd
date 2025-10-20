@@ -115,8 +115,8 @@ data_covariates_mi |>
     statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
   ) |>
   bold_labels() |>
-  modify_header(label = "**Variable**") |> 
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  modify_header(label = "**Variable**") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |>
   add_overall(last = TRUE)
 ```
 
@@ -127,16 +127,16 @@ How does it handle categorical variables?
 Lets try to create age groups
 
 ```{r}
-data_covariates_mi <- data_covariates_mi |> 
+data_covariates_mi <- data_covariates_mi |>
   mutate(
-    agegroup = 
+    agegroup =
       case_when(
         age < 50 ~ "<50",
         age %in% c(50:80) ~ "50-80",
         age > 80 ~ ">80"
       ),
     .before = hypertension
-  ) |> 
+  ) |>
   mutate(
     agegroup = factor(agegroup, levels = c("<50", "50-80", ">80"))
   )
@@ -148,7 +148,7 @@ data_covariates_mi <- data_covariates_mi |>
 data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
-    include = c(age,agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
     by = sex,
     missing = "no",
     label = list(
@@ -163,8 +163,8 @@ data_covariates_mi |>
     statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
   ) |>
   bold_labels() |>
-  modify_header(label = "**Variable**") |> 
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  modify_header(label = "**Variable**") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |>
   add_overall(last = TRUE)
 ```
 
@@ -173,11 +173,11 @@ data_covariates_mi |>
 When we are happy with the ouput, we can save the Table 1. You can save as an Excel-file, making it ready for your manuscript (if you write that in e.g., Microsoft Word).
 
 ```{r}
-table1 <- 
+table1 <-
   data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
-    include = c(age,agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
     by = sex,
     missing = "no",
     label = list(
@@ -192,8 +192,8 @@ table1 <-
     statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
   ) |>
   bold_labels() |>
-  modify_header(label = "**Variable**") |> 
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  modify_header(label = "**Variable**") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |>
   add_overall(last = TRUE)
 ```
 
@@ -202,5 +202,4 @@ Where to save it? That's essentially up to you. You could make a new folder and 
 ```{r}
 table1_gt <- as_gt(table1)
 gt::gtsave(table1_gt, filename = here::here("results/table1.html"))
-
 ```
