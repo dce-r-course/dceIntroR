@@ -1,6 +1,6 @@
 # Time-to-event setup
 
-In this session, we will briefly give an example on how to create a time-to-event setup and run a quick Kaplan-Meier estimator as well as plotting the 1-Kaplan-Meier curves (all-cause mortality risk plots). No statistical theory will be covered.
+In this session, we will briefly give an example on how to create a time-to-event setup and run a Kaplan-Meier estimator as well as plotting the 1-Kaplan-Meier curves (all-cause mortality risk plots). No statistical theory will be covered.
 
 ## Make a script
 
@@ -40,7 +40,7 @@ basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
 
 ## Time-to-event setup
 
-Now, we will setup our dataset for a time-to-event analysis. We will follow patients from index_date until death, 1 year of follow-up, or December 31, 2024, whichever occurred first. We here just assume no emigration.
+Now, we will setup our dataset for a time-to-event analysis. We will follow patients from `index_date` until death, 1 year of follow-up, or December 31, 2024, whichever occurred first. We here just assume no emigration.
 
 ### Step 01: Add death date
 
@@ -88,7 +88,7 @@ data_tte
 
 ```
 
-You wish to check some restrictions:
+You may wish to check some restrictions:
 
 ```{r, warning=FALSE, message=FALSE}
 
@@ -156,11 +156,11 @@ ggsurvfit(fit_km) +
   scale_ggsurvfit()
 ```
 
-### Step 09. Alternative plotting
+### Step 09. Alternative result extraction and plotting
 
 There are several different ways to do this. Probably also some more elegant ways.
 
-Now, we will store the output from the `fit_km` object in a format allowing us to extract results - and plot the risk curves
+Now, we will store the output from the `fit_km` object in a format allowing us to extract results — and plot the risk curves
 
 #### Generate data
 
@@ -184,7 +184,7 @@ data_mortality <- data.frame(
   lower      = s_fit$lower
 ) |> 
   mutate(
-    group = dplyr::case_when(
+    group = case_when(
       strata == "sex=1" ~ "Male",
       strata == "sex=2" ~ "Female"
       ),
@@ -206,7 +206,7 @@ data_mortality <- data.frame(
 head(data_mortality,20)
 ```
 
-#### Extract results 
+#### Extract results
 
 Extract results and print in different formats
 
