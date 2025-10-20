@@ -29,19 +29,19 @@ usethis::use_package("writexl")
 
 ## Load data
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 data_covariates_mi <- readRDS(here::here("data/data_covariates_mi.rds"))
 ```
 
 Let's recap the variables, we have
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 glimpse(data_covariates_mi)
 ```
 
 ## Make the Table 1
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 tbl_summary(
   data_covariates_mi,
   include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -54,7 +54,7 @@ tbl_summary(
 
 ### Adjust labels
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 tbl_summary(
   data_covariates_mi,
   include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -75,7 +75,7 @@ tbl_summary(
 
 To adjust labels for sex, we could do something like:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
@@ -97,7 +97,7 @@ data_covariates_mi |>
 
 If your exposure is not totally self-explanatory, we can add a header
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
@@ -126,7 +126,7 @@ How does it handle categorical variables?
 
 Lets try to create age groups
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 data_covariates_mi <- data_covariates_mi |>
   mutate(
     agegroup =
@@ -144,7 +144,7 @@ data_covariates_mi <- data_covariates_mi |>
 
 ### Add overall
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
@@ -172,7 +172,7 @@ data_covariates_mi |>
 
 When we are happy with the ouput, we can save the Table 1. You can save as an Excel-file, making it ready for your manuscript (if you write that in e.g., Microsoft Word).
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 table1 <-
   data_covariates_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
@@ -199,7 +199,7 @@ table1 <-
 
 Where to save it? That's essentially up to you. You could make a new folder and name it "results" or something similar. Using this approach, you can save it an .html file for later exploration. You can also save as .xlsx, but may require some additional cleaning.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 table1_gt <- as_gt(table1)
 gt::gtsave(table1_gt, filename = here::here("results/table1.html"))
 ```

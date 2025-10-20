@@ -88,7 +88,7 @@ You can download the datasets [here](https://github.com/dce-r-course/dceIntroR/t
 
 ## Load basic_data and diag_data
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
 
 diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
@@ -102,11 +102,11 @@ diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
 
 The `base` function `dim` returns (1) the number of rows; (2) the number of columns.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 dim(basic_data)
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 dim(diag_data)
 ```
 
@@ -114,11 +114,11 @@ dim(diag_data)
 
 We can easily explore which columns each dataset contains using the `base` function `colnames()`.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 colnames(basic_data)
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 colnames(diag_data)
 ```
 
@@ -134,13 +134,13 @@ You can also get a quick overview of the first/last *n* number of rows using `he
 
 Let's look at the `basic_data`
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 head(basic_data, 10)
 ```
 
 ... and the `diag_data`
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 head(diag_data,10)
 ```
 
@@ -148,12 +148,12 @@ head(diag_data,10)
 
 `glimpse` is a function from the `dplyr` package. In contrast to `head`/`tail`, `glimpse` runs columns down the page and data runs across. This can be helpful if your dataset contains several variables.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 glimpse(basic_data)
 
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 glimpse(diag_data)
 ```
 
@@ -248,7 +248,7 @@ Example:
 
 Take the `diag_data` and select the columns: `id`, `adm_date`, and `dis_date`.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, adm_date, dis_date)
 ```
@@ -265,7 +265,7 @@ Helper functions
 
 So, we could have used `ends_with()` as well, by typing:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, ends_with("date"))
 ```
@@ -278,7 +278,7 @@ While `select()` works on columns, `filter()` works on rows. You use it to keep 
 
 Example:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   filter(contact_type == 1)
 ```
@@ -299,7 +299,7 @@ To add new columns to your dataset, you can use `mutate().` This is useful for c
 
 Example:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   mutate(
     contact_type_description = 
@@ -351,7 +351,7 @@ It is important to note, that `case_when()` handles the conditions in hierarchy.
 
 Moreover, you must provide the same class of output for each condition. E.g., above we use a character output in each condition. We can't combine *e.g.,* character output and numeric output.
 
-```{r, eval = FALSE}
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
 diag_data |> 
   mutate(
     contact_type_description = 
@@ -386,14 +386,14 @@ Define inhospital admissions per patient.
 
 ### Choose the columns we need
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date)
 ```
 
 ### Look only at inpatient hospital contacts
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date) |> 
   filter(contact_type == 1)
@@ -405,7 +405,7 @@ Here we make sure that the dataset is correctly ordered per patient.
 
 To do this, we can use the `group_by()` and `arrange()` function.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date) |> 
   filter(contact_type == 1) |> 
@@ -419,7 +419,7 @@ We can see above that some inpatient contacts occur twice.
 
 To fix this, we can use the `distinct()` function which keeps only unique rows within the defined groups.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date) |> 
   filter(contact_type == 1) |> 
@@ -430,7 +430,7 @@ diag_data |>
 
 ### Create an indicator of admission number
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date) |> 
   filter(contact_type == 1) |> 
@@ -442,7 +442,7 @@ diag_data |>
 
 ### Create an indicator of total number of admissions
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   select(id, contact_type, adm_date) |> 
   filter(contact_type == 1) |> 
@@ -477,7 +477,7 @@ Example: Join `basic_data` and `diag_data`
 
 Let's say you are interested in adding information birth date and death date to the `diag_data`
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # 01
 
 left_join(diag_data, basic_data, by = "id")
@@ -492,7 +492,7 @@ You can also specify which columns you wish to add directly in the join function
 
 Let's say we only wanted to add `birth_date`
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 diag_data |> 
   left_join(
     basic_data |> select(id, birth_date), 

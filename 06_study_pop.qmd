@@ -80,7 +80,7 @@ So far, we have actually not tried to make any changes to a dataset.
 
 When we run:
 
-```{r, eval=FALSE}
+```{r, , warning=FALSE, message=FALSE, eval=FALSE}
 
 data |> 
   ...
@@ -90,7 +90,7 @@ Nothing we do with `data` will be stored.
 
 So how can we save our work? We use `<-` .
 
-```{r, eval = FALSE}
+```{r, , warning=FALSE, message=FALSE, eval = FALSE}
 
 data_updated <- data |> 
   ...
@@ -100,7 +100,7 @@ Here, any changes to `data` will be saved in `data_updated`, which will appear i
 
 Back to our MI task! Let's call our new dataset `study_pop_mi`.
 
-```{r, eval = FALSE}
+```{r, , warning=FALSE, message=FALSE, eval = FALSE}
 study_pop_01 <- diag_data
 ```
 
@@ -110,14 +110,14 @@ Restrict to inpatient contacts.
 
 Remember that the type of hospital contact is stored in the column `contact_type` and it takes the values {1 = inpatient; 2 = outpatient}. When we want to restrict to inpatient contacts, we will be choosing on rows. Therefore, we will use the `filter` function.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 study_pop_02 <- diag_data |> 
   filter(contact_type == 1)
 ```
 
 A quick way to see, if we've succeeded
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 study_pop_02 |> 
   distinct(contact_type)
 ```
@@ -134,7 +134,7 @@ We will be using the `grepl` function from `base R`. Essentially, what we should
 
 Remember, you can always read more about the function by running:
 
-```{r, eval = FALSE}
+```{r, , warning=FALSE, message=FALSE, eval = FALSE}
 ?grepl
 ```
 
@@ -144,7 +144,7 @@ So, the ICD-10 code for MI is `DI21`, which then would be "DI21". We are "lucky"
 
 But let's get back to filter our data so only MI codes are kept.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 study_pop_03 <- study_pop_02 |> 
   filter(
     grepl("DI21", diag_a) | grepl("DI21", diag_b)
@@ -161,7 +161,7 @@ Here, we write the pattern "DI21" twice. It is fairly simple here, but sometimes
 
 So a simple way to avoid repeating yourself, is by defining your MI pattern before running the code:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 mi_code <- "DI21"
 
 study_pop_03 <- study_pop_02 |> 
@@ -177,7 +177,7 @@ This essentially does exactly the same, but you only need to define the pattern 
 
 We can optimise the code further by introducing `if_any:`
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 mi_code <- "DI21"
 
 study_pop_03 <- study_pop_02 |> 
@@ -201,7 +201,7 @@ Now, we would like to make sure we are only having first-time events.
 
 But, how do we know if anyone has multiple events?
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 study_pop_03 |>
   add_count(id) |>
@@ -228,7 +228,7 @@ We can see that at least some persons have multiple MI admissions.
 
 But how many?
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 study_pop_03 |>
   count(id) |> 
@@ -255,7 +255,7 @@ Let's take our `study_pop_03` and only keep first-time events.
 
 Again, there's multiple ways to do this. We will use the function `slice_head()` from `dplyr` which allow us to keep only the first *n* rows per group (if specified). You may also want to look into `slice_tail()`.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 study_pop_04 <- study_pop_03 |> 
   group_by(id) |> 
   arrange(adm_date) |> 
@@ -265,7 +265,7 @@ study_pop_04 <- study_pop_03 |>
 
 Alternatively:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 study_pop_04 <- study_pop_03 |> 
   group_by(id) |> 
   arrange(adm_date) |> 
@@ -273,7 +273,7 @@ study_pop_04 <- study_pop_03 |>
   ungroup()
 ```
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 nrow(study_pop_03) - nrow(study_pop_04)
 ```
 
@@ -281,7 +281,7 @@ Now we can see that we have removed the 240 duplicated MI events.
 
 Therefore, the number of rows in `study_pop_04` should be equal to the number of unique ids.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 
 nrow(study_pop_04) == study_pop_04 |> distinct(id) |> count()
 
@@ -291,7 +291,7 @@ nrow(study_pop_04) == study_pop_04 |> distinct(id) |> count()
 
 Since we have checked each step, we could write everything into one code:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 mi_code <- "DI21"
 
 study_pop_final <- 
@@ -320,7 +320,7 @@ Now, let's consider which columns we actually need.
 
 Lets explore the `study_pop_final`.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 head(study_pop_final)
 ```
 
@@ -338,7 +338,7 @@ Then it can be slightly annoying to have `adm_date` and `diag_date` appear in bo
 
 A workaround could be to rename the `adm_date` in our `study_pop_final` dataset.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 study_pop_final <- study_pop_final |> 
   rename("index_date" = adm_date)
 
@@ -349,7 +349,7 @@ Then, we can also "transform" the `dis_date` into something similar without losi
 
 Instead of keeping the `dis_date`, we can calculate the length of hospital stay. We can then always regenerate the `dis_date` from `index_date` and the new variable — or by going back to the `diag_data`.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 study_pop_final <- study_pop_final |> 
   mutate(los = as.numeric(dis_date-index_date),
          .after = index_date)
@@ -359,7 +359,7 @@ head(study_pop_final)
 
 Let's then choose the columns we need
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 study_pop_final <- 
   study_pop_final |> 
   select(id, index_date, los)
@@ -371,7 +371,7 @@ head(study_pop_final)
 
 Save the `study_pop_final` dataset in the folder `data.` We could call it "data_pop_mi"
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 
 saveRDS(study_pop_final, here::here("data/data_pop_mi.rds"))
 
