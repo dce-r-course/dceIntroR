@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/index.html</loc>
+    <lastmod>2025-10-20T18:15:25.838Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/000_schedule.html</loc>
+    <lastmod>2025-10-20T18:15:25.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/001_installing_r.html</loc>
+    <lastmod>2025-10-20T18:15:25.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/01_intro.html</loc>
+    <lastmod>2025-10-20T18:15:25.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/02_setup.html</loc>
+    <lastmod>2025-10-20T18:15:25.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/03_project.html</loc>
+    <lastmod>2025-10-20T18:15:25.657Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/04_packages.html</loc>
+    <lastmod>2025-10-20T18:15:25.658Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/05_loading_management.html</loc>
+    <lastmod>2025-10-20T18:15:25.658Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/06_study_pop.html</loc>
+    <lastmod>2025-10-20T18:15:25.658Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/07_covariates.html</loc>
+    <lastmod>2025-10-20T18:15:25.658Z</lastmod>
+  </url>
+  <url>
     <loc>https://dce-r-course.github.io/dceIntroR/08_table1.html</loc>
-    <lastmod>2025-10-20T18:36:29.928Z</lastmod>
+    <lastmod>2025-10-20T18:41:24.351Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/09_survival.html</loc>
-    <lastmod>2025-10-20T18:27:55.089Z</lastmod>
+    <lastmod>2025-10-20T18:45:52.988Z</lastmod>
   </url>
 </urlset>

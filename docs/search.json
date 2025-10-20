@@ -1,5 +1,487 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction to R for Registry-Based Health Research",
+    "section": "",
+    "text": "Welcome\nThis course is intended to serve as a beginner’s guide to help you get started using R for data management, analysis, and visualisation in health research.\n\n\nAttention\nThis course is based on the initiative of happy amateurs. Therefore, the approaches to data management and visualisations may not reflect the most “correct”, efficient, or elegant way, but are intended only to serve as a way to help you get started with R.\n\n\nAcknowledgements\nThe setup and content of this course draw inspiration from the excellent and more comprehensive courses developed by rostools\n\nIntro Reproducible Research in R\nIntermediate Reproducible Research in R\nAdvanced Intermediate Reproducible Research in R",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "000_schedule.html",
+    "href": "000_schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Day 1\n\n\n\n\n\nTime\nSession\n\n\n\n\nAlways\nMake sure you have coffee\n\n\nXX min\nIntroduction to R\n\n\nXX min\nKnowing your R environment\n\n\nXX min\nCoffee break\n\n\nXX min\nWorking with packages\n\n\nXX min\nLunch break\n\n\nXX min\nLoading, explore, wrangle\n\n\nXX min\nGenerate a study population\n\n\nXX min\nIdentify covariates\n\n\nXX min\nCreate a Table 1\n\n\nXX min\nTime-to-event setup and analysis\n\n\nXX min\nUse LLM for your R coding\n\n\nXX min\nFeedback and round up",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "001_installing_r.html",
+    "href": "001_installing_r.html",
+    "title": "Installing R",
+    "section": "",
+    "text": "Before attending the course, make sure you have installed the most recent version of R and RStudio on your computer. If you are using a computer owned by Aarhus University, you can request administrative privileges to install R from the Heimdal Agent app.\nLinks for installation:\n\nR for Windows\nR for macOS\nRStudio",
+    "crumbs": [
+      "Before the course",
+      "Installing R"
+    ]
+  },
+  {
+    "objectID": "02_setup.html",
+    "href": "02_setup.html",
+    "title": "2  Knowing your R environment",
+    "section": "",
+    "text": "2.1 R and R Studio - what’s the difference?\nIn this section, we will introduce the R environment and the RStudio interface — the place where you will write and run your R code.\nR is the engine that does the calculations and runs the code.\nRStudio is an integrated development environment (IDE) that makes R easier to use.\nWe will be using RStudio for (almost) everything in this course.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "02_setup.html#the-r-studio-interface",
+    "href": "02_setup.html#the-r-studio-interface",
+    "title": "2  Knowing your R environment",
+    "section": "2.2 The R Studio interface",
+    "text": "2.2 The R Studio interface\nYou will see four main panes/windows when you open R Studio:\n\nSource\nConsole\nEnvironment/History/Git\nFiles/Plots/Packages/Help.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPane\nTypical content\nWhat it’s used for\n\n\n\n\nSource\nYour R Scripts or R Markdown documents\nWhere you write your code.\n\n\nConsole\nWhere R runs code\nWhere you run and test code\n\n\nEnvironment/History/Git\nList of objects, datasets, and your command history\nTo keep track of what’s in memory, connect with Git, and more\n\n\nFiles/Plots/Packages/Helps\nAccess to your files, plots, installed packages, and documentation\nTo manage your work and explore outputs",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "02_setup.html#r-script-and-r-markdown",
+    "href": "02_setup.html#r-script-and-r-markdown",
+    "title": "2  Knowing your R environment",
+    "section": "2.3 R Script and R Markdown",
+    "text": "2.3 R Script and R Markdown\n\n2.3.1 R Script\nAn R Script is simply a text file containing R code, saved with the .R extension. You can think of it as your lab notebook — a place to write, organise, and re-run analyses. You can add text by entering a # before writing your text.\n\n\n2.3.2 R Markdown/Quarto\nWhile R Scripts are great for writing code, R Markdown and Quarto documents are designed for reproducible reporting.\nThey combine code, text, and output (tables, plots, etc.) in one document that can be turned into an HTML, PDF, or Word report. When you run your code, the output will be shown in the Console or the Plots pane depending on the type of output.\nYou can recognise them by their file endings:\n\n.Rmd for R Markdown\n.qmd for Quarto (similar to R Markdown but is a newer and more flexible format)\n\nEach document contains:\n\nText written in Markdown\nCode chunks written in R\n\nWhen you run your code chunk, the output will be displayed right below.\n\n\n2.3.3 Which to choose?\nYou can write and save your R code in either R Scripts or R Markdown/Quarto files.\nBoth allow you to organise your work and rerun your analyses later — the choice mainly comes down to personal preference and purpose.\nR Markdown (or Quarto) files may be preferred because:\n\nText and code are clearly separated — code must be placed inside code chunks.\nThe output (e.g., results, tables, or plots) appears immediately below the code that produced it.\nThis structure makes it easier to follow the logic of your analysis.\n\nIn contrast, R Scripts rely on text lines starting with # for comments, which can become cluttered if you are not used to reading source code. When you run code from a Script, the output appears in the Console (or the Plots pane), rather than below the code itself.\nOne important difference is that R Scripts can be sourced, meaning you can reuse functions or parts of code in other scripts. This is especially helpful once you start writing your own functions or structuring larger projects. In fact, this may be the most important feature of R Script that in the long run will make you prefer this format.\nIf your goal is to create a report that combines code, text, and results — for example, an HTML, PDF, or Word file — then R Markdown or Quarto is the right choice.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "02_setup.html#create-an-r-markdown-file-or-an-r-script",
+    "href": "02_setup.html#create-an-r-markdown-file-or-an-r-script",
+    "title": "2  Knowing your R environment",
+    "section": "2.4 Create an R Markdown file or an R Script",
+    "text": "2.4 Create an R Markdown file or an R Script\n\nR MarkdownR Script\n\n\n\nFile -&gt; New file -&gt; R Markdown...\nChoose 'Document'\nEnter a title. We could call it “first_script”\nJust keep as HTML. The specific output file only matters when you choose to knit your R Markdown file.\n\n\n\n\nFile -&gt; New file -&gt; R Script",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "02_setup.html#create-sections",
+    "href": "02_setup.html#create-sections",
+    "title": "2  Knowing your R environment",
+    "section": "2.5 Create sections",
+    "text": "2.5 Create sections\n\nR MarkdownR script\n\n\nIn your R Markdown file, you can create headers and set the header level by the number of “#”.\nFor instance\n\n# = Header 1,\n## = Header 2,\n### = Header 3\n\nCreate a header 1 and type “First header”\nTo write code, insert a code block by entering: Ctrl + Alt + I\nYou can assess a “Table of Content” view in the “Outline” pane on the right-hand side of your Source pane.\n\n\n\n\n\n\n\n\n\n\n\nIn your R Script file, you can create a section header by entering: Ctrl + Shift + R and type “First header”.\nTo write code, just start writing!\nYou can assess a “Table of Content” view in the “Outline” pane on the right-hand side of your Source pane.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "02_setup.html#style-your-document",
+    "href": "02_setup.html#style-your-document",
+    "title": "2  Knowing your R environment",
+    "section": "2.6 Style your document",
+    "text": "2.6 Style your document\nIt is good practice to keep your code clean and consistent. Well-formatted code is easier to read. The styler package helps automatically format your R code according to common style guides, such as the tidyverse style guide.\nIn RStudio, you can easily style your code without typing any commands.\n\nOpen the Command Palette (press Ctrl + Shift + P on Windows or Cmd + Shift + P on Mac).\nType “Style active file” and press Enter.\nChoose Tidyverse style guide when prompted.\nRStudio will automatically reformat your code — fixing spacing, indentation, and line breaks while keeping your code behaviour exactly the same.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Knowing your R environment</span>"
+    ]
+  },
+  {
+    "objectID": "03_project.html",
+    "href": "03_project.html",
+    "title": "3  Make an R Project",
+    "section": "",
+    "text": "3.1 Why use R Projects?\nA key step in setting up a reproducible workflow in R is to organise your work using R Projects. An R Project creates a self-contained working directory with all your scripts, data, and results in one place. This makes your work easier to navigate, share, and reproduce — especially when collaborating with others. Even though collaboration may not be relevant to you at this stage, you will definitely benefit from organising data, R code, results etc. in a clear structure. An elegant feature of an R Project is the self-contained working directory. Let’s dive a bit into that.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Make an R Project</span>"
+    ]
+  },
+  {
+    "objectID": "03_project.html#working-directories",
+    "href": "03_project.html#working-directories",
+    "title": "3  Make an R Project",
+    "section": "3.2 Working directories",
+    "text": "3.2 Working directories\nEvery time you use R, it operates from a specific working directory — the folder where R looks for files to read and where it saves files you create.\nYou can think of it as R’s “current location” on your computer.\nYou can check your current working directory by typing:\n\n\nCode\ngetwd()\n\n\nHowever, the current working directory may not be the place where your data is stored. For example, maybe your data is stored in a folder called data_raw.\nThen you must write the full path, such as:\n\n\nCode\ndata &lt;- read.csv(\"C:/Users/YourName/Documents/my_project/data_raw/my_data.csv\") \n\n\nor change the working directory manually using:\n\n\nCode\nsetwd(\"C:/Users/YourName/Documents/my_project/data_raw/\")\n\n\nand then read the file using:\n\n\nCode\ndata &lt;- read.csv(\"my_data.csv\") \n\n\nBut what if you want to save some processed data in another folder called data_wrangled?\nThen you again need to either write the full path or change the working directory before saving the data.\nConstantly setting or changing the working directory can be confusing and error-prone.\nIt also means your code will only work on your computer — anyone else running it will have to edit all the file paths.\nWhat about an R Project then?\nWhen you open an R Project, R automatically sets the working directory to the project folder.\nThis makes file paths simpler and more reliable — for example, you can refer to files within the project using relative paths like:\n\n\nCode\ndata &lt;- read.csv(here::here(\"data_raw/my_data.csv\"))\n\n\nand save this into another folder like:\n\n\nCode\nwrite.csv(data_wrangled, here::here(\"data_wrangled/data_wrangled.csv\"))\n\n\nThis approach makes your code portable — it will work on any computer where the R Project is opened.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Make an R Project</span>"
+    ]
+  },
+  {
+    "objectID": "03_project.html#setup-an-r-project",
+    "href": "03_project.html#setup-an-r-project",
+    "title": "3  Make an R Project",
+    "section": "3.3 Setup an R Project",
+    "text": "3.3 Setup an R Project\nThere is no single best way to organise a project folder. You can simply make an R Project and specify the folders you would like. You can also use some predefined project structures, for instance, the one from prodigenr.\nTherefore, you must first install the package prodigenr. We will cover packages in the next session. For now, write the following in your console:\n\n\nCode\ninstall.packages(\"prodigenr\")\n\n\nTo create the project, do the following:\n\nFile -&gt; New Project.. -&gt; New directory -&gt; Scientific Analysis Project using prodigenr\n\nName the project R_intro_dce.\nSave it on your Desktop.\nOpen the folder R_intro_dce and open R_intro_dce.Rproj\nYou will see the following structure:\n\n\n\n\n\n\n\n\n\n\ndata-raw is where you store your raw data (data that should not be overwritten)\ndata is where you store your processed data\ndocs is where you save your reports (e.g., HTML files, PDF-files, Word documents), which essentially could be your entire manuscript. For this, you will use R Markdown/Quarto. This will not be covered in this course.\nR is the folder to save all your R code, whether it is an R Script, R Markdown, or Quarto files.\nThe files related to git will not be covered in this course.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Make an R Project</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html",
+    "href": "04_packages.html",
+    "title": "4  Working with packages",
+    "section": "",
+    "text": "4.1 What are R packages?\nIn this session, we will briefly introduce how to install and load packages into R.\nThink of R packages as apps for R. Just as your phone comes with basic apps but can do much more when you install new ones, R can also be extended with packages that add new tools and functions.\nA package is simply a collection of R code written by others. It often includes:\nPackages make it easier to share and reuse code.\nFor example:",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#what-are-r-packages",
+    "href": "04_packages.html#what-are-r-packages",
+    "title": "4  Working with packages",
+    "section": "",
+    "text": "Functions – reusable pieces of code\nData – example datasets\nDocumentation – instructions on how to use it\n\n\n\n\ndplyr and data.table helps with data management\nggplot2 helps with data visualisation\nsurvival helps with time-to-event analyses",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#install-packages",
+    "href": "04_packages.html#install-packages",
+    "title": "4  Working with packages",
+    "section": "4.2 Install packages",
+    "text": "4.2 Install packages\nMost R packages can be installed directly from the Comprehensive R Archive Network (CRAN) — the main online “store” for R packages. CRAN hosts stable and peer-reviewed packages.\nTo install a package, use the function:\n\n\nCode\ninstall.packages(\"package_name\")\n\n\nFor example:\n\n\nCode\n# Packages for data management\ninstall.packages(\"dplyr\")\n\n# Packages for visualization\ninstall.packages(\"ggplot2\")\n\n# Packages for analayses\ninstall.packages(\"survival\")\n\n\nYou only need to install a package once on your computer. After it’s installed, R remembers it. That’s why it’s not best practice to include install.packages() inside your scripts — it’s something you do only when setting up your environment.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#load-packages",
+    "href": "04_packages.html#load-packages",
+    "title": "4  Working with packages",
+    "section": "4.3 Load packages",
+    "text": "4.3 Load packages\nAfter installing a package, you need to load it into R before you can use its functions. This must be done every time you start R. It’s good practice to include a section at the top of your script called “Load packages”\nIn your R file, make a section called: “Load packages”\nSpecify which packages to load by typing:\n\n\nCode\nlibrary(\"package name\")\n\n\nFor example:\n\n\nCode\nlibrary(tidyverse)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#alternative-to-loading-the-package",
+    "href": "04_packages.html#alternative-to-loading-the-package",
+    "title": "4  Working with packages",
+    "section": "4.4 Alternative to loading the package",
+    "text": "4.4 Alternative to loading the package\nIt is not always necessary to load a package before using its functions — as long as it is installed.\nYou can call a specific function directly from its package like this:\n\n\nCode\ndplyr::select()\n\n\nHere, dplyr::select() tells R to use the select() function from the dplyr package.\n\nThis is useful when multiple packages contain functions with the same name (for example, select exists in both dplyr and MASS).\n\nUsing the package::function() format ensures you call the correct one.\n\nThe downside is that you must remember which package the function belongs to.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#getting-help-on-functions",
+    "href": "04_packages.html#getting-help-on-functions",
+    "title": "4  Working with packages",
+    "section": "4.5 Getting help on functions",
+    "text": "4.5 Getting help on functions\nIf you need help with a function, you can search for it in the Help panel in RStudio.\n\nAlternatively, you can type:\n\n\nCode\n?dplyr::select\n\nhelp(\"select\", package = \"dplyr\")\n\n\nThis will open the R documentation for that specific function.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#packages-in-an-r-project",
+    "href": "04_packages.html#packages-in-an-r-project",
+    "title": "4  Working with packages",
+    "section": "4.6 Packages in an R Project",
+    "text": "4.6 Packages in an R Project\nNow that we have created the R Project R_intro_dce, let’s take a brief look at how packages can be managed within an R Project.\nIn your project folder, you can see a file called DESCRIPTION. This file can be used to describe several aspects of your project — including which packages are used.\nThis is called formal package dependency management. It provides a clear overview of the packages required to run all the code in your project.\nWithout this setup — using what is called informal dependency management — you would need to manually check each script for a section like “Load packages,” which quickly becomes difficult to maintain.\n\n4.6.1 Add packages to the DESCRIPTION file\nHow do you add packages to the DESCRIPTION file? There are several options, but one smooth and convenient approach is to use the use_package() function from the usethis package.\nIf you know you will be using dplyr, simply run:\n\n\nCode\nusethis::use_package(\"dplyr\")\n\n\nThis automatically adds dplyr to the list of required packages in your DESCRIPTION file.\n\n\n4.6.2 Build vs. workflow dependency\nYou can distinguish between two types of dependencies:\n\nBuild dependencies are the packages needed to run your analysis — for example, dplyr, ggplot2, or survival.\nWorkflow dependencies are packages that support your workflow but are not required for the analysis itself — for example, usethis and styler\n\nWhen you use use_package(), packages are added as build dependencies by default (under Imports). If you want to specify a package as a workflow dependency, you can add it under Suggests like this:\n\n\nCode\nusethis::use_package(\"usethis\", \"suggests\")\n\n\nYou can then open the DESCRIPTION file and see that build dependencies are listed under Imports, while workflow dependencies appear under Suggests.\n\n\n4.6.3 Install packages with pak\nOnce your project lists its dependencies in the DESCRIPTION file, installing them all becomes simple.\nJust open your R Project and run:\n\n\nCode\npak::pak()\n\n\n…. at least if you have pak installed :-)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html",
+    "href": "05_loading_management.html",
+    "title": "5  Loading, explore, wrangle",
+    "section": "",
+    "text": "5.1 Make a file\nNow you know\nNow, let’s get into business…\nIn this session, we will\nGenerate an R Script or R Markdown file.\nName it “loading_management”.\nSave it in the R folder.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#load-packages",
+    "href": "05_loading_management.html#load-packages",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.2 Load packages",
+    "text": "5.2 Load packages\nBefore working with data, we load the packages we will use. For now, we will primarily use the tidyverse package (which includes several packages such as dplyr, readr, ggplot2, etc.).\n\n\nCode\nlibrary(tidyverse)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#loading-data",
+    "href": "05_loading_management.html#loading-data",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.3 Loading data",
+    "text": "5.3 Loading data\nData can be stored in many different file formats. Each format has advantages and disadvantages — for instance, some are faster to read, while others better preserve variable types.\nWhen working in R, using .rds or .RData files is often more efficient than formats like .csv or .xlsx.\n.rds files store a single R object (like a data frame) and preserve its structure, including variable types, factor levels, and attributes. This means you don’t need to re-specify column types or re-clean the data after loading. Moreover, you can save objects (like a model fit) in .rds format, which can be very handy if you’ve run a computationally heavy model. .RData files can store multiple R objects in one file. When you load an .RData file, all saved objects are restored into your environment.\nThese formats are:\n\nFast to read and write\nCompact in size\nNative to R, meaning fewer surprises when loading\n\nIn contrast, formats like .csv are plain text and don’t preserve metadata — so you often need to re-define variable types (e.g., dates, factors) after loading.\nUse .rds when you want to save and load a single object.\nUse .RData when you want to save multiple objects together.\nHowever, you will need toknow how to load different file formats.\nHere’s some quick examples on how to read different formats.\n\n\nCode\n#---- .rds\ndata.rds &lt;- readRDS(\"path_to_my_file/data.rds\")\n\n#---- .RData\n\n#---- .csv\ndata.csv &lt;- readr::read_csv(\"path_to_my_file/data.csv\")\ndata.csv &lt;- vroom::vroom(\"path_to_my_file/data.csv\")\n\n#---- .excel\ndata.excel &lt;- readxl::read_excel(\"path_to_my_file/data.xlsx\")\n\n#---- .sas7bdat\ndata.sas &lt;- haven::read_sas(\"path_to_my_file/data.sas7bdat\")\n\n#---- Stata\ndata.stata &lt;- haven::read_dta(\"path_to_my_file/data.dta\")",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#download-data",
+    "href": "05_loading_management.html#download-data",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.4 Download data",
+    "text": "5.4 Download data\nYou can download the datasets here.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#load-basic_data-and-diag_data",
+    "href": "05_loading_management.html#load-basic_data-and-diag_data",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.5 Load basic_data and diag_data",
+    "text": "5.5 Load basic_data and diag_data\n\n\nCode\nbasic_data &lt;- readRDS(here::here(\"data_raw/basic_data.rds\"))\n\ndiag_data &lt;- readRDS(here::here(\"data_raw/diag_data.rds\"))",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#explore-data",
+    "href": "05_loading_management.html#explore-data",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.6 Explore data",
+    "text": "5.6 Explore data\n\n5.6.1 Quick overview\n\n5.6.1.1 dim()\nThe base function dim returns (1) the number of rows; (2) the number of columns.\n\n\nCode\ndim(basic_data)\n\n\n[1] 1000000       4\n\n\n\n\nCode\ndim(diag_data)\n\n\n[1] 2840870       6\n\n\n\n\n5.6.1.2 colnames()\nWe can easily explore which columns each dataset contains using the base function colnames().\n\n\nCode\ncolnames(basic_data)\n\n\n[1] \"id\"         \"birth_date\" \"death_date\" \"sex\"       \n\n\n\n\nCode\ncolnames(diag_data)\n\n\n[1] \"id\"           \"contact_type\" \"adm_date\"     \"dis_date\"     \"diag_a\"      \n[6] \"diag_b\"      \n\n\nWe prefer to work with variables in lowercase/snakecase. If that was not the case, it is fairly simple to change:\n\n\nCode\ncolnames(data) &lt;- tolower(colnames(data))\n\n\n\n\n5.6.1.3 head()/tail()\nYou can also get a quick overview of the first/last n number of rows using head or tail.\nLet’s look at the basic_data\n\n\nCode\nhead(basic_data, 10)\n\n\n   id birth_date death_date sex\n1   1 1933-01-01       &lt;NA&gt;   1\n2   2 1971-01-01       &lt;NA&gt;   1\n3   3 1997-01-01       &lt;NA&gt;   1\n4   4 1958-01-01       &lt;NA&gt;   1\n5   5 1969-01-01       &lt;NA&gt;   2\n6   6 1960-01-02       &lt;NA&gt;   1\n7   7 1993-01-01       &lt;NA&gt;   2\n8   8 1936-01-02 2023-09-09   2\n9   9 2000-01-02       &lt;NA&gt;   2\n10 10 1989-01-01       &lt;NA&gt;   1\n\n\n… and the diag_data\n\n\nCode\nhead(diag_data,10)\n\n\n# A tibble: 10 × 6\n   id    contact_type adm_date   dis_date   diag_a diag_b\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10  \n 2 1     2            2013-11-10 2013-11-10 DX06   DE13  \n 3 2     2            2011-02-24 2011-02-24 DE13   DI14  \n 4 2     2            2014-04-30 2014-04-30 DI15   DE13  \n 5 3     1            2018-07-10 2018-07-12 DI50   DX08  \n 6 3     1            2018-07-10 2018-07-12 DI50   DX01  \n 7 3     2            2021-04-25 2021-04-25 DX03   DX04  \n 8 3     1            2024-07-20 2024-07-25 DX08   DI50  \n 9 4     2            2014-09-27 2014-09-27 DI12   DX06  \n10 4     2            2018-12-08 2018-12-08 DX08   DI15  \n\n\n\n\n5.6.1.4 glimpse()\nglimpse is a function from the dplyr package. In contrast to head/tail, glimpse runs columns down the page and data runs across. This can be helpful if your dataset contains several variables.\n\n\nCode\nglimpse(basic_data)\n\n\nRows: 1,000,000\nColumns: 4\n$ id         &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …\n$ birth_date &lt;date&gt; 1933-01-01, 1971-01-01, 1997-01-01, 1958-01-01, 1969-01-01…\n$ death_date &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, 2023-09-09, NA, NA, NA, NA, NA…\n$ sex        &lt;fct&gt; 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 1, 1, 1, 2,…\n\n\n\n\nCode\nglimpse(diag_data)\n\n\nRows: 2,840,870\nColumns: 6\n$ id           &lt;fct&gt; 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 7, 7, …\n$ contact_type &lt;fct&gt; 1, 2, 2, 2, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, …\n$ adm_date     &lt;date&gt; 2013-08-18, 2013-11-10, 2011-02-24, 2014-04-30, 2018-07-…\n$ dis_date     &lt;date&gt; 2013-08-22, 2013-11-10, 2011-02-24, 2014-04-30, 2018-07-…\n$ diag_a       &lt;chr&gt; \"DI12\", \"DX06\", \"DE13\", \"DI15\", \"DI50\", \"DI50\", \"DX03\", \"…\n$ diag_b       &lt;chr&gt; \"DI10\", \"DE13\", \"DI14\", \"DE13\", \"DX08\", \"DX01\", \"DX04\", \"…",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#choose-your-language",
+    "href": "05_loading_management.html#choose-your-language",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.7 Choose your language",
+    "text": "5.7 Choose your language\nIn R, there are different “languages” or styles of coding for data management. Here are three common ones:\n\nBase R This is the original way of working with data in R. It’s powerful but can be verbose and harder to read.\ndata.table A high-performance package for large datasets. It’s fast and memory-efficient, but has a steeper learning curve and a unique syntax.\ndplyr (part of tidyverse) A modern and readable way to manage data.\nIt uses intuitive verbs like select, filter, and mutate to describe what you want to do.\n\nWhy we use dplyr in this course:\n\nEasy to read and write\nCode is transparent and step-by-step structured\nWidely used in health research and data science\nActively maintained and developed by the R Studio team\n\nFor beginners, dplyr is a great starting point — and it scales well as your skills grow.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#dplyr",
+    "href": "05_loading_management.html#dplyr",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.8 dplyr",
+    "text": "5.8 dplyr\ndplyr provides a set of intuitive functions for data manipulation, such as selecting columns, filtering rows, creating new variables, and summarising data.\nA key feature of dplyr is its use of the pipe operator |&gt;\nWhat is the pipe?\nThe pipe operator allows you to write code that reads like a sequence of actions. Instead of nesting functions inside each other, you start with your data and then “pipe” it through a series of steps.\nThink of it like saying:\n\nTake this data → then do this → then do that → then do something else…\n\nThis makes your code easier to read and follow.\nExample:\n\n\nCode\ndata_names |&gt; \n  select(first_name, last_name) |&gt; \n  filter(first_name == \"X\", \n         last_name == \"Y\")\n\n\n.. reads as:\n\ntake the data_names dataset\nselect the columns first_name and last_name\nfilter rows so first_name is equal to “X” and last_name is equal to “Y”\n\nThis structure is consistent across all dplyr functions and helps build a clear and logical workflow.\nWe will get back to each functions.\nThe pipe operator can look like |&gt; and %&gt;%. The shortcut is:\n\nWindows: Shift + Ctrl + M\nmacOS: Shift + Cmd + M\n\nIf you see %&gt;%, you can change it to |&gt; by entering Shift + Crtl + P, write “pipe” and tick of “Use R’s native pipe operator, |&gt;”\nNow we will go through some key functions from mainly the dplyr package.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#select---choosing-columns",
+    "href": "05_loading_management.html#select---choosing-columns",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.9 select() - Choosing columns",
+    "text": "5.9 select() - Choosing columns\nSelecting columns is one of the most common tasks in data wrangling. You use select() when you want to focus on specific variables.\nWhen to use select?\n\nTo reduce clutter and focus on relevant variables\n\n\n\nTo prepare a subset of data for analysis or visualization\n\n\n\nTo reorder columns for readability\n\nExample:\nTake the diag_data and select the columns: id, adm_date, and dis_date.\n\n\nCode\ndiag_data |&gt; \n  select(id, adm_date, dis_date)\n\n\n# A tibble: 2,840,870 × 3\n   id    adm_date   dis_date  \n   &lt;fct&gt; &lt;date&gt;     &lt;date&gt;    \n 1 1     2013-08-18 2013-08-22\n 2 1     2013-11-10 2013-11-10\n 3 2     2011-02-24 2011-02-24\n 4 2     2014-04-30 2014-04-30\n 5 3     2018-07-10 2018-07-12\n 6 3     2018-07-10 2018-07-12\n 7 3     2021-04-25 2021-04-25\n 8 3     2024-07-20 2024-07-25\n 9 4     2014-09-27 2014-09-27\n10 4     2018-12-08 2018-12-08\n# ℹ 2,840,860 more rows\n\n\nHelper functions\nselect() also supports helper functions to match column names. From the tidyr package (loaded with tidyverse), these functions are handy:\n\nstarts_with(\"prefix\") - selects columns starting with “prefix”\nends_with(\"suffix\") - selects columns ending with “suffix”\ncontains(\"content\") - select columns containing “content”.\n\nSo, we could have used ends_with() as well, by typing:\n\n\nCode\ndiag_data |&gt; \n  select(id, ends_with(\"date\"))\n\n\n# A tibble: 2,840,870 × 3\n   id    adm_date   dis_date  \n   &lt;fct&gt; &lt;date&gt;     &lt;date&gt;    \n 1 1     2013-08-18 2013-08-22\n 2 1     2013-11-10 2013-11-10\n 3 2     2011-02-24 2011-02-24\n 4 2     2014-04-30 2014-04-30\n 5 3     2018-07-10 2018-07-12\n 6 3     2018-07-10 2018-07-12\n 7 3     2021-04-25 2021-04-25\n 8 3     2024-07-20 2024-07-25\n 9 4     2014-09-27 2014-09-27\n10 4     2018-12-08 2018-12-08\n# ℹ 2,840,860 more rows\n\n\nThis can be particular helpful when working with wide datasets.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#filter---choosing-rows",
+    "href": "05_loading_management.html#filter---choosing-rows",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.10 filter() - Choosing rows",
+    "text": "5.10 filter() - Choosing rows\nWhile select() works on columns, filter() works on rows. You use it to keep only the observations that meet certain conditions. Note that we use == when we specify a condition.\nExample:\n\n\nCode\ndiag_data |&gt; \n  filter(contact_type == 1)\n\n\n# A tibble: 799,454 × 6\n   id    contact_type adm_date   dis_date   diag_a diag_b\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10  \n 2 3     1            2018-07-10 2018-07-12 DI50   DX08  \n 3 3     1            2018-07-10 2018-07-12 DI50   DX01  \n 4 3     1            2024-07-20 2024-07-25 DX08   DI50  \n 5 5     1            2012-02-05 2012-02-12 DX06   DE78  \n 6 5     1            2012-12-23 2012-12-26 DX09   DX07  \n 7 6     1            2012-06-10 2012-06-17 DX03   DX06  \n 8 6     1            2018-01-14 2018-01-22 DI15   DI10  \n 9 6     1            2018-01-14 2018-01-22 DI15   DX04  \n10 9     1            2011-03-15 2011-03-28 DE14   DI15  \n# ℹ 799,444 more rows\n\n\nThis keeps only rows where contact_type is equal to 1 (inpatient hospital contacts).\nYou can combine multiple conditions using\n\n& for “and”\n| for “or”\n! for “not”",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#mutate---creating-new-variables",
+    "href": "05_loading_management.html#mutate---creating-new-variables",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.11 mutate() - Creating new variables",
+    "text": "5.11 mutate() - Creating new variables\nTo add new columns to your dataset, you can use mutate(). This is useful for calculating derived variables, recoding values, or creating labels.\nExample:\n\n\nCode\ndiag_data |&gt; \n  mutate(\n    contact_type_description = \n      case_when(\n        contact_type == 1 ~ \"Inpatient\",\n        contact_type == 2 ~ \"Outpatient\"\n      )\n  )\n\n\n# A tibble: 2,840,870 × 7\n   id    contact_type adm_date   dis_date   diag_a diag_b contact_type_descrip…¹\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;                 \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10   Inpatient             \n 2 1     2            2013-11-10 2013-11-10 DX06   DE13   Outpatient            \n 3 2     2            2011-02-24 2011-02-24 DE13   DI14   Outpatient            \n 4 2     2            2014-04-30 2014-04-30 DI15   DE13   Outpatient            \n 5 3     1            2018-07-10 2018-07-12 DI50   DX08   Inpatient             \n 6 3     1            2018-07-10 2018-07-12 DI50   DX01   Inpatient             \n 7 3     2            2021-04-25 2021-04-25 DX03   DX04   Outpatient            \n 8 3     1            2024-07-20 2024-07-25 DX08   DI50   Inpatient             \n 9 4     2            2014-09-27 2014-09-27 DI12   DX06   Outpatient            \n10 4     2            2018-12-08 2018-12-08 DX08   DI15   Outpatient            \n# ℹ 2,840,860 more rows\n# ℹ abbreviated name: ¹​contact_type_description\n\n\nThis generates a column describing the contact_type variable. This doesn’t make much sense to do though.. But we will use mutate() sensible later on :)\nHere, we used case_when() as well. That function is used to handle multiple conditions clearly.\nIn the code above, case_when() specifies\n\nWhen contact_type is equal to 1 then assign contact_type_description the character value “Inpatient”\nWhen contact_type is equal to 2, assign contact_type_description the character value “Outpatient”.\n\ncase_when() also has a “default” option. You can use it like: if this condition is true, do this, otherwise (default) do that. So, we could also have written:\n\n\nCode\n# 01\n\ndiag_data |&gt; \n  mutate(\n    contact_type_description = \n      case_when(\n        contact_type == 1 ~ \"Inpatient\",\n        .default = \"Outpatient\"\n      )\n  )\n\n# 02\n\ndiag_data |&gt; \n  mutate(\n    contact_type_description = \n      case_when(\n        contact_type == 1 ~ \"Inpatient\",\n        TRUE ~ \"Outpatient\"\n      )\n  )\n\n\nIt is important to note, that case_when() handles the conditions in hierarchy. So, if condition 1 is true, that will overwrite any subsequent conditions. Likewise, if condition 1 is false, but condition 2 is true, that will overwrite a potential condition 3.\nMoreover, you must provide the same class of output for each condition. E.g., above we use a character output in each condition. We can’t combine e.g., character output and numeric output.\n\n\nCode\ndiag_data |&gt; \n  mutate(\n    contact_type_description = \n      case_when(\n        contact_type == 1 ~ \"Inpatient\",\n        TRUE ~ 0\n      )\n  )",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#group_by---grouping-data",
+    "href": "05_loading_management.html#group_by---grouping-data",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.12 group_by() - Grouping data",
+    "text": "5.12 group_by() - Grouping data\nGrouping is essential when you want to perform calculations within subgroups (e.g., per patient, per hospital, per year, etc.).\nExample:\n\n\nCode\ndiag_data |&gt; \n  group_by(id)\n\n\nThis tells R to treat each id as a separate group.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#excercise",
+    "href": "05_loading_management.html#excercise",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.13 Excercise",
+    "text": "5.13 Excercise\nDefine inhospital admissions per patient.\n\nWhich variables do we need?\nLook only at in inpatient contacts.\nDefine the first recorded hospitalisation as number 1\nAlso count the total number of hospitalisations per patient.\n\n\n5.13.1 Choose the columns we need\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date)\n\n\n# A tibble: 2,840,870 × 3\n   id    contact_type adm_date  \n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;    \n 1 1     1            2013-08-18\n 2 1     2            2013-11-10\n 3 2     2            2011-02-24\n 4 2     2            2014-04-30\n 5 3     1            2018-07-10\n 6 3     1            2018-07-10\n 7 3     2            2021-04-25\n 8 3     1            2024-07-20\n 9 4     2            2014-09-27\n10 4     2            2018-12-08\n# ℹ 2,840,860 more rows\n\n\n\n\n5.13.2 Look only at inpatient hospital contacts\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date) |&gt; \n  filter(contact_type == 1)\n\n\n# A tibble: 799,454 × 3\n   id    contact_type adm_date  \n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;    \n 1 1     1            2013-08-18\n 2 3     1            2018-07-10\n 3 3     1            2018-07-10\n 4 3     1            2024-07-20\n 5 5     1            2012-02-05\n 6 5     1            2012-12-23\n 7 6     1            2012-06-10\n 8 6     1            2018-01-14\n 9 6     1            2018-01-14\n10 9     1            2011-03-15\n# ℹ 799,444 more rows\n\n\n\n\n5.13.3 Order the first recorded hospitalisation as number 1\nHere we make sure that the dataset is correctly ordered per patient.\nTo do this, we can use the group_by() and arrange() function.\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date) |&gt; \n  filter(contact_type == 1) |&gt; \n  group_by(id) |&gt; \n  arrange(id, adm_date)\n\n\n# A tibble: 799,454 × 3\n# Groups:   id [541,052]\n   id    contact_type adm_date  \n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;    \n 1 1     1            2013-08-18\n 2 3     1            2018-07-10\n 3 3     1            2018-07-10\n 4 3     1            2024-07-20\n 5 5     1            2012-02-05\n 6 5     1            2012-12-23\n 7 6     1            2012-06-10\n 8 6     1            2018-01-14\n 9 6     1            2018-01-14\n10 9     1            2011-03-15\n# ℹ 799,444 more rows\n\n\n\n\n5.13.4 Keep only unique admissions\nWe can see above that some inpatient contacts occur twice.\nTo fix this, we can use the distinct() function which keeps only unique rows within the defined groups.\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date) |&gt; \n  filter(contact_type == 1) |&gt; \n  group_by(id) |&gt; \n  arrange(id, adm_date) |&gt; \n  distinct()\n\n\n# A tibble: 696,523 × 3\n# Groups:   id [541,052]\n   id    contact_type adm_date  \n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;    \n 1 1     1            2013-08-18\n 2 3     1            2018-07-10\n 3 3     1            2024-07-20\n 4 5     1            2012-02-05\n 5 5     1            2012-12-23\n 6 6     1            2012-06-10\n 7 6     1            2018-01-14\n 8 9     1            2011-03-15\n 9 9     1            2021-06-22\n10 11    1            2010-08-31\n# ℹ 696,513 more rows\n\n\n\n\n5.13.5 Create an indicator of admission number\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date) |&gt; \n  filter(contact_type == 1) |&gt; \n  group_by(id) |&gt; \n  arrange(id, adm_date) |&gt; \n  distinct() |&gt; \n  mutate(adm_nr = row_number())\n\n\n# A tibble: 696,523 × 4\n# Groups:   id [541,052]\n   id    contact_type adm_date   adm_nr\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;      &lt;int&gt;\n 1 1     1            2013-08-18      1\n 2 3     1            2018-07-10      1\n 3 3     1            2024-07-20      2\n 4 5     1            2012-02-05      1\n 5 5     1            2012-12-23      2\n 6 6     1            2012-06-10      1\n 7 6     1            2018-01-14      2\n 8 9     1            2011-03-15      1\n 9 9     1            2021-06-22      2\n10 11    1            2010-08-31      1\n# ℹ 696,513 more rows\n\n\n\n\n5.13.6 Create an indicator of total number of admissions\n\n\nCode\ndiag_data |&gt; \n  select(id, contact_type, adm_date) |&gt; \n  filter(contact_type == 1) |&gt; \n  group_by(id) |&gt; \n  arrange(id, adm_date) |&gt; \n  distinct() |&gt; \n  mutate(adm_nr = row_number(),\n         adm_total = max(adm_nr)\n         )\n\n\n# A tibble: 696,523 × 5\n# Groups:   id [541,052]\n   id    contact_type adm_date   adm_nr adm_total\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;      &lt;int&gt;     &lt;int&gt;\n 1 1     1            2013-08-18      1         1\n 2 3     1            2018-07-10      1         2\n 3 3     1            2024-07-20      2         2\n 4 5     1            2012-02-05      1         2\n 5 5     1            2012-12-23      2         2\n 6 6     1            2012-06-10      1         2\n 7 6     1            2018-01-14      2         2\n 8 9     1            2011-03-15      1         2\n 9 9     1            2021-06-22      2         2\n10 11    1            2010-08-31      1         2\n# ℹ 696,513 more rows",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "05_loading_management.html#joining-dataset",
+    "href": "05_loading_management.html#joining-dataset",
+    "title": "5  Loading, explore, wrangle",
+    "section": "5.14 Joining dataset",
+    "text": "5.14 Joining dataset\nTo combine datasets, use join functions:\n\nleft_join() – keeps all rows from the left dataset\nright_join() – keeps all rows from the right dataset\ninner_join() – keeps only matching rows\nfull_join() – keeps all rows from both\n\nWhen you join datasets, you need to specify\n\nThe datasets to join\nThe columns to join by\n\nThe by argument is rather essential. For instance, we can combine data from basic_data and diag_data using id. You can join by several columns if relevant.\nExample: Join basic_data and diag_data\nLet’s say you are interested in adding information birth date and death date to the diag_data\n\n\nCode\n# 01\n\nleft_join(diag_data, basic_data, by = \"id\")\n\n\n# A tibble: 2,840,870 × 9\n   id    contact_type adm_date   dis_date   diag_a diag_b birth_date death_date\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;date&gt;     &lt;date&gt;    \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10   1933-01-01 NA        \n 2 1     2            2013-11-10 2013-11-10 DX06   DE13   1933-01-01 NA        \n 3 2     2            2011-02-24 2011-02-24 DE13   DI14   1971-01-01 NA        \n 4 2     2            2014-04-30 2014-04-30 DI15   DE13   1971-01-01 NA        \n 5 3     1            2018-07-10 2018-07-12 DI50   DX08   1997-01-01 NA        \n 6 3     1            2018-07-10 2018-07-12 DI50   DX01   1997-01-01 NA        \n 7 3     2            2021-04-25 2021-04-25 DX03   DX04   1997-01-01 NA        \n 8 3     1            2024-07-20 2024-07-25 DX08   DI50   1997-01-01 NA        \n 9 4     2            2014-09-27 2014-09-27 DI12   DX06   1958-01-01 NA        \n10 4     2            2018-12-08 2018-12-08 DX08   DI15   1958-01-01 NA        \n# ℹ 2,840,860 more rows\n# ℹ 1 more variable: sex &lt;fct&gt;\n\n\nCode\n# 02\n\ndiag_data |&gt; left_join(basic_data, by = \"id\")\n\n\n# A tibble: 2,840,870 × 9\n   id    contact_type adm_date   dis_date   diag_a diag_b birth_date death_date\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;date&gt;     &lt;date&gt;    \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10   1933-01-01 NA        \n 2 1     2            2013-11-10 2013-11-10 DX06   DE13   1933-01-01 NA        \n 3 2     2            2011-02-24 2011-02-24 DE13   DI14   1971-01-01 NA        \n 4 2     2            2014-04-30 2014-04-30 DI15   DE13   1971-01-01 NA        \n 5 3     1            2018-07-10 2018-07-12 DI50   DX08   1997-01-01 NA        \n 6 3     1            2018-07-10 2018-07-12 DI50   DX01   1997-01-01 NA        \n 7 3     2            2021-04-25 2021-04-25 DX03   DX04   1997-01-01 NA        \n 8 3     1            2024-07-20 2024-07-25 DX08   DI50   1997-01-01 NA        \n 9 4     2            2014-09-27 2014-09-27 DI12   DX06   1958-01-01 NA        \n10 4     2            2018-12-08 2018-12-08 DX08   DI15   1958-01-01 NA        \n# ℹ 2,840,860 more rows\n# ℹ 1 more variable: sex &lt;fct&gt;\n\n\nYou can also specify which columns you wish to add directly in the join function.\nLet’s say we only wanted to add birth_date\n\n\nCode\ndiag_data |&gt; \n  left_join(\n    basic_data |&gt; select(id, birth_date), \n    by = \"id\")\n\n\n# A tibble: 2,840,870 × 7\n   id    contact_type adm_date   dis_date   diag_a diag_b birth_date\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;date&gt;    \n 1 1     1            2013-08-18 2013-08-22 DI12   DI10   1933-01-01\n 2 1     2            2013-11-10 2013-11-10 DX06   DE13   1933-01-01\n 3 2     2            2011-02-24 2011-02-24 DE13   DI14   1971-01-01\n 4 2     2            2014-04-30 2014-04-30 DI15   DE13   1971-01-01\n 5 3     1            2018-07-10 2018-07-12 DI50   DX08   1997-01-01\n 6 3     1            2018-07-10 2018-07-12 DI50   DX01   1997-01-01\n 7 3     2            2021-04-25 2021-04-25 DX03   DX04   1997-01-01\n 8 3     1            2024-07-20 2024-07-25 DX08   DI50   1997-01-01\n 9 4     2            2014-09-27 2014-09-27 DI12   DX06   1958-01-01\n10 4     2            2018-12-08 2018-12-08 DX08   DI15   1958-01-01\n# ℹ 2,840,860 more rows",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "06_study_pop.html",
+    "href": "06_study_pop.html",
+    "title": "6  Study population",
+    "section": "",
+    "text": "6.1 basic_data and diag_data\nNow that we know some basics on data management, let’s try to make a study cohort!\nWe will work with the dplyr functions introduced in the last session to create a study population consisting of patients with first-time acute myocardial infarction (MI).\nWe have worked a bit with the diag_data and the basic_data.\nTo get some background information, take 2 minutes to read the README file in the data_raw folder.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Study population</span>"
+    ]
+  },
+  {
+    "objectID": "06_study_pop.html#make-a-script",
+    "href": "06_study_pop.html#make-a-script",
+    "title": "6  Study population",
+    "section": "6.2 Make a script",
+    "text": "6.2 Make a script\nFirst, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.\nName it “study_pop”.\nSave it in the folder R.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Study population</span>"
+    ]
+  },
+  {
+    "objectID": "06_study_pop.html#load-packages",
+    "href": "06_study_pop.html#load-packages",
+    "title": "6  Study population",
+    "section": "6.3 Load packages",
+    "text": "6.3 Load packages\nLoad the packages we will need under a section called “Load packages”.\nTo begin with, just load tidyverse.\n\n\nCode\nlibrary(tidyverse)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Study population</span>"
+    ]
+  },
+  {
+    "objectID": "06_study_pop.html#load-the-datasets",
+    "href": "06_study_pop.html#load-the-datasets",
+    "title": "6  Study population",
+    "section": "6.4 Load the datasets",
+    "text": "6.4 Load the datasets\nLoad the datasets we will need under a section called “Load data”\n\n\nCode\nbasic_data &lt;- readRDS(here::here(\"data_raw/basic_data.rds\"))\n\ndiag_data &lt;- readRDS(here::here(\"data_raw/diag_data.rds\"))",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Study population</span>"
+    ]
+  },
+  {
+    "objectID": "06_study_pop.html#find-patients-with-first-time-mi",
+    "href": "06_study_pop.html#find-patients-with-first-time-mi",
+    "title": "6  Study population",
+    "section": "6.5 Find patients with first-time MI",
+    "text": "6.5 Find patients with first-time MI\nNow, we will look into different ways to restrict your dataset to patients with a given diagnosis. Here, we will be looking at MI.\n\n6.5.1 Predefined specifications:\nLet’s have a look at some predefined specifications:\n\nWhich contacts?\n\nWe will only look at MI diagnoses recorded from inpatient hospital contacts.\n\nWhich codes?\n\nIn the diag_data, MI is recorded with the International Classification of Diseases, Tenth Revision (ICD-10) DI21.\n\nWhich type of diagnosis?\n\nWe will use both primary (diag_a) and secondary diagnoses (diag_b) registrations.\n\nWhich event?\n\nWe are interested in only first-time MIs. Accordingly, we will need ensure that we order our data correctly before restricting to the first event.\n\nWhich study period?\n\nWe are interested in events throughout the entire period covered in the dataset (2010 through 2024). We will simply pretend that hospital history before this period is irrelevant (which, of course, is not a fair assumption). But in general, be aware of whether you are finding the first event in the patient’s hospital history or the first event in your study period.\n\n\nConsidering these predefined specifications and with the functions we used in the last session in mind, take a minute to reflect on how you would approach this task using dplyr manoeuvres.\n\n\n6.5.2 Steps\nMake a section called “Generate MI cohort”\n\n6.5.2.1 1. Define a new dataset\nSo far, we have actually not tried to make any changes to a dataset.\nWhen we run:\n\n\nCode\ndata |&gt; \n  ...\n\n\nNothing we do with data will be stored.\nSo how can we save our work? We use &lt;- .\n\n\nCode\ndata_updated &lt;- data |&gt; \n  ...\n\n\nHere, any changes to data will be saved in data_updated, which will appear in your Environment when you’ve run the code. Note, you do not necessarily need to give the updated data a new name.\nBack to our MI task! Let’s call our new dataset study_pop_mi.\n\n\nCode\nstudy_pop_01 &lt;- diag_data\n\n\n\n\n6.5.2.2 2. Inpatient contacts\nRestrict to inpatient contacts.\nRemember that the type of hospital contact is stored in the column contact_type and it takes the values {1 = inpatient; 2 = outpatient}. When we want to restrict to inpatient contacts, we will be choosing on rows. Therefore, we will use the filter function.\n\n\nCode\nstudy_pop_02 &lt;- diag_data |&gt; \n  filter(contact_type == 1)\n\n\nA quick way to see, if we’ve succeeded\n\n\nCode\nstudy_pop_02 |&gt; \n  distinct(contact_type)\n\n\n# A tibble: 1 × 1\n  contact_type\n  &lt;fct&gt;       \n1 1           \n\n\nHere we use the dplyr function distinct to simply return the unique values contact_type contains. Here we see that contact_type only contains the value 1. Which is what we wanted!\n\n\n6.5.2.3 3. MI contacts\nNow that we have restricted the diag_data to inpatient contacts, we can move on and only look at contacts with an MI code.\nThe diag_a and diag_b are character vectors. And now we would like to look for whether a certain pattern (i.e., a diagnosis code) is present in any rows. There are plenty of different ways to do this.\nWe will be using the grepl function from base R. Essentially, what we should know about grepl for now is that it takes the argument: (1) what pattern to search for; (2) in which column.\nRemember, you can always read more about the function by running:\n\n\nCode\n?grepl\n\n\nBecause diag_a and diag_b are character vectors, the pattern must also be written in character format.\nSo, the ICD-10 code for MI is DI21, which then would be “DI21”. We are “lucky” that MI only has one ICD-10 code. If your pattern has multiple codes, you could write, for instance, “DA01|DA02”, saying “DA01” OR “DA02”. And let’s say you were interested in the codes DI801, DI802, and DI803, you could write “DI80[1-3]”. Moreover, grepl searches for any patterns that match your input pattern. So the input “DI21” would also keep “DI214” (subcodes).\nBut let’s get back to filter our data so only MI codes are kept.\n\n\nCode\nstudy_pop_03 &lt;- study_pop_02 |&gt; \n  filter(\n    grepl(\"DI21\", diag_a) | grepl(\"DI21\", diag_b)\n  )\n\n\nThis code takes the study_pop_02 dataset, filters on rows so that only rows where diag_a or diag_b has a value that matches the pattern “DI21” is kept, and then saves the transformed data as study_pop_03.\nWhile this works, there is some simple ways we can optimise this code.\nFirst of all, we will introduce the concept of: avoid repeating yourself!\nHere, we write the pattern “DI21” twice. It is fairly simple here, but sometimes, your ICD patterns will be extremely long and complicated. And whenever you have to repeat yourself, the risk of typos increases, and your code will become extremely long.\nSo a simple way to avoid repeating yourself, is by defining your MI pattern before running the code:\n\n\nCode\nmi_code &lt;- \"DI21\"\n\nstudy_pop_03 &lt;- study_pop_02 |&gt; \n  filter(\n    grepl(mi_code, diag_a) | grepl(mi_code, diag_b)\n  )\n\n\nThis essentially does exactly the same, but you only need to define the pattern once. This also means that if you need to revise your pattern, you only need to do it in this one place!\n\n\n\n\n\n\nNote\n\n\n\n\n\nMore advanced\nWe can optimise the code further by introducing if_any:\n\n\nCode\nmi_code &lt;- \"DI21\"\n\nstudy_pop_03 &lt;- study_pop_02 |&gt; \n  filter(\n    if_any(\n      c(\n        diag_a, diag_b\n        ),\n      ~ grepl(mi_code, .x))\n         )\n\n\n\nif_any(): This function checks if any of the specified columns meet a condition. It’s useful when you want to apply the same logical test across multiple columns. Especially if we operate on more than just a few columns.\nc(diag_a, diag_b): This tells if_any() to apply the condition to both diag_a and diag_b.\n~ grepl(mi_code, .x): This is an anonymous function where .x represents each column. grepl() checks if the mi_code string is found in the column.\n\n\n\n\n\n\n6.5.2.4 4. First-time events\nNow, we would like to make sure we are only having first-time events.\nBut, how do we know if anyone has multiple events?\n\n\nCode\nstudy_pop_03 |&gt;\n  add_count(id) |&gt;\n  filter(n &gt; 1) |&gt;\n  arrange(id)\n\n\n# A tibble: 480 × 7\n   id    contact_type adm_date   dis_date   diag_a diag_b     n\n   &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;\n 1 483   1            2017-12-10 2017-12-19 DI21   DI21       2\n 2 483   1            2022-08-18 2022-08-26 DI21   DI21       2\n 3 2469  1            2023-08-26 2023-08-31 DI21   DI21       2\n 4 2469  1            2023-10-18 2023-10-24 DI21   DI21       2\n 5 5867  1            2020-02-12 2020-03-02 DI21   DI21       2\n 6 5867  1            2023-12-24 2023-12-31 DI21   DI21       2\n 7 7695  1            2014-07-18 2014-07-25 DI21   DI21       2\n 8 7695  1            2017-08-05 2017-08-12 DI21   DI21       2\n 9 8735  1            2019-01-30 2019-02-06 DI21   DI21       2\n10 8735  1            2022-02-13 2022-02-27 DI21   DI21       2\n# ℹ 470 more rows\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nadd_count(id) adds a column n with the number of times each id appears.\n\n\n\nfilter(n &gt; 1) keeps only those with more than one MI admission.\n\n\n\narrange(id) sorts the data by id\n\n\n\n\nWe can see that at least some persons have multiple MI admissions.\nBut how many?\n\n\nCode\nstudy_pop_03 |&gt;\n  count(id) |&gt; \n  filter(n &gt; 1) |&gt; \n  count()\n\n\n# A tibble: 1 × 1\n      n\n  &lt;int&gt;\n1   240\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nFirst count(id) gives the number of rows per patient. Returns only id and n\n\n\n\nThen filter(n &gt; 1) keeps only those with multiple events.\n\n\n\nFinally, count() gives the total number of such patients.\n\n\n\n\nLet’s take our study_pop_03 and only keep first-time events.\nAgain, there’s multiple ways to do this. We will use the function slice_head() from dplyr which allow us to keep only the first n rows per group (if specified). You may also want to look into slice_tail().\n\n\nCode\nstudy_pop_04 &lt;- study_pop_03 |&gt; \n  group_by(id) |&gt; \n  arrange(adm_date) |&gt; \n  slice_head(n = 1) |&gt; \n  ungroup()\n\n\nAlternatively:\n\n\nCode\nstudy_pop_04 &lt;- study_pop_03 |&gt; \n  group_by(id) |&gt; \n  arrange(adm_date) |&gt; \n  filter(row_number() == 1L) |&gt; \n  ungroup()\n\n\n\n\nCode\nnrow(study_pop_03) - nrow(study_pop_04)\n\n\n[1] 240\n\n\nNow we can see that we have removed the 240 duplicated MI events.\nTherefore, the number of rows in study_pop_04 should be equal to the number of unique ids.\n\n\nCode\nnrow(study_pop_04) == study_pop_04 |&gt; distinct(id) |&gt; count()\n\n\n        n\n[1,] TRUE\n\n\n\n\n6.5.2.5 5. Finalise\nSince we have checked each step, we could write everything into one code:\n\n\nCode\nmi_code &lt;- \"DI21\"\n\nstudy_pop_final &lt;- \n  # step 01: define a new dataset\n  diag_data |&gt; \n  \n  # step 02: restrict to inpatient contacts\n  filter(contact_type == 1) |&gt; \n  \n  # step 03: restrict to mi contacts\n  filter(grepl(mi_code, diag_a) | grepl(mi_code, diag_b)) |&gt; \n  \n  # step 04: restrict to first event\n  group_by(id) |&gt; \n  arrange(adm_date) |&gt; \n  slice_head(n = 1) |&gt; \n  ungroup()\n\n\nWe could also choose to let the code stay as it is.\nSaving each step allows us to go back and see how many rows were removed per step.\nNow, let’s consider which columns we actually need.\nLets explore the study_pop_final.\n\n\nCode\nhead(study_pop_final)\n\n\n# A tibble: 6 × 6\n  id    contact_type adm_date   dis_date   diag_a diag_b\n  &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n1 212   1            2014-07-18 2014-07-22 DI21   DI21  \n2 483   1            2017-12-10 2017-12-19 DI21   DI21  \n3 731   1            2023-07-27 2023-08-03 DI21   DI21  \n4 949   1            2021-11-03 2021-11-10 DI21   DI21  \n5 981   1            2020-08-05 2020-08-18 DI21   DI21  \n6 982   1            2015-05-22 2015-05-28 DI21   DI21  \n\n\nWe definitely need id.\nWe don’t really need contact_type. There’s no additional information in this after we have restricted to only inpatient contacts.\nWe most likely will need adm_date . This will often define the index date in time-to-event designs. The dis_date could be relevant if we are interested in length of hospital stay, inhospital mortality, restricting to patients surviving index admission, etc. The diag_a and diag_b is maybe not that informative to keep in the study_pop_final dataset.\nWe will make a small customisation.\nSpoiler alert: we will be using the diag_data again to identify preadmission comorbidities.\nThen it can be slightly annoying to have adm_date and diag_date appear in both datasets when joining (at least if you’re not using these dates as by arguments).\nA workaround could be to rename the adm_date in our study_pop_final dataset.\n\n\nCode\nstudy_pop_final &lt;- study_pop_final |&gt; \n  rename(\"index_date\" = adm_date)\n\nhead(study_pop_final)\n\n\n# A tibble: 6 × 6\n  id    contact_type index_date dis_date   diag_a diag_b\n  &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n1 212   1            2014-07-18 2014-07-22 DI21   DI21  \n2 483   1            2017-12-10 2017-12-19 DI21   DI21  \n3 731   1            2023-07-27 2023-08-03 DI21   DI21  \n4 949   1            2021-11-03 2021-11-10 DI21   DI21  \n5 981   1            2020-08-05 2020-08-18 DI21   DI21  \n6 982   1            2015-05-22 2015-05-28 DI21   DI21  \n\n\nThen, we can also “transform” the dis_date into something similar without losing information - but maybe even adding information.\nInstead of keeping the dis_date, we can calculate the length of hospital stay. We can then always regenerate the dis_date from index_date and the new variable — or by going back to the diag_data.\n\n\nCode\nstudy_pop_final &lt;- study_pop_final |&gt; \n  mutate(los = as.numeric(dis_date-index_date),\n         .after = index_date)\n\nhead(study_pop_final)\n\n\n# A tibble: 6 × 7\n  id    contact_type index_date   los dis_date   diag_a diag_b\n  &lt;fct&gt; &lt;fct&gt;        &lt;date&gt;     &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n1 212   1            2014-07-18     4 2014-07-22 DI21   DI21  \n2 483   1            2017-12-10     9 2017-12-19 DI21   DI21  \n3 731   1            2023-07-27     7 2023-08-03 DI21   DI21  \n4 949   1            2021-11-03     7 2021-11-10 DI21   DI21  \n5 981   1            2020-08-05    13 2020-08-18 DI21   DI21  \n6 982   1            2015-05-22     6 2015-05-28 DI21   DI21  \n\n\nLet’s then choose the columns we need\n\n\nCode\nstudy_pop_final &lt;- \n  study_pop_final |&gt; \n  select(id, index_date, los)\n\nhead(study_pop_final)\n\n\n# A tibble: 6 × 3\n  id    index_date   los\n  &lt;fct&gt; &lt;date&gt;     &lt;dbl&gt;\n1 212   2014-07-18     4\n2 483   2017-12-10     9\n3 731   2023-07-27     7\n4 949   2021-11-03     7\n5 981   2020-08-05    13\n6 982   2015-05-22     6\n\n\n\n\n6.5.2.6 6. Save\nSave the study_pop_final dataset in the folder data. We could call it “data_pop_mi”\n\n\nCode\nsaveRDS(study_pop_final, here::here(\"data/data_pop_mi.rds\"))\n\n\n\n\n6.5.2.7 7. Clear environment\n\n\nCode\nrm(list=ls()) # clears your working environment\n\ngc() # free unused memory\n\n\n          used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)\nNcells 1030045 55.1    3060562 163.5         NA  3060562 163.5\nVcells 2301224 17.6   34243008 261.3      16384 42758795 326.3",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Study population</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html",
+    "href": "07_covariates.html",
+    "title": "7  Covariates",
+    "section": "",
+    "text": "7.1 Make a script\nIn this session, we will explore how we can identify covariates for our MI patients!\nFirst, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.\nName it “covariates”.\nSave it in the folder R.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html#load-packages",
+    "href": "07_covariates.html#load-packages",
+    "title": "7  Covariates",
+    "section": "7.2 Load packages",
+    "text": "7.2 Load packages\nLoad the packages we will need under a section called “Load packages”.\n\n\nCode\nlibrary(tidyverse)\nlibrary(purrr)\n\n\nWe will introduce the purrr package, so we should add this as a workflow dependency\n\n\nCode\nusethis::use_package(\"purrr\")",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html#load-the-datasets",
+    "href": "07_covariates.html#load-the-datasets",
+    "title": "7  Covariates",
+    "section": "7.3 Load the datasets",
+    "text": "7.3 Load the datasets\nLoad the datasets we will need under a section called “Load data”\n\n\nCode\nbasic_data &lt;- readRDS(here::here(\"data_raw/basic_data.rds\"))\n\ndiag_data &lt;- readRDS(here::here(\"data_raw/diag_data.rds\"))\n\ndata_pop_mi &lt;- readRDS(here::here(\"data/data_pop_mi.rds\"))",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html#choose-covariates",
+    "href": "07_covariates.html#choose-covariates",
+    "title": "7  Covariates",
+    "section": "7.4 Choose covariates",
+    "text": "7.4 Choose covariates\nFirst, we must decide which covariates we would like to include.\nFrom basic_data:\n\nage\nsex\n\nFrom diag_data:\n\nHypertension\nHypercholesterolaemia\nDiabetes\nHeart failure\n\n\n7.4.1 Age and sex\nIn the basic_data, we can obtain information on age ans sex from the variables birth_date and sex.\n\n\nCode\ndata_cov_01 &lt;- data_pop_mi |&gt; \n  left_join(basic_data |&gt; select(id, birth_date, sex),\n            by = \"id\")\n\ndata_cov_01\n\n\n# A tibble: 4,000 × 5\n   id    index_date   los birth_date sex  \n   &lt;fct&gt; &lt;date&gt;     &lt;dbl&gt; &lt;date&gt;     &lt;fct&gt;\n 1 212   2014-07-18     4 1941-01-01 1    \n 2 483   2017-12-10     9 1918-01-01 2    \n 3 731   2023-07-27     7 1931-01-01 2    \n 4 949   2021-11-03     7 1954-01-01 1    \n 5 981   2020-08-05    13 1945-01-01 2    \n 6 982   2015-05-22     6 1945-01-01 2    \n 7 1123  2015-07-25     6 1955-01-01 1    \n 8 2166  2016-09-30     7 1962-01-01 1    \n 9 2469  2023-08-26     5 1920-01-02 2    \n10 2870  2010-09-03    14 1939-01-01 1    \n# ℹ 3,990 more rows\n\n\nNow, we can calculate age at admission\n\n\nCode\ndata_cov_02 &lt;- data_cov_01 |&gt; \n  mutate(\n    age = round(as.numeric(index_date - birth_date)/365.25,0)\n  )\n\ndata_cov_02\n\n\n# A tibble: 4,000 × 6\n   id    index_date   los birth_date sex     age\n   &lt;fct&gt; &lt;date&gt;     &lt;dbl&gt; &lt;date&gt;     &lt;fct&gt; &lt;dbl&gt;\n 1 212   2014-07-18     4 1941-01-01 1        74\n 2 483   2017-12-10     9 1918-01-01 2       100\n 3 731   2023-07-27     7 1931-01-01 2        93\n 4 949   2021-11-03     7 1954-01-01 1        68\n 5 981   2020-08-05    13 1945-01-01 2        76\n 6 982   2015-05-22     6 1945-01-01 2        70\n 7 1123  2015-07-25     6 1955-01-01 1        61\n 8 2166  2016-09-30     7 1962-01-01 1        55\n 9 2469  2023-08-26     5 1920-01-02 2       104\n10 2870  2010-09-03    14 1939-01-01 1        72\n# ℹ 3,990 more rows\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nround(): specifies the number of digits\nas.numeric(): specifies that the difference between index_date and birth_date should be a numeric value, which allows us to divide by 365.25 to obtain age in years.\n\n\n\n\n\n7.4.1.1 Normal distributed\nLet’s have a look at whether the age distribution of our MI patients follow a normal distribution. And let’s see if it differs between sex.\nFor this, we will be using ggplot2.\n\n7.4.1.1.1 What is ggplot2?\nggplot2 is a system for creating graphics based on the Grammar of Graphics — a structured way of thinking about and building plots. Instead of using one function to create a plot all at once, you build your plot step by step by adding layers.\nThis makes your code more readable, flexible, and easier to modify.\nA ggplot2 plot always starts with the ggplot() function. Then you add layers using the + operator.\nHere’s the basic structure:\n\n\nCode\ndata |&gt; \n  ggplot(aes(x = x_variable, y = y_variable)) +\n  geom_function()\n\n\nLet’s break that down:\n\ndata: Specify which data we will be using\nggplot(): This sets up the plot.\naes(): Short for aesthetics — this is where you define what goes on the x- and y-axes (and optionally color, size, shape, etc.).\ngeom_*(): These are the layers that define how the data should be visualised — for example:\n\ngeom_point() for scatter plots\ngeom_bar() for bar charts\ngeom_line() for line plots\ngeom_histogram() for histograms\n\n\nLet’s see if the age distribution is normally distributed and stratify by sex.\n\n\n7.4.1.1.2 QQ plot\n\n\nCode\ndata_cov_02 |&gt; \n  mutate(sex = factor(sex, levels = c(1,2), labels = c(\"Male\", \"Female\"))) |&gt; \n  ggplot(aes(sample = age, group = sex, color = sex, fill = sex)) + \n  geom_qq() + \n  geom_qq_line() + \n  facet_wrap(~sex) + \n  ggsci::scale_fill_nejm() + \n  ggsci::scale_color_nejm() + \n  theme_bw()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nmutate(sex = factor(...))\nConverts the numeric sex variable (1/2) into a labeled factor with levels “Male” and “Female” — making the plot more interpretable.\nggplot(aes(...))\nInitialises a ggplot object using age as the variable to be plotted in a Q-Q plot.\n\nsample = age: Specifies the variable to be compared against a theoretical normal distribution.\ngroup = sex: Ensures separate Q-Q plots are generated for each sex group.\ncolor and fill: Assign colors based on sex.\n\ngeom_qq()\nAdds a Q-Q plot layer — this visualizes how the distribution of age compares to a normal distribution.\ngeom_qq_line()\nAdds a reference line to the Q-Q plot — if the data follows a normal distribution, points should lie close to this line.\nfacet_wrap(~sex)\nCreates separate plots for “Male” and “Female” — allowing for side-by-side comparison of age distributions.\nggsci::scale_fill_nejm() and ggsci::scale_color_nejm()\nApplies a color palette inspired by the New England Journal of Medicine.\nNote, here we call the functions directly from the ggsci package. We could also load the package under “Load packages”. That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our DESCRIPTION file.\n\n\nCode\nusethis::use_package(\"ggsci\")\n\n\ntheme_bw()\nApplies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the theme() function, you can customise your layout intensively.\n\n\n\n\n\n\n7.4.1.1.3 Histogram\n\n\nCode\ndata_cov_02 |&gt; \n  mutate(sex = factor(sex, levels = c(1, 2), labels = c(\"Male\", \"Female\"))) |&gt; \n  ggplot(aes(x = age, group = sex, color = sex, fill = sex)) + \n  geom_histogram(aes(y = ..density..), alpha = .25) +\n  stat_function(fun=dnorm, args = list(mean = mean(data_cov_02$age), sd = sd(data_cov_02$age)), linewidth = .75) + \n  facet_wrap(~ sex) +\n  ggsci::scale_fill_nejm() + \n  ggsci::scale_color_nejm() +\n  theme_bw()\n\n\nWarning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.\nℹ Please use `after_stat(density)` instead.\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nmutate(sex = factor(...))\nConverts the numeric sex variable (1 = Male, 2 = Female) into a labeled factor for clearer plotting and legend labels.\nggplot(aes(...))\nInitializes the plot using age as the x-axis variable.\n\ngroup = sex: Ensures separate density curves per sex.\ncolor and fill: Assign colors based on sex for visual distinction.\n\ngeom_histogram(aes(y = ..density..), alpha = .25)\nPlots a histogram of the age variable, scaled to show density rather than raw counts.\n\nalpha = .25: Makes the bars semi-transparent so overlapping areas are visible.\n\nstat_function(fun = dnorm, ...)\nAdds a normal distribution curve over the histogram using the overall mean and standard deviation of age.\n\nThis helps visually compare the actual age distribution to a theoretical normal distribution.\n\nfacet_wrap(~ sex)\nCreates separate panels for “Male” and “Female” — allowing side-by-side comparison of age distributions.\n\nggsci::scale_fill_nejm() and ggsci::scale_color_nejm()\nApplies a color palette inspired by the New England Journal of Medicine.\nNote, here we call the functions directly from the ggsci package. We could also load the package under “Load packages”. That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our DESCRIPTION file.\n\ntheme_bw()\nApplies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the theme() function, you can customise your layout intensively.\n\n\n\n\n\n\n\n\n7.4.2 Comorbidities\nThe diag_data contains the following diseases and codes.\n\nComorbidities and ICD-10 codes\n\n\nComorbidity\nICD-10 code\n\n\n\n\nMyocardial infarction\nDI21\n\n\nHypertension\nDI10, DI11, DI12, DI13, DI14, DI15\n\n\nHypercholesterolaemia\nDE78\n\n\nDiabetes\nDE10, DE11, DE12, DE13, DE14\n\n\nHeart failure\nDI50\n\n\nRandom\nDX01, DX02, DX03, DX04, DX05, DX06, DX07, DX08, DX09\n\n\n\nThere are several different ways to identify comorbidities. Here, we will go over a couple.\nWe set some assumptions.\n\nWe do not include information on diagnoses recorded during index admission\nWe include diagnoses recorded within 10 years from the index date (i.e., 10 years lookback)\nWe include diagnoses from both inpatient and outpatient hospital contacts\nWe include diagnoses recorded as either a primary and a secondary diagnosis.\nWe apply the same assumptions for all comorbidities.\n\n\n\n7.4.3 Baseline, identify, add\nOne approach is to\n\n7.4.3.1 Step 1. Define a baseline study pop set\n\n\nCode\ndata_baseline_mi &lt;- data_pop_mi |&gt; \n  select(id, index_date)\n\n\n\n\n7.4.3.2 Step 2. Define a baseline comorbidity set, add diag_data, keep only diagnoses recorded before index date and after lookback period\n\n\nCode\nlookback_years &lt;- 10\n\nlookback &lt;- lookback_years*-1\n\ndata_cov_diag &lt;- data_pop_mi |&gt; \n  select(id, index_date) |&gt; \n  left_join(diag_data, by = \"id\") |&gt; \n  mutate(\n    diff = as.numeric(adm_date - index_date) # can also be switched, then just adjusted definition of lookback\n  ) |&gt; \n  filter(\n    diff &lt; 0,\n    diff &gt; 365.25*lookback\n  ) |&gt; \n  select(-diff)\n\ndata_cov_diag\n\n\n# A tibble: 7,917 × 7\n   id    index_date contact_type adm_date   dis_date   diag_a diag_b\n   &lt;fct&gt; &lt;date&gt;     &lt;fct&gt;        &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; \n 1 949   2021-11-03 2            2015-07-02 2015-07-02 DE78   DE78  \n 2 949   2021-11-03 1            2017-06-07 2017-06-08 DI50   DI50  \n 3 949   2021-11-03 2            2020-06-26 2020-06-26 DE78   DE78  \n 4 949   2021-11-03 1            2021-01-07 2021-01-11 DI50   DI50  \n 5 949   2021-11-03 1            2021-03-14 2021-03-20 DI50   DI50  \n 6 949   2021-11-03 2            2021-06-25 2021-06-25 DE78   DE78  \n 7 982   2015-05-22 2            2010-07-27 2010-07-27 DE78   DE78  \n 8 982   2015-05-22 2            2011-01-18 2011-01-18 DE78   DE78  \n 9 982   2015-05-22 2            2012-12-26 2012-12-26 DE78   DE78  \n10 1123  2015-07-25 2            2011-01-13 2011-01-13 DE78   DE78  \n# ℹ 7,907 more rows\n\n\n\n\n7.4.3.3 Step 3. Identify whether patients with a given covariate\nLet’s begin with hypertension.\n\n\nCode\nhypertension_code &lt;- c(\"DI1[0-5]\")\n\ncov_hypertension &lt;- data_cov_diag |&gt; \n  mutate(\n    hypertension = \n      case_when(\n        grepl(hypertension_code, diag_a) | grepl(hypertension_code,diag_b) ~ 1,\n        .default = 0\n      )) |&gt; \n  filter(hypertension == 1) |&gt; \n  select(id, hypertension) |&gt; \n  distinct()\n\n\n\n\n7.4.3.4 Step 4. Add the covariate to the baseline\n\n\nCode\ndata_baseline_mi &lt;- \n  data_baseline_mi |&gt; \n  left_join(cov_hypertension, by = \"id\") |&gt; \n  mutate(hypertension = replace_na(hypertension, 0))\n\n\n\n\n7.4.3.5 Step 5. Repeat\nLets repeat for hypercholesterolaemia\n\n\nCode\nhyperchol_code &lt;- \"DE78\"\n\ncov_hyperchol &lt;- data_cov_diag |&gt; \n  mutate(\n    hyperchol = \n      case_when(\n        grepl(hyperchol_code, diag_a) | grepl(hyperchol_code,diag_b) ~ 1,\n        .default = 0\n      )) |&gt; \n  filter(hyperchol == 1) |&gt; \n  select(id, hyperchol) |&gt; \n  distinct()\n\ndata_baseline_mi &lt;- \n  data_baseline_mi |&gt; \n  left_join(cov_hyperchol, by = \"id\") |&gt; \n  mutate(hyperchol = replace_na(hyperchol, 0))\n\ndata_baseline_mi\n\n\n# A tibble: 4,000 × 4\n   id    index_date hypertension hyperchol\n   &lt;fct&gt; &lt;date&gt;            &lt;dbl&gt;     &lt;dbl&gt;\n 1 212   2014-07-18            0         0\n 2 483   2017-12-10            0         0\n 3 731   2023-07-27            0         0\n 4 949   2021-11-03            0         1\n 5 981   2020-08-05            0         0\n 6 982   2015-05-22            0         1\n 7 1123  2015-07-25            0         1\n 8 2166  2016-09-30            0         1\n 9 2469  2023-08-26            0         0\n10 2870  2010-09-03            0         0\n# ℹ 3,990 more rows\n\n\n\n\n7.4.3.6 Step 6. Keep on repeating..\nWhile this works, it gets slightly redundant — and we are repeating ourselves a lot!\n\n\n\n7.4.4 Function based\nAs the number of comorbidities grows, repeating the same code for each one becomes inefficient and hard to maintain. A more efficient and slightly advanced approach is to:\n\nCreate a baseline dataset with one row per patient\nDefine a lookup table with comorbidity names and ICD-10 patterns\nWrite a function that identifies each comorbidity\nUse pmap() to apply the function across all comorbidities\nCombine the results into a single dataset\n\nThis method is scalable, readable, and easy to adapt to new comorbidities.\n\n7.4.4.1 Step 1. Make a baseline dataset\n\n\nCode\ndata_baseline_mi &lt;- data_pop_mi |&gt; \n  select(id, index_date)\n\n\n\n\n7.4.4.2 Step 2. Make a list\nThen we list the diseases of interest and their ICD-10 codes in a vector. This can also be an Excel-file you prepare and load into R.\n\n\nCode\ncomorbidity_definitions &lt;- \n  tibble::tibble(\n  name = c(\"hypertension\", \"hypercholesterolaemia\", \"diabetes\", \"heart_failure\"),\n  pattern = c(\"DI1[0-5]\", \"DE78\", \"DE1[0-4]\", \"DI50\")\n)\n\ncomorbidity_definitions\n\n\n# A tibble: 4 × 2\n  name                  pattern \n  &lt;chr&gt;                 &lt;chr&gt;   \n1 hypertension          DI1[0-5]\n2 hypercholesterolaemia DE78    \n3 diabetes              DE1[0-4]\n4 heart_failure         DI50    \n\n\n\n\n7.4.4.3 Step 3. Make a function\nThis function takes a comorbidity name and pattern, filters data_cov_diag, and returns a dataset with a binary indicator:\n\n\nCode\nidentify_comorbidity &lt;- function(name, pattern, data) {\n  \n  print(name)\n  \n  data |&gt;\n    group_by(id, index_date) |&gt;\n    summarise(\n      !!name := as.integer(any(grepl(pattern, diag_a) | grepl(pattern, diag_b))),\n      .groups = \"drop\"\n    )\n}\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\nTakes a comorbidity name and pattern.\nUses grepl() to search for the pattern in both diag_a and diag_b.\nUses any() within summarise() to assign a binary indicator (1 if the pattern is found, 0 otherwise).\nGroups by id and index_date to ensure one row per patient.\n\n\n\n\n\n\n7.4.4.4 Step 4. Apply the function\n\n\nCode\ncomorbidity_data &lt;- comorbidity_definitions |&gt;\n  pmap(function(name, pattern) identify_comorbidity(name, pattern, data_cov_diag)) |&gt;\n  reduce(full_join, by = c(\"id\", \"index_date\"))\n\n\n[1] \"hypertension\"\n[1] \"hypercholesterolaemia\"\n[1] \"diabetes\"\n[1] \"heart_failure\"\n\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nExplanation\n\npmap() Applies the function across all rows in the lookup table, passing name and pattern to the function.\nreduce(full_join, by = c(\"id\", \"index_date\")) Combines all comorbidity indicators into one dataset, keeping one row per patient.\n\n\n\n\n\n\n7.4.4.5 Step 5. Combine with age and sex\n\n\nCode\ndata_covariates_mi &lt;- \n  data_cov_02 |&gt; \n  left_join(comorbidity_data, by = c(\"id\", \"index_date\")) \n\ncovariates &lt;- paste0(comorbidity_definitions$name)\n\ndata_covariates_mi &lt;- data_covariates_mi |&gt; \n  mutate(\n    across(c(\n           covariates\n           ),\n           ~ replace_na(.x, 0)\n  )\n  )\n\n\nWarning: There was 1 warning in `mutate()`.\nℹ In argument: `across(c(covariates), ~replace_na(.x, 0))`.\nCaused by warning:\n! Using an external vector in selections was deprecated in tidyselect 1.1.0.\nℹ Please use `all_of()` or `any_of()` instead.\n  # Was:\n  data %&gt;% select(covariates)\n\n  # Now:\n  data %&gt;% select(all_of(covariates))\n\nSee &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.\n\n\nCode\ndata_covariates_mi\n\n\n# A tibble: 4,000 × 10\n   id    index_date   los birth_date sex     age hypertension\n   &lt;fct&gt; &lt;date&gt;     &lt;dbl&gt; &lt;date&gt;     &lt;fct&gt; &lt;dbl&gt;        &lt;int&gt;\n 1 212   2014-07-18     4 1941-01-01 1        74            0\n 2 483   2017-12-10     9 1918-01-01 2       100            0\n 3 731   2023-07-27     7 1931-01-01 2        93            0\n 4 949   2021-11-03     7 1954-01-01 1        68            0\n 5 981   2020-08-05    13 1945-01-01 2        76            0\n 6 982   2015-05-22     6 1945-01-01 2        70            0\n 7 1123  2015-07-25     6 1955-01-01 1        61            0\n 8 2166  2016-09-30     7 1962-01-01 1        55            0\n 9 2469  2023-08-26     5 1920-01-02 2       104            0\n10 2870  2010-09-03    14 1939-01-01 1        72            0\n# ℹ 3,990 more rows\n# ℹ 3 more variables: hypercholesterolaemia &lt;int&gt;, diabetes &lt;int&gt;,\n#   heart_failure &lt;int&gt;",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html#save",
+    "href": "07_covariates.html#save",
+    "title": "7  Covariates",
+    "section": "7.5 Save",
+    "text": "7.5 Save\nSave the data_covariates_mi dataset in the folder data.\n\n\nCode\nsaveRDS(data_covariates_mi, here::here(\"data/data_covariates_mi.rds\"))",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
+    "objectID": "07_covariates.html#clear-environment",
+    "href": "07_covariates.html#clear-environment",
+    "title": "7  Covariates",
+    "section": "7.6 Clear environment",
+    "text": "7.6 Clear environment\n\n\nCode\nrm(list=ls()) # clears your working environment\n\ngc() # free unused memory\n\n\n          used  (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)\nNcells 2234289 119.4    4362958 233.1         NA  4362958 233.1\nVcells 5737173  43.8   40150275 306.4      16384 43275570 330.2",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
+    ]
+  },
+  {
     "objectID": "08_table1.html",
     "href": "08_table1.html",
     "title": "8  Table 1",
@@ -26,7 +508,7 @@
     "href": "08_table1.html#load-data",
     "title": "8  Table 1",
     "section": "8.3 Load data",
-    "text": "8.3 Load data\n\n\nCode\ndata_covariates_mi &lt;- readRDS(here::here(\"data/data_covariates_mi.rds\"))\n\n\nLet’s recap the variables, we have |&gt; |&gt;\n\n\nCode\nglimpse(data_covariates_mi)\n\n\nRows: 4,000\nColumns: 10\n$ id                    &lt;fct&gt; 212, 483, 731, 949, 981, 982, 1123, 2166, 2469, …\n$ index_date            &lt;date&gt; 2014-07-18, 2017-12-10, 2023-07-27, 2021-11-03,…\n$ los                   &lt;dbl&gt; 4, 9, 7, 7, 13, 6, 6, 7, 5, 14, 4, 8, 9, 2, 7, 1…\n$ birth_date            &lt;date&gt; 1941-01-01, 1918-01-01, 1931-01-01, 1954-01-01,…\n$ sex                   &lt;fct&gt; 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, …\n$ age                   &lt;dbl&gt; 74, 100, 93, 68, 76, 70, 61, 55, 104, 72, 36, 61…\n$ hypertension          &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, …\n$ hypercholesterolaemia &lt;int&gt; 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, …\n$ diabetes              &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, …\n$ heart_failure         &lt;int&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …",
+    "text": "8.3 Load data\n\n\nCode\ndata_covariates_mi &lt;- readRDS(here::here(\"data/data_covariates_mi.rds\"))\n\n\nLet’s recap the variables, we have\n\n\nCode\nglimpse(data_covariates_mi)\n\n\nRows: 4,000\nColumns: 10\n$ id                    &lt;fct&gt; 212, 483, 731, 949, 981, 982, 1123, 2166, 2469, …\n$ index_date            &lt;date&gt; 2014-07-18, 2017-12-10, 2023-07-27, 2021-11-03,…\n$ los                   &lt;dbl&gt; 4, 9, 7, 7, 13, 6, 6, 7, 5, 14, 4, 8, 9, 2, 7, 1…\n$ birth_date            &lt;date&gt; 1941-01-01, 1918-01-01, 1931-01-01, 1954-01-01,…\n$ sex                   &lt;fct&gt; 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, …\n$ age                   &lt;dbl&gt; 74, 100, 93, 68, 76, 70, 61, 55, 104, 72, 36, 61…\n$ hypertension          &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, …\n$ hypercholesterolaemia &lt;int&gt; 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, …\n$ diabetes              &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, …\n$ heart_failure         &lt;int&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …",
     "crumbs": [
       "Sessions",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Table 1</span>"
