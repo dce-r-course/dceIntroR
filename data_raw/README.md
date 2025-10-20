@@ -1,3 +1,5 @@
+## data-raw content
+
 This folder contains two datasets that are used for this course:
 
 1.  `basic_data.rds`
@@ -27,11 +29,21 @@ This folder contains two datasets that are used for this course:
 
 -   `diag_b` (secondary diagnosis)
 
-These datasets are thus simulated data aimed at mimicking the Danish registries.
+## Simulated Data Design
 
-`diag_data.rds` is designed for the disease myocardial infarction of interest. Thus, the `diag_a` and `diag_b` are constructed to reflect a realistic reflection on comorbidity prevalence among myocardial infarction patients. `death_date` is likewise constructed according to a mortality target among patients with myocardial infarction. The dataset is thus not suitable for any other study cohorts.
+These datasets are **simulated** to resemble data from Danish health registries. They are specifically tailored to represent patients with **myocardial infarction (MI)**:
+
+-   Diagnoses (`diag_a`, `diag_b`) reflect realistic comorbidity patterns among MI patients.
+
+-   Mortality (`death_date`) is simulated to match expected outcomes for this patient group.
+
+-   The data is **not suitable** for analyses involving other disease cohorts.
+
+Additionally, `diag_data.rds` accounts for **intra-hospital transfers**, meaning multiple department contacts within the same hospital stay are consolidated — unlike raw data from the Danish National Patient Registry.
 
 In `diag_data.rds`, transfers between departments within the same hospital contacts have been taken into account (which will not be the case in *e.g.,* the raw data from the Danish National Patient Registry).
+
+## Diagnoses Included
 
 `diag_data.rds` contains information on the following diseases:
 
