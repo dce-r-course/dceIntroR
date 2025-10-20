@@ -1,55 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/000_schedule.html</loc>
-    <lastmod>2025-10-12T19:35:21.432Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/001_installing_r.html</loc>
-    <lastmod>2025-10-09T11:45:54.397Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/01_intro.html</loc>
-    <lastmod>2025-10-17T10:16:17.978Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/02_setup.html</loc>
-    <lastmod>2025-10-12T19:01:28.540Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/03_packages.html</loc>
-    <lastmod>2025-10-11T20:08:25.590Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/04_loading_management.html</loc>
-    <lastmod>2025-10-09T11:46:19.947Z</lastmod>
-  </url>
-  <url>
     <loc>https://r-registry-course.github.io/intro-r-registry/index.html</loc>
-    <lastmod>2025-10-20T10:48:18.635Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/03_project.html</loc>
-    <lastmod>2025-10-12T18:54:20.030Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-registry-course.github.io/intro-r-registry/04_packages.html</loc>
-    <lastmod>2025-10-12T18:54:19.018Z</lastmod>
+    <lastmod>2025-10-20T12:32:19.327Z</lastmod>
   </url>
   <url>
     <loc>https://r-registry-course.github.io/intro-r-registry/05_loading_management.html</loc>
-    <lastmod>2025-10-17T07:38:38.339Z</lastmod>
+    <lastmod>2025-10-20T12:34:41.558Z</lastmod>
   </url>
   <url>
     <loc>https://r-registry-course.github.io/intro-r-registry/06_study_pop.html</loc>
-    <lastmod>2025-10-19T22:09:00.824Z</lastmod>
+    <lastmod>2025-10-20T11:48:04.715Z</lastmod>
   </url>
   <url>
     <loc>https://r-registry-course.github.io/intro-r-registry/07_covariates.html</loc>
-    <lastmod>2025-10-19T22:18:11.519Z</lastmod>
+    <lastmod>2025-10-20T11:48:05.568Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-registry-course.github.io/intro-r-registry/08_table1.html</loc>
+    <lastmod>2025-10-20T11:48:06.420Z</lastmod>
   </url>
   <url>
     <loc>https://r-registry-course.github.io/intro-r-registry/09_survival.html</loc>
-    <lastmod>2025-10-20T10:47:56.684Z</lastmod>
+    <lastmod>2025-10-20T11:48:07.247Z</lastmod>
   </url>
 </urlset>
