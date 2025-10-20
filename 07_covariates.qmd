@@ -203,7 +203,7 @@ data_cov_02 |>
 data_cov_02 |> 
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |> 
   ggplot(aes(x = age, group = sex, color = sex, fill = sex)) + 
-  geom_histogram(aes(y = ..density..), alpha = .25) +
+  geom_histogram(aes(y = after_stat(density)), alpha = .25) +
   stat_function(fun=dnorm, args = list(mean = mean(data_cov_02$age), sd = sd(data_cov_02$age)), linewidth = .75) + 
   facet_wrap(~ sex) +
   ggsci::scale_fill_nejm() + 
