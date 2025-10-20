@@ -1,0 +1,151 @@
+# Working with packages
+
+In this session, we will briefly introduce how to install and load packages into R.
+
+## What are R packages?
+
+Think of R packages as *apps for R*. Just as your phone comes with basic apps but can do much more when you install new ones, `R` can also be extended with packages that add new tools and functions.
+
+A package is simply a collection of `R code` written by others. It often includes:
+
+-   **Functions** – reusable pieces of code
+
+-   **Data** – example datasets
+
+-   **Documentation** – instructions on how to use it
+
+Packages make it easier to share and reuse code.
+
+For example:
+
+-   `dplyr` and `data.table` helps with data management
+
+-   `ggplot2` helps with data visualisation
+
+-   `survival` helps with time-to-event analyses
+
+## Install packages
+
+Most `R` packages can be installed directly from the **Comprehensive R Archive Network** (CRAN) — the main online “store” for `R` packages. CRAN hosts stable and peer-reviewed packages.
+
+To install a package, use the function:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+install.packages("package_name")
+```
+
+For example:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+
+# Packages for data management
+install.packages("dplyr")
+
+# Packages for visualization
+install.packages("ggplot2")
+
+# Packages for analayses
+install.packages("survival")
+```
+
+You only need to install a package once on your computer. After it’s installed, `R` remembers it. That’s why it’s *not* best practice to include `install.packages()` inside your scripts — it’s something you do only when setting up your environment.
+
+## Load packages
+
+After installing a package, you need to load it into `R` before you can use its functions. This must be done *every time you start R*. It’s good practice to include a section at the top of your script called “Load packages”
+
+In your `R` file, make a section called: "Load packages"
+
+Specify which packages to load by typing:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+library("package name")
+```
+
+For example:
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## Alternative to loading the package
+
+It is not always necessary to load a package before using its functions — as long as it is installed.
+
+You can call a specific function directly from its package like this:
+
+```{r, eval=FALSE,message=FALSE, warning=FALSE}
+dplyr::select()
+```
+
+Here, `dplyr::select()` tells R to use the `select()` function from the `dplyr` package.\
+
+This is useful when multiple packages contain functions with the same name (for example, `select` exists in both `dplyr` and `MASS`).\
+
+Using the `package::function()` format ensures you call the correct one.\
+
+The downside is that you must remember which package the function belongs to.
+
+## Getting help on functions
+
+If you need help with a function, you can search for it in the `Help` panel in RStudio.\
+
+Alternatively, you can type:
+
+```{r, eval=FALSE,message=FALSE, warning=FALSE}
+?dplyr::select
+
+help("select", package = "dplyr")
+```
+
+This will open the R documentation for that specific function.
+
+## Packages in an R Project
+
+Now that we have created the R Project `R_intro_dce`, let’s take a brief look at how packages can be managed within an R Project.
+
+In your project folder, you can see a file called `DESCRIPTION`. This file can be used to describe several aspects of your project — including which packages are used.
+
+This is called **formal package dependency management**. It provides a clear overview of the packages required to run all the code in your project.
+
+Without this setup — using what is called **informal dependency management** — you would need to manually check each script for a section like “Load packages,” which quickly becomes difficult to maintain.
+
+### Add packages to the DESCRIPTION file
+
+How do you add packages to the `DESCRIPTION` file? There are several options, but one smooth and convenient approach is to use the `use_package()` function from the `usethis` package.
+
+If you know you will be using `dplyr`, simply run:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+usethis::use_package("dplyr")
+```
+
+This automatically adds `dplyr` to the list of required packages in your `DESCRIPTION` file.
+
+### Build *vs*. workflow dependency
+
+You can distinguish between two types of dependencies:
+
+-   **Build dependencies** are the packages needed to run your analysis — for example, `dplyr`, `ggplot2`, or `survival`.
+
+-   **Workflow dependencies** are packages that support your workflow but are not required for the analysis itself — for example, `usethis` and `styler`
+
+When you use `use_package(),` packages are added as build dependencies by default (under `Imports`). If you want to specify a package as a workflow dependency, you can add it under `Suggests` like this:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+usethis::use_package("usethis", "suggests")
+```
+
+You can then open the `DESCRIPTION` file and see that build dependencies are listed under `Imports`, while workflow dependencies appear under `Suggests`.
+
+### Install packages with `pak`
+
+Once your project lists its dependencies in the `DESCRIPTION` file, installing them all becomes simple.
+
+Just open your R Project and run:
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+pak::pak()
+```
+
+.... at least if you have `pak` installed :-)

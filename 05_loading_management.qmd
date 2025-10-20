@@ -1,0 +1,500 @@
+# Loading, explore, wrangle
+
+Now you know
+
+-   The basic **setup** of `R`
+
+-   How to make an **R Project** for your specific project
+
+-   How to install and load the **packages** that you will be needing
+
+Now, let's get into business...
+
+In this session, we will
+
+-   Load datasets into R
+
+-   Explore the data
+
+-   Get familiar with some popular `dplyr` functions.
+
+## Make a file
+
+Generate an R Script or R Markdown file.
+
+Name it "loading_management".
+
+Save it in the R folder.
+
+## Load packages
+
+Before working with data, we load the packages we will use. For now, we will primarily use the `tidyverse` package (which includes several packages such as `dplyr`, `readr`, `ggplot2`, etc.).
+
+```{r, warning = FALSE, message=FALSE}
+library(tidyverse)
+```
+
+## Loading data
+
+Data can be stored in many different file formats. Each format has advantages and disadvantages — for instance, some are faster to read, while others better preserve variable types.
+
+When working in R, using .`rds` or `.RData` files is often more efficient than formats like `.csv` or `.xlsx`.
+
+`.rds` files store a single `R` object (like a data frame) and preserve its structure, including variable types, factor levels, and attributes. This means you don’t need to re-specify column types or re-clean the data after loading. Moreover, you can save objects (like a model fit) in `.rds` format, which can be very handy if you've run a computationally heavy model. `.RData` files can store multiple `R` objects in one file. When you load an `.RData` file, all saved objects are restored into your environment.
+
+These formats are:
+
+-   Fast to read and write
+
+-   Compact in size
+
+-   Native to R, meaning fewer surprises when loading
+
+In contrast, formats like `.csv` are plain text and don’t preserve metadata — so you often need to re-define variable types (*e.g.,* dates, factors) after loading.
+
+Use `.rds` when you want to save and load a single object.
+
+Use `.RData` when you want to save multiple objects together.
+
+However, you will need toknow how to load different file formats.
+
+Here's some quick examples on how to read different formats.
+
+```{r, eval=FALSE, warning=F, message=F}
+
+#---- .rds
+data.rds <- readRDS("path_to_my_file/data.rds")
+
+#---- .RData
+
+#---- .csv
+data.csv <- readr::read_csv("path_to_my_file/data.csv")
+data.csv <- vroom::vroom("path_to_my_file/data.csv")
+
+#---- .excel
+data.excel <- readxl::read_excel("path_to_my_file/data.xlsx")
+
+#---- .sas7bdat
+data.sas <- haven::read_sas("path_to_my_file/data.sas7bdat")
+
+#---- Stata
+data.stata <- haven::read_dta("path_to_my_file/data.dta")
+
+```
+
+## Download data
+
+PITCH: Here we need to make a link to download basic_data and diag_data on the github page. We will skip that to later.
+
+## Load basic_data and diag_data
+
+```{r}
+basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+
+diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
+```
+
+## Explore data
+
+### Quick overview
+
+#### dim()
+
+The `base` function `dim` returns (1) the number of rows; (2) the number of columns.
+
+```{r}
+dim(basic_data)
+```
+
+```{r}
+dim(diag_data)
+```
+
+#### colnames()
+
+We can easily explore which columns each dataset contains using the `base` function `colnames()`.
+
+```{r}
+colnames(basic_data)
+```
+
+```{r}
+colnames(diag_data)
+```
+
+We prefer to work with variables in lowercase/snakecase. If that was not the case, it is fairly simple to change:
+
+```{r, eval = FALSE, warning = FALSE, message = FALSE}
+colnames(data) <- tolower(colnames(data))
+```
+
+#### head()/tail()
+
+You can also get a quick overview of the first/last *n* number of rows using `head` or `tail`.
+
+Let's look at the `basic_data`
+
+```{r}
+head(basic_data, 10)
+```
+
+... and the `diag_data`
+
+```{r}
+head(diag_data,10)
+```
+
+#### glimpse()
+
+`glimpse` is a function from the `dplyr` package. In contrast to `head`/`tail`, `glimpse` runs columns down the page and data runs across. This can be helpful if your dataset contains several variables.
+
+```{r}
+glimpse(basic_data)
+
+```
+
+```{r}
+glimpse(diag_data)
+```
+
+## Choose your language
+
+In R, there are different "languages" or styles of coding for data management. Here are three common ones:
+
+1.  `Base R` This is the original way of working with data in R. It’s powerful but can be verbose and harder to read.
+
+2.  `data.table` A high-performance package for large datasets. It’s fast and memory-efficient, but has a steeper learning curve and a unique syntax.
+
+3.  `dplyr` (part of tidyverse) A modern and readable way to manage data.
+
+    It uses intuitive verbs like `select`, `filter`, and `mutate` to describe what you want to do.
+
+Why we use dplyr in this course:
+
+-   Easy to read and write
+
+-   Code is transparent and step-by-step structured
+
+-   Widely used in health research and data science
+
+-   Actively maintained and developed by the R Studio team
+
+For beginners, `dplyr` is a great starting point — and it scales well as your skills grow.
+
+## dplyr
+
+`dplyr` provides a set of intuitive functions for data manipulation, such as selecting columns, filtering rows, creating new variables, and summarising data.
+
+A key feature of `dplyr` is its use of the *pipe* operator `|>`
+
+What is the pipe?
+
+The pipe operator allows you to write code that reads like a sequence of actions. Instead of nesting functions inside each other, you start with your data and then “pipe” it through a series of steps.
+
+Think of it like saying:
+
+-   Take this data → then do this → then do that → then do something else...
+
+This makes your code easier to read and follow.
+
+Example:
+
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+data_names |> 
+  select(first_name, last_name) |> 
+  filter(first_name == "X", 
+         last_name == "Y")
+```
+
+.. reads as:
+
+-   take the `data_names` dataset
+
+-   select the columns `first_name` and `last_name`
+
+-   filter rows so `first_name` is equal to "X" and `last_name` is equal to "Y"
+
+This structure is consistent across all `dplyr` functions and helps build a clear and logical workflow.
+
+We will get back to each functions.
+
+The pipe operator can look like `|>` and `%>%`. The shortcut is:
+
+-   Windows: `Shift + Ctrl + M`
+
+-   macOS: `Shift + Cmd + M`
+
+If you see `%>%`, you can change it to `|>` by entering `Shift + Crtl + P`, write "pipe" and tick of "Use R's native **pipe** operator, \|\>"
+
+Now we will go through some key functions from mainly the `dplyr` package.
+
+## `select()` - Choosing columns
+
+Selecting columns is one of the most common tasks in data wrangling. You use `select()` when you want to focus on specific variables.
+
+When to use `select`?
+
+-   To reduce clutter and focus on relevant variables
+
+<!-- -->
+
+-   To prepare a subset of data for analysis or visualization
+
+<!-- -->
+
+-   To reorder columns for readability
+
+Example:
+
+Take the `diag_data` and select the columns: `id`, `adm_date`, and `dis_date`.
+
+```{r}
+diag_data |> 
+  select(id, adm_date, dis_date)
+```
+
+Helper functions
+
+`select()` also supports helper functions to match column names. From the `tidyr` package (loaded with tidyverse), these functions are handy:
+
+-   `starts_with("prefix")` - selects columns starting with "prefix"
+
+-   `ends_with("suffix")` - selects columns ending with "suffix"
+
+-   `contains("content")` - select columns containing "content".
+
+So, we could have used `ends_with()` as well, by typing:
+
+```{r}
+diag_data |> 
+  select(id, ends_with("date"))
+```
+
+This can be particular helpful when working with wide datasets.
+
+## `filter()` - Choosing rows
+
+While `select()` works on columns, `filter()` works on rows. You use it to keep only the observations that meet certain conditions. Note that we use `==` when we specify a condition.
+
+Example:
+
+```{r}
+diag_data |> 
+  filter(contact_type == 1)
+```
+
+This keeps only rows where `contact_type` is equal to 1 (inpatient hospital contacts).
+
+You can combine multiple conditions using
+
+-   `&` for "and"
+
+-   `|` for "or"
+
+-   `!` for "not"
+
+## `mutate()` - Creating new variables
+
+To add new columns to your dataset, you can use `mutate().` This is useful for calculating derived variables, recoding values, or creating labels.
+
+Example:
+
+```{r}
+diag_data |> 
+  mutate(
+    contact_type_description = 
+      case_when(
+        contact_type == 1 ~ "Inpatient",
+        contact_type == 2 ~ "Outpatient"
+      )
+  )
+```
+
+This generates a column describing the `contact_type` variable. This doesn't make much sense to do though.. But we will use `mutate()` sensible later on :)
+
+Here, we used `case_when()` as well. That function is used to handle multiple conditions clearly.
+
+In the code above, `case_when()` specifies
+
+-   When `contact_type` is equal to 1 then assign `contact_type_description` the character value "Inpatient"
+
+-   When `contact_type` is equal to 2, assign `contact_type_description` the character value "Outpatient".
+
+`case_when()` also has a "default" option. You can use it like: if this condition is true, do this, otherwise (default) do that. So, we could also have written:
+
+```{r, eval = FALSE}
+
+# 01
+
+diag_data |> 
+  mutate(
+    contact_type_description = 
+      case_when(
+        contact_type == 1 ~ "Inpatient",
+        .default = "Outpatient"
+      )
+  )
+
+# 02
+
+diag_data |> 
+  mutate(
+    contact_type_description = 
+      case_when(
+        contact_type == 1 ~ "Inpatient",
+        TRUE ~ "Outpatient"
+      )
+  )
+```
+
+It is important to note, that `case_when()` handles the conditions in hierarchy. So, if condition 1 is true, that will overwrite any subsequent conditions. Likewise, if condition 1 is false, but condition 2 is true, that will overwrite a potential condition 3.
+
+Moreover, you must provide the same class of output for each condition. E.g., above we use a character output in each condition. We can't combine *e.g.,* character output and numeric output.
+
+```{r, eval = FALSE}
+diag_data |> 
+  mutate(
+    contact_type_description = 
+      case_when(
+        contact_type == 1 ~ "Inpatient",
+        TRUE ~ 0
+      )
+  )
+```
+
+## `group_by()` - Grouping data
+
+Grouping is essential when you want to perform calculations within subgroups (*e.g.*, per patient, per hospital, per year, etc.).
+
+Example:
+
+```{r, eval = FALSE, warning = FALSE, message=FALSE}
+diag_data |> 
+  group_by(id)
+```
+
+This tells `R` to treat each `id` as a separate group.
+
+## Excercise
+
+Define inhospital admissions per patient.
+
+1.  Which variables do we need?
+2.  Look only at in inpatient contacts.
+3.  Define the first recorded hospitalisation as number 1
+4.  Also count the total number of hospitalisations per patient.
+
+### Choose the columns we need
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date)
+```
+
+### Look only at inpatient hospital contacts
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date) |> 
+  filter(contact_type == 1)
+```
+
+### Order the first recorded hospitalisation as number 1
+
+Here we make sure that the dataset is correctly ordered per patient.
+
+To do this, we can use the `group_by()` and `arrange()` function.
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date) |> 
+  filter(contact_type == 1) |> 
+  group_by(id) |> 
+  arrange(id, adm_date)
+```
+
+### Keep only unique admissions
+
+We can see above that some inpatient contacts occur twice.
+
+To fix this, we can use the `distinct()` function which keeps only unique rows within the defined groups.
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date) |> 
+  filter(contact_type == 1) |> 
+  group_by(id) |> 
+  arrange(id, adm_date) |> 
+  distinct()
+```
+
+### Create an indicator of admission number
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date) |> 
+  filter(contact_type == 1) |> 
+  group_by(id) |> 
+  arrange(id, adm_date) |> 
+  distinct() |> 
+  mutate(adm_nr = row_number())
+```
+
+### Create an indicator of total number of admissions
+
+```{r}
+diag_data |> 
+  select(id, contact_type, adm_date) |> 
+  filter(contact_type == 1) |> 
+  group_by(id) |> 
+  arrange(id, adm_date) |> 
+  distinct() |> 
+  mutate(adm_nr = row_number(),
+         adm_total = max(adm_nr)
+         )
+```
+
+## Joining dataset
+
+To combine datasets, use join functions:
+
+-   `left_join()` – keeps all rows from the left dataset
+
+-   `right_join()` – keeps all rows from the right dataset
+
+-   `inner_join()` – keeps only matching rows
+
+-   `full_join()` – keeps all rows from both
+
+When you join datasets, you need to specify
+
+1.  The datasets to join
+2.  The columns to join `by`
+
+The `by` argument is rather essential. For instance, we can combine data from `basic_data` and `diag_data` using `id.` You can join by several columns if relevant.
+
+Example: Join `basic_data` and `diag_data`
+
+Let's say you are interested in adding information birth date and death date to the `diag_data`
+
+```{r}
+# 01
+
+left_join(diag_data, basic_data, by = "id")
+
+# 02
+
+diag_data |> left_join(basic_data, by = "id")
+
+```
+
+You can also specify which columns you wish to add directly in the join function.
+
+Let's say we only wanted to add `birth_date`
+
+```{r}
+diag_data |> 
+  left_join(
+    basic_data |> select(id, birth_date), 
+    by = "id")
+```

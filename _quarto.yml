@@ -1,0 +1,43 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Introduction to R for Registry-Based Health Research"
+  subtitle: "Department of Clinical Epidemiology, Aarhus University and Aarhus University Hospital"
+  author:
+  - Søren K. Martiny
+  - Simon Storgaard Jensen
+  - Jannik Wheler
+  - Uffe Heide-Jørgensen
+  date: last-modified
+  site-url: "https://r-registry-course.github.io/intro-r-registry/"
+  repo-url: "https://github.com/r-registry-course/intro-r-registry"
+  chapters:
+    - index.qmd
+    - 000_schedule.qmd
+    - part: "Before the course"
+      chapters:
+        - 001_installing_r.qmd
+    - part: "Sessions"
+      chapters:
+        - 01_intro.qmd
+        - 02_setup.qmd
+        - 03_project.qmd
+        - 04_packages.qmd
+        - 05_loading_management.qmd
+        - 06_study_pop.qmd
+        - 07_covariates.qmd
+        - 08_table1.qmd
+        - 09_survival.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 5
+    code-fold: show
+    number-sections: true
+    link-external-newwindow: true
+    page-layout: full
+

@@ -1,0 +1,30 @@
+# RStudio project files
+.Rproj.user/
+.Rhistory
+.RData
+.Rbuildignore
+
+# Quarto system files
+.quarto/
+_freeze/
+*.html
+*_files/
+
+# Quarto output directories
+_site/
+_book/
+public/
+site/
+slides/*.html
+
+# Development and temporary folders
+_ignore/
+bin/
+dev/
+_temp/
+*.tmp
+
+# Authentication and system files
+.httr-oauth
+.DS_Store
+.luarc.json

@@ -1,0 +1,506 @@
+# Covariates
+
+In this session, we will explore how we can identify covariates for our MI patients!
+
+## Make a script
+
+First, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.
+
+Name it "covariates".
+
+Save it in the folder R.
+
+## Load packages
+
+Load the packages we will need under a section called "Load packages".
+
+```{r, message=FALSE, warning = FALSE}
+
+library(tidyverse)
+library(purrr)
+
+```
+
+We will introduce the `purrr` package, so we should add this as a workflow dependency
+
+```{r, eval = FALSE}
+usethis::use_package("purrr")
+```
+
+## Load the datasets
+
+Load the datasets we will need under a section called "Load data"
+
+```{r}
+
+basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+
+diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
+
+data_pop_mi <- readRDS(here::here("data/data_pop_mi.rds"))
+
+
+```
+
+## Choose covariates
+
+First, we must decide which covariates we would like to include.
+
+From `basic_data`:
+
+-   age
+
+-   sex
+
+From `diag_data`:
+
+-   Hypertension
+
+-   Hypercholesterolaemia
+
+-   Diabetes
+
+-   Heart failure
+
+### Age and sex
+
+In the `basic_data`, we can obtain information on age ans sex from the variables `birth_date` and `sex`.
+
+```{r}
+data_cov_01 <- data_pop_mi |> 
+  left_join(basic_data |> select(id, birth_date, sex),
+            by = "id")
+
+data_cov_01
+
+```
+
+Now, we can calculate age at admission
+
+```{r}
+data_cov_02 <- data_cov_01 |> 
+  mutate(
+    age = round(as.numeric(index_date - birth_date)/365.25,0)
+  )
+
+data_cov_02
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   `round()`: specifies the number of digits
+
+-   `as.numeric()`: specifies that the difference between `index_date` and `birth_date` should be a numeric value, which allows us to divide by 365.25 to obtain age in years.
+:::
+
+#### Normal distributed
+
+Let's have a look at whether the age distribution of our MI patients follow a normal distribution. And let's see if it differs between sex.
+
+For this, we will be using `ggplot2.`
+
+##### What is `ggplot2`?
+
+`ggplot2` is a system for creating graphics based on the **Grammar of Graphics** — a structured way of thinking about and building plots. Instead of using one function to create a plot all at once, you build your plot step by step by adding layers.
+
+This makes your code more readable, flexible, and easier to modify.
+
+A `ggplot2` plot always starts with the `ggplot()` function. Then you add layers using the **`+`** operator.
+
+Here’s the basic structure:
+
+```{r, eval = FALSE}
+
+data |> 
+  ggplot(aes(x = x_variable, y = y_variable)) +
+  geom_function()
+
+```
+
+Let’s break that down:
+
+-   `data`: Specify which data we will be using
+-   `ggplot()`: This sets up the plot.
+-   `aes():` Short for aesthetics — this is where you define what goes on the x- and y-axes (and optionally color, size, shape, etc.).
+-   `geom_*()`: These are the layers that define *how* the data should be visualised — for example:
+    -   `geom_point()` for scatter plots
+
+    -   `geom_bar()` for bar charts
+
+    -   `geom_line()` for line plots
+
+    -   `geom_histogram()` for histograms
+
+Let's see if the age distribution is normally distributed and stratify by sex.
+
+##### QQ plot
+
+```{r}
+
+data_cov_02 |> 
+  mutate(sex = factor(sex, levels = c(1,2), labels = c("Male", "Female"))) |> 
+  ggplot(aes(sample = age, group = sex, color = sex, fill = sex)) + 
+  geom_qq() + 
+  geom_qq_line() + 
+  facet_wrap(~sex) + 
+  ggsci::scale_fill_nejm() + 
+  ggsci::scale_color_nejm() + 
+  theme_bw()
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   `mutate(sex = factor(...))`
+
+    Converts the numeric sex variable (1/2) into a labeled factor with levels "Male" and "Female" — making the plot more interpretable.
+
+-   `ggplot(aes(...))`
+
+    Initialises a ggplot object using age as the variable to be plotted in a Q-Q plot.
+
+    -   sample = age: Specifies the variable to be compared against a theoretical normal distribution.
+
+    -   group = sex: Ensures separate Q-Q plots are generated for each sex group.
+
+    -   color and fill: Assign colors based on sex.
+
+-   `geom_qq()`
+
+    Adds a Q-Q plot layer — this visualizes how the distribution of age compares to a normal distribution.
+
+-   `geom_qq_line()`
+
+    Adds a reference line to the Q-Q plot — if the data follows a normal distribution, points should lie close to this line.
+
+-   `facet_wrap(~sex)`
+
+    Creates separate plots for "Male" and "Female" — allowing for side-by-side comparison of age distributions.
+
+-   `ggsci::scale_fill_nejm()` and `ggsci::scale_color_nejm()`
+
+    Applies a color palette inspired by the *New England Journal of Medicine*.
+
+    Note, here we call the functions directly from the `ggsci` package. We could also load the package under "Load packages". That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our `DESCRIPTION` file.
+
+    ```{r, eval = FALSE}
+
+    usethis::use_package("ggsci")
+
+    ```
+
+-   `theme_bw()`
+
+    Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
+:::
+
+##### Histogram
+
+```{r}
+
+data_cov_02 |> 
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |> 
+  ggplot(aes(x = age, group = sex, color = sex, fill = sex)) + 
+  geom_histogram(aes(y = ..density..), alpha = .25) +
+  stat_function(fun=dnorm, args = list(mean = mean(data_cov_02$age), sd = sd(data_cov_02$age)), linewidth = .75) + 
+  facet_wrap(~ sex) +
+  ggsci::scale_fill_nejm() + 
+  ggsci::scale_color_nejm() +
+  theme_bw()
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   `mutate(sex = factor(...))`
+
+    Converts the numeric sex variable (1 = Male, 2 = Female) into a labeled factor for clearer plotting and legend labels.
+
+-   `ggplot(aes(...))`
+
+-   Initializes the plot using age as the x-axis variable.
+
+    -   group = sex: Ensures separate density curves per sex.
+
+    -   color and fill: Assign colors based on sex for visual distinction.
+
+-   `geom_histogram(aes(y = ..density..), alpha = .25)`\
+    Plots a histogram of the age variable, scaled to show density rather than raw counts.
+
+    -   alpha = .25: Makes the bars semi-transparent so overlapping areas are visible.
+
+-   `stat_function(fun = dnorm, ...)`
+
+    Adds a normal distribution curve over the histogram using the overall mean and standard deviation of age.
+
+    -   This helps visually compare the actual age distribution to a theoretical normal distribution.
+
+-   `facet_wrap(~ sex)`\
+    Creates separate panels for "Male" and "Female" — allowing side-by-side comparison of age distributions.
+
+`ggsci::scale_fill_nejm()` and `ggsci::scale_color_nejm()`
+
+Applies a color palette inspired by the *New England Journal of Medicine*.
+
+Note, here we call the functions directly from the `ggsci` package. We could also load the package under "Load packages". That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our `DESCRIPTION` file.
+
+-   `theme_bw()`
+
+    Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
+:::
+
+### Comorbidities
+
+The `diag_data` contains the following diseases and codes.
+
+| Comorbidity | ICD-10 code |
+|----|----|
+| Myocardial infarction | DI21 |
+| Hypertension | DI10, DI11, DI12, DI13, DI14, DI15 |
+| Hypercholesterolaemia | DE78 |
+| Diabetes | DE10, DE11, DE12, DE13, DE14 |
+| Heart failure | DI50 |
+| Random | DX01, DX02, DX03, DX04, DX05, DX06, DX07, DX08, DX09 |
+
+: Comorbidities and ICD-10 codes
+
+There are several different ways to identify comorbidities. Here, we will go over a couple.
+
+We set some assumptions.
+
+1.  We do not include information on diagnoses recorded during index admission
+2.  We include diagnoses recorded within 10 years from the index date (*i.e.*, 10 years lookback)
+3.  We include diagnoses from both inpatient and outpatient hospital contacts
+4.  We include diagnoses recorded as either a primary and a secondary diagnosis.
+5.  We apply the same assumptions for all comorbidities.
+
+### Baseline, identify, add
+
+One approach is to
+
+#### Step 1. Define a baseline study pop set
+
+```{r}
+
+data_baseline_mi <- data_pop_mi |> 
+  select(id, index_date)
+```
+
+#### Step 2. Define a baseline comorbidity set, add diag_data, keep only diagnoses recorded before index date and after lookback period
+
+```{r, warning = FALSE, message = FALSE}
+
+lookback_years <- 10
+
+lookback <- lookback_years*-1
+
+data_cov_diag <- data_pop_mi |> 
+  select(id, index_date) |> 
+  left_join(diag_data, by = "id") |> 
+  mutate(
+    diff = as.numeric(adm_date - index_date) # can also be switched, then just adjusted definition of lookback
+  ) |> 
+  filter(
+    diff < 0,
+    diff > 365.25*lookback
+  ) |> 
+  select(-diff)
+
+data_cov_diag
+```
+
+#### Step 3. Identify whether patients with a given covariate
+
+Let's begin with hypertension.
+
+```{r}
+
+hypertension_code <- c("DI1[0-5]")
+
+cov_hypertension <- data_cov_diag |> 
+  mutate(
+    hypertension = 
+      case_when(
+        grepl(hypertension_code, diag_a) | grepl(hypertension_code,diag_b) ~ 1,
+        .default = 0
+      )) |> 
+  filter(hypertension == 1) |> 
+  select(id, hypertension) |> 
+  distinct()
+```
+
+#### Step 4. Add the covariate to the baseline
+
+```{r}
+data_baseline_mi <- 
+  data_baseline_mi |> 
+  left_join(cov_hypertension, by = "id") |> 
+  mutate(hypertension = replace_na(hypertension, 0))
+```
+
+#### Step 5. Repeat
+
+Lets repeat for hypercholesterolaemia
+
+```{r}
+
+hyperchol_code <- "DE78"
+
+cov_hyperchol <- data_cov_diag |> 
+  mutate(
+    hyperchol = 
+      case_when(
+        grepl(hyperchol_code, diag_a) | grepl(hyperchol_code,diag_b) ~ 1,
+        .default = 0
+      )) |> 
+  filter(hyperchol == 1) |> 
+  select(id, hyperchol) |> 
+  distinct()
+
+data_baseline_mi <- 
+  data_baseline_mi |> 
+  left_join(cov_hyperchol, by = "id") |> 
+  mutate(hyperchol = replace_na(hyperchol, 0))
+
+data_baseline_mi
+```
+
+#### Step 6. Keep on repeating..
+
+While this works, it gets slightly redundant — and we are repeating ourselves a lot!
+
+### Function based
+
+As the number of comorbidities grows, repeating the same code for each one becomes inefficient and hard to maintain. A more efficient and slightly advanced approach is to:
+
+-   Create a **baseline dataset** with one row per patient
+
+-   Define a **lookup table** with comorbidity names and ICD-10 patterns
+
+-   Write a **function** that identifies each comorbidity
+
+-   Use `pmap()` to apply the function across all comorbidities
+
+-   Combine the results into a single dataset
+
+This method is scalable, readable, and easy to adapt to new comorbidities.
+
+#### Step 1. Make a baseline dataset
+
+```{r}
+data_baseline_mi <- data_pop_mi |> 
+  select(id, index_date)
+
+```
+
+#### Step 2. Make a list
+
+Then we list the diseases of interest and their ICD-10 codes in a vector. This can also be an Excel-file you prepare and load into R.
+
+```{r}
+comorbidity_definitions <- 
+  tibble::tibble(
+  name = c("hypertension", "hypercholesterolaemia", "diabetes", "heart_failure"),
+  pattern = c("DI1[0-5]", "DE78", "DE1[0-4]", "DI50")
+)
+
+comorbidity_definitions
+```
+
+#### Step 3. Make a function
+
+This function takes a comorbidity name and pattern, filters `data_cov_diag`, and returns a dataset with a binary indicator:
+
+```{r}
+
+
+
+identify_comorbidity <- function(name, pattern, data) {
+  
+  print(name)
+  
+  data |>
+    group_by(id, index_date) |>
+    summarise(
+      !!name := as.integer(any(grepl(pattern, diag_a) | grepl(pattern, diag_b))),
+      .groups = "drop"
+    )
+}
+
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   Takes a comorbidity name and pattern.
+
+-   Uses `grepl()` to search for the pattern in both diag_a and diag_b.
+
+-   Uses `any()` within `summarise()` to assign a binary indicator (1 if the pattern is found, 0 otherwise).
+
+-   Groups by `id` and `index_date` to ensure one row per patient.
+:::
+
+#### Step 4. Apply the function
+
+```{r}
+
+comorbidity_data <- comorbidity_definitions |>
+  pmap(function(name, pattern) identify_comorbidity(name, pattern, data_cov_diag)) |>
+  reduce(full_join, by = c("id", "index_date"))
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   `pmap()` Applies the function across all rows in the lookup table, passing name and pattern to the function.
+
+-   `reduce(full_join, by = c("id", "index_date"))` Combines all comorbidity indicators into one dataset, keeping one row per patient.
+:::
+
+#### Step 5. Combine with age and sex
+
+```{r}
+
+data_covariates_mi <- 
+  data_cov_02 |> 
+  left_join(comorbidity_data, by = c("id", "index_date")) 
+
+covariates <- paste0(comorbidity_definitions$name)
+
+data_covariates_mi <- data_covariates_mi |> 
+  mutate(
+    across(c(
+           covariates
+           ),
+           ~ replace_na(.x, 0)
+  )
+  )
+
+data_covariates_mi
+```
+
+## Save
+
+Save the `data_covariates_mi` dataset in the folder `data.`
+
+```{r}
+
+saveRDS(data_covariates_mi, here::here("data/data_covariates_mi.rds"))
+
+```
+
+## Clear environment
+
+```{r, message=FALSE, warning=FALSE}
+
+rm(list=ls()) # clears your working environment
+
+gc() # free unused memory
+
+```

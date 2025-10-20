@@ -1,0 +1,17 @@
+# Welcome {.unnumbered}
+
+This course is intended to serve as a beginner's guide to help you get started using R for data management, analysis, and visualisation in health research.
+
+# Attention
+
+This course is based on the initiative of happy amateurs. Therefore, the approaches to data management and visualisations may not reflect the most "correct", efficient, or elegant way, but are intended only to serve as a way to help you get started with R.
+
+# Acknowledgements
+
+The setup and content of this course draw inspiration from the excellent and more comprehensive courses developed by [rostools](https://github.com/rostools)
+
+-   [Intro Reproducible Research in R](https://r-cubed-intro.rostools.org/)
+
+-   [Intermediate Reproducible Research in R](https://r-cubed-intermediate.rostools.org/)
+
+-   [Advanced Intermediate Reproducible Research in R](https://r-cubed-advanced.rostools.org/)

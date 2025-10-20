@@ -1,0 +1,309 @@
+# Time-to-event setup
+
+In this session, we will briefly give an example on how to create a time-to-event setup and run a quick Kaplan-Meier estimator as well as plotting the 1-Kaplan-Meier curves (all-cause mortality risk plots). No statistical theory will be covered.
+
+## Make a script
+
+First, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.
+
+Name it "mortality".
+
+Save it in the folder R.
+
+## Load packages
+
+Load the packages we will need under a section called "Load packages".
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(survival)
+library(ggsurvfit)
+library(glue)
+library(writexl)
+```
+
+Add new packages to the `DESCRIPTION` file.
+
+```{r, eval = FALSE}
+usethis::use_package("survival")
+usethis::use_package("glue")
+usethis::use_package("writexl")
+```
+
+## Load data
+
+```{r, warning=FALSE, message=FALSE}
+data_pop_mi <- readRDS(here::here("data/data_pop_mi.rds"))
+
+basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+```
+
+## Time-to-event setup
+
+Now, we will setup our dataset for a time-to-event analysis. We will follow patients from index_date until death, 1 year of follow-up, or December 31, 2024, whichever occurred first. We here just assume no emigration.
+
+### Step 01: Add death date
+
+```{r, warning=FALSE, message=FALSE}
+data_tte <- data_pop_mi |> 
+  select(id, index_date) |> 
+  left_join(basic_data |> select(id, sex, death_date), by = "id")
+
+data_tte
+```
+
+### Step 02: Generate stop dates
+
+```{r, warning=FALSE, message=FALSE}
+data_tte <- data_tte |> 
+  dplyr::mutate(
+    max_fu = lubridate::ymd(index_date) + lubridate::years(1), # 1 year of follow-up
+    stop_study = lubridate::ymd("2024-12-31")) # stop of study
+
+data_tte
+
+```
+
+### Step 03. Select first of death, max follow-up, or study stop
+
+```{r, warning=FALSE, message=FALSE}
+data_tte <- data_tte |> 
+  mutate(across(c(death_date, max_fu, stop_study), ~ as.Date(.x)), # ensure that dates are <date> format
+         end_date = pmin(death_date, max_fu, stop_study, na.rm = TRUE) # Follow-up ends at death, 1 year, or study stop — whichever comes 
+  )
+
+data_tte
+
+```
+
+### Step 04. Create a time indicator
+
+```{r, warning=FALSE, message=FALSE}
+data_tte <- data_tte |> 
+  mutate(
+         time = as.numeric(end_date - index_date) # here in days
+         )
+
+data_tte
+
+```
+
+You wish to check some restrictions:
+
+```{r, warning=FALSE, message=FALSE}
+
+# No negative time values
+data_tte |> 
+  filter(time < 0 )
+
+# Max follow-up time
+data_tte |> 
+  filter(time == max(time)) |> 
+  select(time) |> 
+  distinct()
+
+# Max date of stop
+data_tte |> 
+  filter(end_date == max(end_date)) |> 
+  select(end_date) |> 
+  distinct()
+```
+
+### Step 05. Create a status indicator
+
+```{r, warning=FALSE, message=FALSE}
+data_tte <- data_tte |> 
+  mutate(
+         status = 
+           case_when(
+             !is.na(death_date) & death_date == end_date ~ 1, # if stop of follow-up due to death
+             TRUE ~ 0 # if censored due to 1 year of follow-up or study stop
+             )
+         ) |> 
+  select(-c(max_fu, stop_study))
+
+data_tte
+```
+
+### Step 06. Fit the model
+
+```{r, warning=FALSE, message=FALSE}
+
+fit_km <- survfit(Surv(time, status) ~ sex, data = data_tte)
+
+
+```
+
+### Step 07. Check the output
+
+You may wish to check the output at certain time points
+
+```{r, warning=FALSE, message=FALSE}
+time_points <- c(0, 30, 30*3, 30*6, 30*9, 30*12)
+
+print(summary(fit_km, times = time_points))
+```
+
+### Step 08. Plot, quick and dirty
+
+You can plot the Kaplan-Meier curve very easy with `ggsurvfit`. You can customise with `ggplot2`.
+
+```{r, warning=FALSE, message=FALSE}
+ggsurvfit(fit_km) + 
+  add_confidence_interval() + 
+  add_risktable() + 
+  add_quantile(y_value = 0.6, color = "gray50", linewidth = 0.75) +
+  scale_ggsurvfit()
+```
+
+### Step 09. Alternative plotting
+
+There are several different ways to do this. Probably also some more elegant ways.
+
+Now, we will store the output from the `fit_km` object in a format allowing us to extract results - and plot the risk curves
+
+#### Generate data
+
+```{r, warning=FALSE, message=FALSE}
+max_fu <- max(data_tte$time)
+s_fit <- summary(fit_km, times = 0:max_fu)
+
+round_function <- function(x){
+  ifelse(x >= 10,
+         sprintf("%.1f", x), # 1 digit if 10 or higher
+         sprintf("%.2f", x)) # 2 digits if lower
+}
+
+data_mortality <- data.frame(
+  time       = s_fit$time,
+  n_risk     = s_fit$n.risk,
+  n_event    = s_fit$n.event,
+  surv       = s_fit$surv,
+  strata     = s_fit$strata,
+  upper      = s_fit$upper,
+  lower      = s_fit$lower
+) |> 
+  mutate(
+    group = dplyr::case_when(
+      strata == "sex=1" ~ "Male",
+      strata == "sex=2" ~ "Female"
+      ),
+    group = factor(group, levels = c("Male", "Female")),
+    risk_crude = (1-surv)*100,
+    ll_crude = (1-upper)*100,
+    ul_crude = (1-lower)*100
+  ) |> 
+  select(-c(strata, surv, upper, lower)) |> 
+  mutate(
+    across(
+      c(
+        risk_crude, ll_crude, ul_crude
+      ),
+      ~ round_function(.x)
+    )
+  )
+
+head(data_mortality,20)
+```
+
+#### Extract results 
+
+Extract results and print in different formats
+
+```{r, warning=FALSE, message=FALSE}
+results_mortality <- 
+  data_mortality |> 
+  filter(time %in% time_points,
+         time != 0) |> 
+  select(time, group, risk_crude, ll_crude, ul_crude)
+
+results_mortality
+
+
+results_mortality |> 
+  pivot_wider(
+    names_from = time,
+    values_from = c(risk_crude, ll_crude, ul_crude)
+  ) |> 
+  select(group, ends_with("_30"), ends_with("_90"), ends_with("_180"), ends_with("_270"), ends_with("_360")) |> 
+mutate(
+    risk_30 = glue("{risk_crude_30} ({ll_crude_30}–{ul_crude_30})"),
+    risk_90 = glue("{risk_crude_90} ({ll_crude_90}–{ul_crude_90})"),
+    risk_180 = glue("{risk_crude_180} ({ll_crude_180}–{ul_crude_180})"),
+    risk_270 = glue("{risk_crude_270} ({ll_crude_270}–{ul_crude_270})"),
+    risk_360 = glue("{risk_crude_360} ({ll_crude_360}–{ul_crude_360})")
+  ) |>
+  select(group, risk_30, risk_90, risk_180, risk_270, risk_360)
+
+
+```
+
+#### Plot
+
+```{r, warning=FALSE, message=FALSE}
+
+plot_mortality <- 
+data_mortality |>
+  mutate(across(c(risk_crude, time, ll_crude, ul_crude), ~ as.numeric(.x))) |> 
+  ggplot(aes(y = risk_crude, x = time, group = group, col = group, fill = group, ymin = ll_crude, ymax = ul_crude)) +
+  geom_line(show_legend = T, linewidth = .8) +
+  geom_ribbon(alpha = .25, col = NA, linetype = 0, show.legend = F) +
+  ggsci::scale_color_nejm() +
+  ggsci::scale_fill_nejm() +
+  scale_x_continuous(
+    name = "Time since diagnosis (months)",
+    expand = c(0, 0),
+    limits = c(0, 30*12),
+    breaks = seq(0, 30*12, 30*3),
+    labels = seq(0, 12, 3)
+  ) +
+  scale_y_continuous(
+    name = "Absolute mortality risk (%)",
+    limits = c(0, 30),
+    expand = c(0, 0),
+    breaks = seq(0, 30, 5),
+    labels = seq(0, 30, 5)
+  ) +
+  ggpubr::theme_classic2() +
+  theme(
+    plot.margin = margin(t = 0.5, r = 0.5, b = 0.5, l = 0.5, unit = "cm"),
+    text = element_text(family = "serif", size = 10),
+    axis.line = element_line(linewidth = .35),
+    axis.ticks = element_line(linewidth = .35),
+    axis.ticks.length = unit(.2, "cm"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold", margin = margin(r = 7)),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = c(.9, .9)
+  )
+
+plot_mortality
+
+```
+
+Adding a risk table can be quite cumbersome but is doable. But we will not look into that for now.
+
+### Step 10. Save the results
+
+#### Results
+
+```{r, warning=FALSE, message=FALSE}
+write_xlsx(results_mortality, here::here("results/results_mortality.xlsx"))
+```
+
+#### Plot
+
+You can save the `ggplot2` object through the save function in he Plots viewer. However, you can also do it using `ggsave.`
+
+```{r, warning=FALSE, message=FALSE}
+ggsave(
+  filename = here::here("results/plot_mortality.pdf"),
+  plot = plot_mortality,
+  device = cairo_pdf,
+  width = 8,
+  height = 6,
+  units = "in",
+  dpi = 600
+)
+```

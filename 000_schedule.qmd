@@ -1,0 +1,21 @@
+# Schedule {.unnumbered}
+
+::: panel-tabset
+## Day 1 {.unnumbered}
+
+| Time   | Session                          |
+|:-------|:---------------------------------|
+| Always | Make sure you have coffee        |
+| XX min | Introduction to R                |
+| XX min | Knowing your R environment       |
+| XX min | Coffee break                     |
+| XX min | Working with packages            |
+| XX min | Lunch break                      |
+| XX min | Loading, explore, wrangle        |
+| XX min | Generate a study population      |
+| XX min | Identify covariates              |
+| XX min | Create a Table 1                 |
+| XX min | Time-to-event setup and analysis |
+| XX min | Use LLM for your R coding        |
+| XX min | Feedback and round up            |
+:::

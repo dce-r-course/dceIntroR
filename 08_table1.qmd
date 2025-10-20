@@ -1,0 +1,206 @@
+# Table 1
+
+In this session, we will present a way to make a Table 1
+
+## Make a script
+
+First, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.
+
+Name it "table1".
+
+Save it in the folder R.
+
+## Load packages
+
+Load the packages we will need under a section called "Load packages".
+
+```{r, message=FALSE, warning = FALSE}
+library(tidyverse)
+library(gtsummary)
+library(writexl)
+```
+
+We will introduce the `gtsummary` package, so we should add this as a workflow dependency. Similar with `writexl`.
+
+```{r, eval = FALSE}
+usethis::use_package("gtsummary")
+usethis::use_package("writexl")
+```
+
+## Load data
+
+```{r}
+data_covariates_mi <- readRDS(here::here("data/data_covariates_mi.rds"))
+```
+
+Let's recap the variables, we have
+
+```{r}
+glimpse(data_covariates_mi)
+```
+
+## Make the Table 1
+
+```{r}
+tbl_summary(
+  data_covariates_mi,
+  include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+  by = sex,
+  missing = "no"
+) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**")
+```
+
+### Adjust labels
+
+```{r}
+tbl_summary(
+  data_covariates_mi,
+  include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+  by = sex,
+  missing = "no",
+  label = list(
+    age ~ "Median age, in years (Q1;Q3)",
+    los ~ "Median hospital stay, in days (Q1;Q3)",
+    hypertension ~ "Hypertension",
+    hypercholesterolaemia ~ "Hypercholesterolaemia",
+    diabetes ~ "Diabetes",
+    heart_failure ~ "Heart failure"
+  )
+) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**")
+```
+
+To adjust labels for sex, we could do something like:
+
+```{r}
+data_covariates_mi |>
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  tbl_summary(
+    include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    by = sex,
+    missing = "no",
+    label = list(
+      age ~ "Median age, in years (Q1;Q3)",
+      los ~ "Median hospital stay, in days (Q1;Q3)",
+      hypertension ~ "Hypertension",
+      hypercholesterolaemia ~ "Hypercholesterolaemia",
+      diabetes ~ "Diabetes",
+      heart_failure ~ "Heart failure"
+    )
+  ) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**")
+```
+
+If your exposure is not totally self-explanatory, we can add a header
+
+```{r}
+data_covariates_mi |>
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  tbl_summary(
+    include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    by = sex,
+    missing = "no",
+    label = list(
+      age ~ "Median age, in years (Q1;Q3)",
+      los ~ "Median hospital stay, in days (Q1;Q3)",
+      hypertension ~ "Hypertension",
+      hypercholesterolaemia ~ "Hypercholesterolaemia",
+      diabetes ~ "Diabetes",
+      heart_failure ~ "Heart failure"
+    ),
+    statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
+  ) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**") |> 
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  add_overall(last = TRUE)
+```
+
+### Age groups
+
+How does it handle categorical variables?
+
+Lets try to create age groups
+
+```{r}
+data_covariates_mi <- data_covariates_mi |> 
+  mutate(
+    agegroup = 
+      case_when(
+        age < 50 ~ "<50",
+        age %in% c(50:80) ~ "50-80",
+        age > 80 ~ ">80"
+      ),
+    .before = hypertension
+  ) |> 
+  mutate(
+    agegroup = factor(agegroup, levels = c("<50", "50-80", ">80"))
+  )
+```
+
+### Add overall
+
+```{r}
+data_covariates_mi |>
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  tbl_summary(
+    include = c(age,agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    by = sex,
+    missing = "no",
+    label = list(
+      age ~ "Median age, in years (Q1;Q3)",
+      agegroup ~ "Age group",
+      los ~ "Median hospital stay, in days (Q1;Q3)",
+      hypertension ~ "Hypertension",
+      hypercholesterolaemia ~ "Hypercholesterolaemia",
+      diabetes ~ "Diabetes",
+      heart_failure ~ "Heart failure"
+    ),
+    statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
+  ) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**") |> 
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  add_overall(last = TRUE)
+```
+
+## Save
+
+When we are happy with the ouput, we can save the Table 1. You can save as an Excel-file, making it ready for your manuscript (if you write that in e.g., Microsoft Word).
+
+```{r}
+table1 <- 
+  data_covariates_mi |>
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  tbl_summary(
+    include = c(age,agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    by = sex,
+    missing = "no",
+    label = list(
+      age ~ "Median age, in years (Q1;Q3)",
+      agegroup ~ "Age group",
+      los ~ "Median hospital stay, in days (Q1;Q3)",
+      hypertension ~ "Hypertension",
+      hypercholesterolaemia ~ "Hypercholesterolaemia",
+      diabetes ~ "Diabetes",
+      heart_failure ~ "Heart failure"
+    ),
+    statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
+  ) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**") |> 
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |> 
+  add_overall(last = TRUE)
+```
+
+Where to save it? That's essentially up to you. You could make a new folder and name it "results" or something similar. Using this approach, you can save it an .html file for later exploration. You can also save as .xlsx, but may require some additional cleaning.
+
+```{r}
+table1_gt <- as_gt(table1)
+gt::gtsave(table1_gt, filename = here::here("results/table1.html"))
+
+```

@@ -1,0 +1,388 @@
+# Study population
+
+Now that we know some basics on data management, let's try to make a study cohort!
+
+We will work with the `dplyr` functions introduced in the last session to create a study population consisting of patients with first-time acute myocardial infarction (MI).
+
+## `basic_data` and `diag_data`
+
+We have worked a bit with the `diag_data` and the `basic_data`.
+
+To get some background information, take 2 minutes to read the `README` file in the `data_raw` folder.
+
+## Make a script
+
+First, make a script where we can save our code. Choose either R Markdown/Quarto or R Script.
+
+Name it "study_pop".
+
+Save it in the folder R.
+
+## Load packages
+
+Load the packages we will need under a section called "Load packages".
+
+To begin with, just load `tidyverse`.
+
+```{r, message=FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+## Load the datasets
+
+Load the datasets we will need under a section called "Load data"
+
+```{r, message = FALSE, warning = FALSE}
+
+basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+
+diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
+
+```
+
+## Find patients with first-time MI
+
+Now, we will look into different ways to restrict your dataset to patients with a given diagnosis. Here, we will be looking at MI.
+
+### Predefined specifications:
+
+Let's have a look at some predefined specifications:
+
+-   Which contacts?
+
+    -   We will only look at MI diagnoses recorded from inpatient hospital contacts.
+
+-   Which codes?
+
+    -   In the `diag_data`, MI is recorded with the ***International Classification of Diseases, Tenth Revision*** (ICD-10) `DI21`.
+
+-   Which type of diagnosis?
+
+    -   We will use both primary (`diag_a`) and secondary diagnoses (`diag_b`) registrations.
+
+-   Which event?
+
+    -   We are interested in only first-time MIs. Accordingly, we will need ensure that we order our data correctly before restricting to the first event.
+
+-   Which study period?
+
+    -   We are interested in events throughout the entire period covered in the dataset (2010 through 2024). We will simply pretend that hospital history before this period is irrelevant (which, of course, is not a fair assumption). But in general, be aware of whether you are finding the first event in the patient's hospital history or the first event in your study period.
+
+Considering these predefined specifications and with the functions we used in the last session in mind, take **a minute** to reflect on how you would approach this task using `dplyr` manoeuvres.
+
+### Steps
+
+Make a section called "Generate MI cohort"
+
+#### 1. Define a new dataset
+
+So far, we have actually not tried to make any changes to a dataset.
+
+When we run:
+
+```{r, eval=FALSE}
+
+data |> 
+  ...
+```
+
+Nothing we do with `data` will be stored.
+
+So how can we save our work? We use `<-` .
+
+```{r, eval = FALSE}
+
+data_updated <- data |> 
+  ...
+```
+
+Here, any changes to `data` will be saved in `data_updated`, which will appear in your Environment when you've run the code. Note, you do not necessarily need to give the updated data a new name.
+
+Back to our MI task! Let's call our new dataset `study_pop_mi`.
+
+```{r, eval = FALSE}
+study_pop_01 <- diag_data
+```
+
+#### 2. Inpatient contacts
+
+Restrict to inpatient contacts.
+
+Remember that the type of hospital contact is stored in the column `contact_type` and it takes the values {1 = inpatient; 2 = outpatient}. When we want to restrict to inpatient contacts, we will be choosing on rows. Therefore, we will use the `filter` function.
+
+```{r}
+study_pop_02 <- diag_data |> 
+  filter(contact_type == 1)
+```
+
+A quick way to see, if we've succeeded
+
+```{r}
+study_pop_02 |> 
+  distinct(contact_type)
+```
+
+Here we use the dplyr function `distinct` to simply return the unique values `contact_type` contains. Here we see that `contact_type` only contains the value 1. Which is what we wanted!
+
+#### 3. MI contacts
+
+Now that we have restricted the `diag_data` to inpatient contacts, we can move on and only look at contacts with an MI code.
+
+The `diag_a` and `diag_b` are character vectors. And now we would like to look for whether a certain pattern (*i.e.*, a diagnosis code) is present in any rows. There are plenty of different ways to do this.
+
+We will be using the `grepl` function from `base R`. Essentially, what we should know about `grepl` for now is that it takes the argument: (1) what pattern to search for; (2) in which column.
+
+Remember, you can always read more about the function by running:
+
+```{r, eval = FALSE}
+?grepl
+```
+
+Because `diag_a` and `diag_b` are character vectors, the pattern must also be written in character format.
+
+So, the ICD-10 code for MI is `DI21`, which then would be "DI21". We are "lucky" that MI only has one ICD-10 code. If your pattern has multiple codes, you could write, for instance, "DA01\|DA02", saying "DA01" OR "DA02". And let's say you were interested in the codes DI801, DI802, and DI803, you could write "DI80\[1-3\]". Moreover, `grepl` searches for any patterns that match your input pattern. So the input "DI21" would also keep "DI214" (subcodes).
+
+But let's get back to filter our data so only MI codes are kept.
+
+```{r}
+study_pop_03 <- study_pop_02 |> 
+  filter(
+    grepl("DI21", diag_a) | grepl("DI21", diag_b)
+  )
+```
+
+This code takes the `study_pop_02` dataset, filters on rows so that only rows where `diag_a` or `diag_b` has a value that matches the pattern "DI21" is kept, and then saves the transformed data as `study_pop_03`.
+
+While this works, there is some simple ways we can optimise this code.
+
+First of all, we will introduce the concept of: **avoid repeating yourself!**
+
+Here, we write the pattern "DI21" twice. It is fairly simple here, but sometimes, your ICD patterns will be extremely long and complicated. And whenever you have to repeat yourself, the risk of typos increases, and your code will become extremely long.
+
+So a simple way to avoid repeating yourself, is by defining your MI pattern before running the code:
+
+```{r}
+mi_code <- "DI21"
+
+study_pop_03 <- study_pop_02 |> 
+  filter(
+    grepl(mi_code, diag_a) | grepl(mi_code, diag_b)
+  )
+```
+
+This essentially does exactly the same, but you only need to define the pattern once. This also means that if you need to revise your pattern, you only need to do it in this one place!
+
+::: {.callout-note collapse="true"}
+**More advanced**
+
+We can optimise the code further by introducing `if_any:`
+
+```{r}
+mi_code <- "DI21"
+
+study_pop_03 <- study_pop_02 |> 
+  filter(
+    if_any(
+      c(
+        diag_a, diag_b
+        ),
+      ~ grepl(mi_code, .x))
+         )
+```
+
+-   `if_any()`: This function checks if **any** of the specified columns meet a condition. It’s useful when you want to apply the *same* logical test across multiple columns. Especially if we operate on more than just a few columns.
+-   `c(diag_a, diag_b)`: This tells `if_any()` to apply the condition to both `diag_a` and `diag_b`.
+-   `~ grepl(mi_code, .x)`: This is an anonymous function where `.x` represents each column. `grepl()` checks if the `mi_code` string is found in the column.
+:::
+
+#### 4. First-time events
+
+Now, we would like to make sure we are only having first-time events.
+
+But, how do we know if anyone has multiple events?
+
+```{r}
+
+study_pop_03 |>
+  add_count(id) |>
+  filter(n > 1) |>
+  arrange(id)
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   `add_count(id)` adds a column `n` with the number of times each `id` appears.
+
+<!-- -->
+
+-   `filter(n > 1)` keeps only those with more than one MI admission.
+
+<!-- -->
+
+-   `arrange(id)` sorts the data by `id`
+:::
+
+We can see that at least some persons have multiple MI admissions.
+
+But how many?
+
+```{r}
+
+study_pop_03 |>
+  count(id) |> 
+  filter(n > 1) |> 
+  count()
+
+```
+
+::: {.callout-note collapse="true"}
+**Explanation**
+
+-   First `count(id)` gives the number of rows per patient. Returns only `id` and `n`
+
+<!-- -->
+
+-   Then `filter(n > 1)` keeps only those with multiple events.
+
+<!-- -->
+
+-   Finally, `count()` gives the total number of such patients.
+:::
+
+Let's take our `study_pop_03` and only keep first-time events.
+
+Again, there's multiple ways to do this. We will use the function `slice_head()` from `dplyr` which allow us to keep only the first *n* rows per group (if specified). You may also want to look into `slice_tail()`.
+
+```{r}
+study_pop_04 <- study_pop_03 |> 
+  group_by(id) |> 
+  arrange(adm_date) |> 
+  slice_head(n = 1) |> 
+  ungroup()
+```
+
+Alternatively:
+
+```{r}
+study_pop_04 <- study_pop_03 |> 
+  group_by(id) |> 
+  arrange(adm_date) |> 
+  filter(row_number() == 1L) |> 
+  ungroup()
+```
+
+```{r}
+nrow(study_pop_03) - nrow(study_pop_04)
+```
+
+Now we can see that we have removed the 240 duplicated MI events.
+
+Therefore, the number of rows in `study_pop_04` should be equal to the number of unique ids.
+
+```{r}
+
+nrow(study_pop_04) == study_pop_04 |> distinct(id) |> count()
+
+```
+
+#### 5. Finalise
+
+Since we have checked each step, we could write everything into one code:
+
+```{r}
+mi_code <- "DI21"
+
+study_pop_final <- 
+  # step 01: define a new dataset
+  diag_data |> 
+  
+  # step 02: restrict to inpatient contacts
+  filter(contact_type == 1) |> 
+  
+  # step 03: restrict to mi contacts
+  filter(grepl(mi_code, diag_a) | grepl(mi_code, diag_b)) |> 
+  
+  # step 04: restrict to first event
+  group_by(id) |> 
+  arrange(adm_date) |> 
+  slice_head(n = 1) |> 
+  ungroup()
+  
+```
+
+We could also choose to let the code stay as it is.
+
+Saving each step allows us to go back and see how many rows were removed per step.
+
+Now, let's consider which columns we actually need.
+
+Lets explore the `study_pop_final`.
+
+```{r}
+head(study_pop_final)
+```
+
+We definitely need `id`.
+
+We don't really need `contact_type`. There's no additional information in this after we have restricted to only inpatient contacts.
+
+We most likely will need `adm_date` . This will often define the index date in time-to-event designs. The `dis_date` could be relevant if we are interested in length of hospital stay, inhospital mortality, restricting to patients surviving index admission, etc. The `diag_a` and `diag_b` is maybe not that informative to keep in the `study_pop_final` dataset.
+
+We will make a small customisation.
+
+**Spoiler alert:** we will be using the `diag_data` again to identify preadmission comorbidities.
+
+Then it can be slightly annoying to have `adm_date` and `diag_date` appear in both datasets when joining (at least if you're not using these dates as `by` arguments).
+
+A workaround could be to rename the `adm_date` in our `study_pop_final` dataset.
+
+```{r}
+study_pop_final <- study_pop_final |> 
+  rename("index_date" = adm_date)
+
+head(study_pop_final)
+```
+
+Then, we can also "transform" the `dis_date` into something similar without losing information - but maybe even adding information.
+
+Instead of keeping the `dis_date`, we can calculate the length of hospital stay. We can then always regenerate the `dis_date` from `index_date` and the new variable — or by going back to the `diag_data`.
+
+```{r}
+study_pop_final <- study_pop_final |> 
+  mutate(los = as.numeric(dis_date-index_date),
+         .after = index_date)
+
+head(study_pop_final)
+```
+
+Let's then choose the columns we need
+
+```{r}
+study_pop_final <- 
+  study_pop_final |> 
+  select(id, index_date, los)
+
+head(study_pop_final)
+```
+
+#### 6. Save
+
+Save the `study_pop_final` dataset in the folder `data.` We could call it "data_pop_mi"
+
+```{r}
+
+saveRDS(study_pop_final, here::here("data/data_pop_mi.rds"))
+
+```
+
+#### 7. Clear environment
+
+```{r, message=FALSE, warning=FALSE}
+
+rm(list=ls()) # clears your working environment
+
+gc() # free unused memory
+
+```

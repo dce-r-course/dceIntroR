@@ -1,0 +1,11 @@
+# Installing R {.unnumbered}
+
+Before attending the course, make sure you have installed the most recent version of R and RStudio on your computer. If you are using a computer owned by Aarhus University, you can request administrative privileges to install R from the Heimdal Agent app.
+
+Links for installation:
+
+-   [R for Windows](https://cloud.r-project.org/bin/windows/base/)
+
+-   [R for macOS](https://cloud.r-project.org/bin/macosx/)
+
+-   [RStudio](https://posit.co/download/rstudio-desktop/#download)
