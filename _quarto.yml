@@ -40,4 +40,5 @@ format:
     number-sections: true
     link-external-newwindow: true
     page-layout: full
+    embed-resources: true
 
