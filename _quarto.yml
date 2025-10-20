@@ -11,8 +11,8 @@ book:
   - Jannik Wheler
   - Uffe Heide-Jørgensen
   date: last-modified
-  site-url: "https://r-registry-course.github.io/intro-r-registry/"
-  repo-url: "https://github.com/r-registry-course/intro-r-registry"
+  site-url: "https://dce-r-course.github.io/dceIntroR/"
+  repo-url: "https://github.com/dce-r-course/dceIntroR"
   chapters:
     - index.qmd
     - 000_schedule.qmd
