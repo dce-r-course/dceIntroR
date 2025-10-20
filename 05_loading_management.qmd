@@ -84,7 +84,7 @@ data.stata <- haven::read_dta("path_to_my_file/data.dta")
 
 ## Download data
 
-PITCH: Here we need to make a link to download basic_data and diag_data on the github page. We will skip that to later.
+You can download the datasets [here](https://github.com/dce-r-course/dceIntroR/tree/main/data_raw).
 
 ## Load basic_data and diag_data
 
