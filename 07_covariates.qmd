@@ -312,7 +312,7 @@ data_cov_diag <- data_pop_mi |>
 data_cov_diag
 ```
 
-#### Step 3. Identify whether patients with a given covariate
+#### Step 3. Identify a given covariate
 
 Let's begin with hypertension.
 
@@ -368,9 +368,16 @@ data_baseline_mi <-
 data_baseline_mi
 ```
 
+
+
 #### Step 6. Keep on repeating..
 
 While this works, it gets slightly redundant — and we are repeating ourselves a lot!
+
+```{r}
+rm(data_baseline_mi, cov_hyperchol, cov_hypertension, hypertension_code, hyperchol_code)
+```
+
 
 ### Function based
 
@@ -382,16 +389,17 @@ As the number of comorbidities grows, repeating the same code for each one becom
 
 -   Write a **function** that identifies each comorbidity
 
--   Use `pmap()` to apply the function across all comorbidities
-
--   Combine the results into a single dataset
+-   Use for loop to apply the function for several comorbidities and combine the results into a single dataset
 
 This method is scalable, readable, and easy to adapt to new comorbidities.
 
 #### Step 1. Make a baseline dataset
 
+Make a baseline set onto which we will add covariate indicators
+
 ```{r, warning = FALSE, message = FALSE}
-data_baseline_mi <- data_pop_mi |> 
+
+data_covariate_mi <- data_pop_mi |> 
   select(id, index_date)
 
 ```
@@ -412,68 +420,82 @@ comorbidity_definitions
 
 #### Step 3. Make a function
 
-This function takes a comorbidity name and pattern, filters `data_cov_diag`, and returns a dataset with a binary indicator:
+Let's make a function from the code we used in the previous step 3.
+
+We first `print` the name of the covariate. This help us keeping track on the progress.
+
+We then set the code pattern to be used. We simply extract the code related to the covariate as defined in our comorbidity_definions vector.
+
+We then identify whether a given contact has a record with the disease of interest.
+
+We then only keep relevant contacts and keep id and the covariate indicator.
+
+Finally, we return the specific dataset containing the covariate indicator.
 
 ```{r, warning = FALSE, message = FALSE}
 
-
-
-identify_comorbidity <- function(name, pattern, data) {
+identify_comorbidity <- function(data, disease_name) {
   
-  print(name)
+  print(disease_name)
   
-  data |>
-    group_by(id, index_date) |>
-    summarise(
-      !!name := as.integer(any(grepl(pattern, diag_a) | grepl(pattern, diag_b))),
-      .groups = "drop"
-    )
+  code <- comorbidity_definitions$pattern[comorbidity_definitions$name == disease_name]
+  
+  cov_data <- data |> 
+    dplyr::mutate(
+      {{ disease_name }} := dplyr::case_when(
+        grepl(code, diag_a) | grepl(code, diag_b) ~ 1,
+        .default = 0
+      )
+    ) |> 
+    dplyr::filter(get({{disease_name}}) == 1) |> 
+    dplyr::select(id, {{disease_name}}) |> 
+    dplyr::distinct()
+  
+  return(cov_data)
+  
 }
 
 
 ```
 
-::: {.callout-note collapse="true"}
-**Explanation**
 
--   Takes a comorbidity name and pattern.
+#### Step 4. Apply the function using a for loop
 
--   Uses `grepl()` to search for the pattern in both diag_a and diag_b.
-
--   Uses `any()` within `summarise()` to assign a binary indicator (1 if the pattern is found, 0 otherwise).
-
--   Groups by `id` and `index_date` to ensure one row per patient.
-:::
-
-#### Step 4. Apply the function
+Essentially, the for loop runs the function above for each disease name in our comorbidity_definition file.
+It then adds the covariate indicator to the baseline ´data_covariate_mi´. 
 
 ```{r, warning = FALSE, message = FALSE}
 
-comorbidity_data <- comorbidity_definitions |>
-  pmap(function(name, pattern) identify_comorbidity(name, pattern, data_cov_diag)) |>
-  reduce(full_join, by = c("id", "index_date"))
+for (disease_name in comorbidity_definitions$name) {
+  
+  output <- identify_comorbidity(
+    data = data_cov_diag,
+    disease_name = disease_name)
+  
+  data_covariate_mi <- dplyr::left_join(data_covariate_mi, output, by = "id") |> 
+    dplyr::distinct()
+  
+}
+
 
 ```
 
-::: {.callout-note collapse="true"}
-**Explanation**
-
--   `pmap()` Applies the function across all rows in the lookup table, passing name and pattern to the function.
-
--   `reduce(full_join, by = c("id", "index_date"))` Combines all comorbidity indicators into one dataset, keeping one row per patient.
-:::
 
 #### Step 5. Combine with age and sex
 
+Combine information on age and sex with the covariate data to get a full baseline dataset.
+
+Then, we replace NA with 0 for the covariate dummy variables. We could write out each covariate name, but we might as well be lazy and get some help from the comorbidity_definions :) 
+
 ```{r, warning = FALSE, message = FALSE}
 
-data_covariates_mi <- 
+data_baseline_mi <- 
   data_cov_02 |> 
-  left_join(comorbidity_data, by = c("id", "index_date")) 
+  left_join(data_covariate_mi, by = c("id", "index_date")) 
 
 covariates <- paste0(comorbidity_definitions$name)
 
-data_covariates_mi <- data_covariates_mi |> 
+data_baseline_mi <- data_baseline_mi |> 
   mutate(
     across(c(
            covariates
@@ -482,7 +504,7 @@ data_covariates_mi <- data_covariates_mi |>
   )
   )
 
-data_covariates_mi
+data_baseline_mi
 ```
 
 ## Save
@@ -491,7 +513,7 @@ Save the `data_covariates_mi` dataset in the folder `data.`
 
 ```{r, warning = FALSE, message = FALSE}
 
-saveRDS(data_covariates_mi, here::here("data/data_covariates_mi.rds"))
+saveRDS(data_baseline_mi, here::here("data/data_baseline_mi.rds"))
 
 ```
 

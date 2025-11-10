@@ -30,20 +30,20 @@ usethis::use_package("writexl")
 ## Load data
 
 ```{r, warning = FALSE, message = FALSE}
-data_covariates_mi <- readRDS(here::here("data/data_covariates_mi.rds"))
+data_baseline_mi <- readRDS(here::here("data/data_baseline_mi.rds"))
 ```
 
 Let's recap the variables, we have
 
 ```{r, warning = FALSE, message = FALSE}
-glimpse(data_covariates_mi)
+glimpse(data_baseline_mi)
 ```
 
 ## Make the Table 1
 
 ```{r, warning = FALSE, message = FALSE}
 tbl_summary(
-  data_covariates_mi,
+  data_baseline_mi,
   include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
   by = sex,
   missing = "no"
@@ -56,7 +56,7 @@ tbl_summary(
 
 ```{r, warning = FALSE, message = FALSE}
 tbl_summary(
-  data_covariates_mi,
+  data_baseline_mi,
   include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
   by = sex,
   missing = "no",
@@ -76,7 +76,7 @@ tbl_summary(
 To adjust labels for sex, we could do something like:
 
 ```{r, warning = FALSE, message = FALSE}
-data_covariates_mi |>
+data_baseline_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
     include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -98,7 +98,7 @@ data_covariates_mi |>
 If your exposure is not totally self-explanatory, we can add a header
 
 ```{r, warning = FALSE, message = FALSE}
-data_covariates_mi |>
+data_baseline_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
     include = c(age, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -127,7 +127,7 @@ How does it handle categorical variables?
 Lets try to create age groups
 
 ```{r, warning = FALSE, message = FALSE}
-data_covariates_mi <- data_covariates_mi |>
+data_baseline_mi <- data_baseline_mi |>
   mutate(
     agegroup =
       case_when(
@@ -145,7 +145,7 @@ data_covariates_mi <- data_covariates_mi |>
 ### Add overall
 
 ```{r, warning = FALSE, message = FALSE}
-data_covariates_mi |>
+data_baseline_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
     include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -174,7 +174,7 @@ When we are happy with the ouput, we can save the Table 1. You can save as an Ex
 
 ```{r, warning = FALSE, message = FALSE}
 table1 <-
-  data_covariates_mi |>
+  data_baseline_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
     include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
