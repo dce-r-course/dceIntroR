@@ -8,7 +8,7 @@ First, make a script where we can save our code. Choose either R Markdown/Quarto
 
 Name it "covariates".
 
-Save it in the folder R.
+Save it in the folder "R".
 
 ## Load packages
 
@@ -281,7 +281,9 @@ We set some assumptions.
 
 One approach is to
 
-#### Step 1. Define a baseline study pop set
+#### Step 1. 
+
+1.  Define a baseline study pop set
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -289,7 +291,13 @@ data_baseline_mi <- data_pop_mi |>
   select(id, index_date)
 ```
 
-#### Step 2. Define a baseline comorbidity set, add diag_data, keep only diagnoses recorded before index date and after lookback period
+#### Step 2. 
+
+1.  Add `diag_data` to our new `data_baseline_mi`
+
+2.  Keep only diagnoses recorded before index date and after lookback period
+
+3.  Then we have our basic dataset with all preadmission hospital contacts
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -297,11 +305,10 @@ lookback_years <- 10
 
 lookback <- lookback_years*-1
 
-data_cov_diag <- data_pop_mi |> 
-  select(id, index_date) |> 
+data_cov_diag <- data_baseline_mi |> 
   left_join(diag_data, by = "id") |> 
   mutate(
-    diff = as.numeric(adm_date - index_date) # can also be switched, then just adjusted definition of lookback
+    diff = as.numeric(adm_date - index_date) # can also be switched, then adjust definition of lookback
   ) |> 
   filter(
     diff < 0,
@@ -312,9 +319,9 @@ data_cov_diag <- data_pop_mi |>
 data_cov_diag
 ```
 
-#### Step 3. Identify a given covariate
+#### Step 3. 
 
-Let's begin with hypertension.
+Identify a given covariate. Let's begin with hypertension.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -332,7 +339,9 @@ cov_hypertension <- data_cov_diag |>
   distinct()
 ```
 
-#### Step 4. Add the covariate to the baseline
+#### Step 4. 
+
+Add the covariate to the baseline and replace `NA` with `0`
 
 ```{r, warning = FALSE, message = FALSE}
 data_baseline_mi <- 
@@ -341,9 +350,9 @@ data_baseline_mi <-
   mutate(hypertension = replace_na(hypertension, 0))
 ```
 
-#### Step 5. Repeat
+#### Step 5. 
 
-Lets repeat for hypercholesterolaemia
+Repeat the same procedure for hypercholesterolaemia
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -368,45 +377,63 @@ data_baseline_mi <-
 data_baseline_mi
 ```
 
+#### Step 6. 
 
+Keep on repeating..
 
-#### Step 6. Keep on repeating..
+While this do work, it gets slightly redundant — and we are repeating ourselves a lot!
 
-While this works, it gets slightly redundant — and we are repeating ourselves a lot!
+Let's explore a different approach using functions and loops.
+
+We begin by tidying our environment.
 
 ```{r}
-rm(data_baseline_mi, cov_hyperchol, cov_hypertension, hypertension_code, hyperchol_code)
+rm(data_baseline_mi, data_cov_diag, cov_hyperchol, cov_hypertension, hypertension_code, hyperchol_code)
 ```
-
 
 ### Function based
 
 As the number of comorbidities grows, repeating the same code for each one becomes inefficient and hard to maintain. A more efficient and slightly advanced approach is to:
 
--   Create a **baseline dataset** with one row per patient
+-   Create a **baseline dataset** with one row per patient containing only `id` and `index_date`
 
--   Define a **lookup table** with comorbidity names and ICD-10 patterns
+-   Add preadmission hospital contacts to get a dataset like our `data_cov_diag`
 
--   Write a **function** that identifies each comorbidity
+-   Define a **comorbidity table** with comorbidity names and ICD-10 patterns
 
--   Use for loop to apply the function for several comorbidities and combine the results into a single dataset
+-   Write a **function** that identifies patients who has a history with a given comorbidity
+
+-   Use `for loop` to apply the function over several comorbidities and combine the results into a single dataset
 
 This method is scalable, readable, and easy to adapt to new comorbidities.
 
-#### Step 1. Make a baseline dataset
+#### Step 1. 
 
-Make a baseline set onto which we will add covariate indicators
+Make a baseline dataset onto which we will add covariate indicators
 
 ```{r, warning = FALSE, message = FALSE}
 
 data_covariate_mi <- data_pop_mi |> 
   select(id, index_date)
 
+
+data_cov_diag <- data_covariate_mi |>
+  left_join(diag_data, by = "id") |> 
+  mutate(
+    diff = as.numeric(adm_date - index_date) # can also be switched, then adjust definition of lookback
+  ) |> 
+  filter(
+    diff < 0,
+    diff > 365.25*lookback
+  ) |> 
+  select(-diff)
 ```
 
-#### Step 2. Make a list
+#### Step 2. 
 
-Then we list the diseases of interest and their ICD-10 codes in a vector. This can also be an Excel-file you prepare and load into R.
+Make a list of diseases and their corresponding codes
+
+Then we list the diseases of interest and their ICD-10 codes in a vector. This can also be an Excel-file you prepare and load into `R`.
 
 ```{r, warning = FALSE, message = FALSE}
 comorbidity_definitions <- 
@@ -418,51 +445,57 @@ comorbidity_definitions <-
 comorbidity_definitions
 ```
 
-#### Step 3. Make a function
+#### Step 3. 
 
-Let's make a function from the code we used in the previous step 3.
+Make a function
 
-We first `print` the name of the covariate. This help us keeping track on the progress.
+1.  We first `print` the name of the covariate. This help us keeping track on the progress.
 
-We then set the code pattern to be used. We simply extract the code related to the covariate as defined in our comorbidity_definions vector.
+2.  We then set the code pattern to be used. We simply extract the code related to the covariate as defined in our `comorbidity_definions` data.
 
-We then identify whether a given contact has a record with the disease of interest.
+3.  We then identify whether a given contact has a record with the disease of interest.
 
-We then only keep relevant contacts and keep id and the covariate indicator.
+4.  We then only keep relevant contacts and keep id and the covariate indicator.
 
-Finally, we return the specific dataset containing the covariate indicator.
+5.  Finally, we return the specific dataset containing the covariate indicator.
 
 ```{r, warning = FALSE, message = FALSE}
 
 identify_comorbidity <- function(data, disease_name) {
   
+  # step 01
   print(disease_name)
   
+  # step 02
   code <- comorbidity_definitions$pattern[comorbidity_definitions$name == disease_name]
   
   cov_data <- data |> 
+    
+    # step 03
     dplyr::mutate(
       {{ disease_name }} := dplyr::case_when(
         grepl(code, diag_a) | grepl(code, diag_b) ~ 1,
         .default = 0
       )
     ) |> 
+    
+    # step 04
     dplyr::filter(get({{disease_name}}) == 1) |> 
     dplyr::select(id, {{disease_name}}) |> 
     dplyr::distinct()
   
+  # step 05
   return(cov_data)
   
 }
 
-
 ```
 
+#### Step 4. 
 
-#### Step 4. Apply the function using a for loop
+Apply the function using a `for loop`
 
-Essentially, the for loop runs the function above for each disease name in our comorbidity_definition file.
-It then adds the covariate indicator to the baseline ´data_covariate_mi´. 
+Essentially, the `for loop` runs the function above for each disease name in our `comorbidity_definition` dataset. It then adds the covariate indicator to `data_covariate_mi`.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -480,12 +513,13 @@ for (disease_name in comorbidity_definitions$name) {
 
 ```
 
+#### Step 5. 
 
-#### Step 5. Combine with age and sex
+Combine with age and sex
 
-Combine information on age and sex with the covariate data to get a full baseline dataset.
+1.  Combine information on age and sex with the covariate data to get a full baseline dataset.
 
-Then, we replace NA with 0 for the covariate dummy variables. We could write out each covariate name, but we might as well be lazy and get some help from the comorbidity_definions :) 
+2.  Then, we replace `NA` with `0` for the covariate dummy variables. We could write out each covariate name, but we might as well be lazy and get some help from the `comorbidity_definitons` dataset :-)
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -519,7 +553,7 @@ saveRDS(data_baseline_mi, here::here("data/data_baseline_mi.rds"))
 
 ## Clear environment
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
 
 rm(list=ls()) # clears your working environment
 
