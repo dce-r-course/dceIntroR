@@ -62,9 +62,9 @@ From `diag_data`:
 
 -   Heart failure
 
-### Age and sex
+## Age and sex
 
-In the `basic_data`, we can obtain information on age ans sex from the variables `birth_date` and `sex`.
+In the `basic_data`, we can obtain information on age and sex from the variables `birth_date` and `sex`.
 
 ```{r, warning = FALSE, message = FALSE}
 data_cov_01 <- data_pop_mi |> 
@@ -94,13 +94,13 @@ data_cov_02
 -   `as.numeric()`: specifies that the difference between `index_date` and `birth_date` should be a numeric value, which allows us to divide by 365.25 to obtain age in years.
 :::
 
-#### Normal distributed
+### Normal distributed
 
 Let's have a look at whether the age distribution of our MI patients follow a normal distribution. And let's see if it differs between sex.
 
 For this, we will be using `ggplot2.`
 
-##### What is `ggplot2`?
+#### What is `ggplot2`?
 
 `ggplot2` is a system for creating graphics based on the **Grammar of Graphics** — a structured way of thinking about and building plots. Instead of using one function to create a plot all at once, you build your plot step by step by adding layers.
 
@@ -134,7 +134,7 @@ Let’s break that down:
 
 Let's see if the age distribution is normally distributed and stratify by sex.
 
-##### QQ plot
+#### QQ plot
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -196,7 +196,7 @@ data_cov_02 |>
     Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
 :::
 
-##### Histogram
+#### Histogram
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -252,7 +252,7 @@ Note, here we call the functions directly from the `ggsci` package. We could als
     Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
 :::
 
-### Comorbidities
+## Comorbidities
 
 The `diag_data` contains the following diseases and codes.
 
@@ -281,7 +281,7 @@ We set some assumptions.
 
 One approach is to
 
-#### Step 1. 
+#### Step 1.
 
 1.  Define a baseline study pop set
 
@@ -291,7 +291,7 @@ data_baseline_mi <- data_pop_mi |>
   select(id, index_date)
 ```
 
-#### Step 2. 
+#### Step 2.
 
 1.  Add `diag_data` to our new `data_baseline_mi`
 
@@ -319,7 +319,7 @@ data_cov_diag <- data_baseline_mi |>
 data_cov_diag
 ```
 
-#### Step 3. 
+#### Step 3.
 
 Identify a given covariate. Let's begin with hypertension.
 
@@ -339,7 +339,7 @@ cov_hypertension <- data_cov_diag |>
   distinct()
 ```
 
-#### Step 4. 
+#### Step 4.
 
 Add the covariate to the baseline and replace `NA` with `0`
 
@@ -350,7 +350,7 @@ data_baseline_mi <-
   mutate(hypertension = replace_na(hypertension, 0))
 ```
 
-#### Step 5. 
+#### Step 5.
 
 Repeat the same procedure for hypercholesterolaemia
 
@@ -377,7 +377,7 @@ data_baseline_mi <-
 data_baseline_mi
 ```
 
-#### Step 6. 
+#### Step 6.
 
 Keep on repeating..
 
@@ -407,7 +407,7 @@ As the number of comorbidities grows, repeating the same code for each one becom
 
 This method is scalable, readable, and easy to adapt to new comorbidities.
 
-#### Step 1. 
+#### Step 1.
 
 Make a baseline dataset onto which we will add covariate indicators
 
@@ -429,7 +429,7 @@ data_cov_diag <- data_covariate_mi |>
   select(-diff)
 ```
 
-#### Step 2. 
+#### Step 2.
 
 Make a list of diseases and their corresponding codes
 
@@ -445,7 +445,7 @@ comorbidity_definitions <-
 comorbidity_definitions
 ```
 
-#### Step 3. 
+#### Step 3.
 
 Make a function
 
@@ -491,7 +491,7 @@ identify_comorbidity <- function(data, disease_name) {
 
 ```
 
-#### Step 4. 
+#### Step 4.
 
 Apply the function using a `for loop`
 
@@ -513,7 +513,7 @@ for (disease_name in comorbidity_definitions$name) {
 
 ```
 
-#### Step 5. 
+#### Step 5.
 
 Combine with age and sex
 

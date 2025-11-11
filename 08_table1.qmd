@@ -116,8 +116,7 @@ data_baseline_mi |>
   ) |>
   bold_labels() |>
   modify_header(label = "**Variable**") |>
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |>
-  add_overall(last = TRUE)
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**")
 ```
 
 ### Age groups
