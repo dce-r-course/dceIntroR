@@ -80,7 +80,7 @@ Now, we can calculate age at admission
 ```{r, warning = FALSE, message = FALSE}
 data_cov_02 <- data_cov_01 |> 
   mutate(
-    age = round(as.numeric(index_date - birth_date)/365.25,0)
+    age = floor(as.numeric(index_date - birth_date)/365.25)
   )
 
 data_cov_02
@@ -89,7 +89,7 @@ data_cov_02
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   `round()`: specifies the number of digits
+-   `floor()`: rounds exact age down
 
 -   `as.numeric()`: specifies that the difference between `index_date` and `birth_date` should be a numeric value, which allows us to divide by 365.25 to obtain age in years.
 :::
