@@ -65,11 +65,10 @@ Here's some quick examples on how to read different formats.
 #---- .rds
 data.rds <- readRDS("path_to_my_file/data.rds")
 
-#---- .RData
-
 #---- .csv
 data.csv <- readr::read_csv("path_to_my_file/data.csv")
 data.csv <- vroom::vroom("path_to_my_file/data.csv")
+data.csv <- data.table::fread("path_to_my_file/data.csv")
 
 #---- .excel
 data.excel <- readxl::read_excel("path_to_my_file/data.xlsx")
