@@ -35,7 +35,7 @@ usethis::use_package("writexl")
 ```{r, warning=FALSE, message=FALSE}
 data_pop_mi <- readRDS(here::here("data/data_pop_mi.rds"))
 
-basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+basic_data <- readRDS(here::here("data-raw/basic_data.rds"))
 ```
 
 ## Time-to-event setup

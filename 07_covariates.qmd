@@ -33,9 +33,9 @@ Load the datasets we will need under a section called "Load data"
 
 ```{r, warning = FALSE, message = FALSE}
 
-basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+basic_data <- readRDS(here::here("data-raw/basic_data.rds"))
 
-diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
+diag_data <- readRDS(here::here("data-raw/diag_data.rds"))
 
 data_pop_mi <- readRDS(here::here("data/data_pop_mi.rds"))
 

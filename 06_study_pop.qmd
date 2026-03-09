@@ -8,7 +8,7 @@ We will work with the `dplyr` functions introduced in the last session to create
 
 We have worked a bit with the `diag_data` and the `basic_data`.
 
-To get some background information, take 2 minutes to read the `README` file in the `data_raw` folder.
+To get some background information, take 2 minutes to read the `README` file in the `data-raw` folder.
 
 ## Make a script
 
@@ -34,9 +34,9 @@ Load the datasets we will need under a section called "Load data"
 
 ```{r, message = FALSE, warning = FALSE}
 
-basic_data <- readRDS(here::here("data_raw/basic_data.rds"))
+basic_data <- readRDS(here::here("data-raw/basic_data.rds"))
 
-diag_data <- readRDS(here::here("data_raw/diag_data.rds"))
+diag_data <- readRDS(here::here("data-raw/diag_data.rds"))
 
 ```
 

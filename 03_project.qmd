@@ -16,20 +16,20 @@ You can check your current working directory by typing:
 getwd()
 ```
 
-However, the current working directory may not be the place where your data is stored. For example, maybe your data is stored in a folder called `data_raw`.
+However, the current working directory may not be the place where your data is stored. For example, maybe your data is stored in a folder called `data-raw`.
 
 Then you must write the full path, such as:
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 
-data <- read.csv("C:/Users/YourName/Documents/my_project/data_raw/my_data.csv") 
+data <- read.csv("C:/Users/YourName/Documents/my_project/data-raw/my_data.csv") 
 ```
 
 or change the working directory manually using:
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 
-setwd("C:/Users/YourName/Documents/my_project/data_raw/")
+setwd("C:/Users/YourName/Documents/my_project/data-raw/")
 ```
 
 and then read the file using:
@@ -53,7 +53,7 @@ When you open an R Project, R automatically sets the working directory to the pr
 This makes file paths simpler and more reliable — for example, you can refer to files within the project using relative paths like:
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
-data <- read.csv(here::here("data_raw/my_data.csv"))
+data <- read.csv(here::here("data-raw/my_data.csv"))
 ```
 
 and save this into another folder like:
