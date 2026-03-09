@@ -331,7 +331,7 @@ cov_hypertension <- data_cov_diag |>
   mutate(
     hypertension = 
       case_when(
-        grepl(hypertension_code, diag_a) | grepl(hypertension_code,diag_b) ~ 1,
+        str_detect(diag_a, hypertension_code) | str_detect(diag_b, hypertension_code) ~ 1,
         .default = 0
       )) |> 
   filter(hypertension == 1) |> 
@@ -362,7 +362,7 @@ cov_hyperchol <- data_cov_diag |>
   mutate(
     hyperchol = 
       case_when(
-        grepl(hyperchol_code, diag_a) | grepl(hyperchol_code,diag_b) ~ 1,
+        str_detect(diag_a, hyperchol_code) | str_detect(diag_b, hyperchol_code) ~ 1,
         .default = 0
       )) |> 
   filter(hyperchol == 1) |> 
@@ -474,7 +474,7 @@ identify_comorbidity <- function(data, disease_name) {
     # step 03
     dplyr::mutate(
       {{ disease_name }} := dplyr::case_when(
-        grepl(code, diag_a) | grepl(code, diag_b) ~ 1,
+        str_detect(diag_a, code) | str_detect(diag_b, code) ~ 1,
         .default = 0
       )
     ) |> 
