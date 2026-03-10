@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/07_covariates.html</loc>
-    <lastmod>2026-03-09T10:27:15.429Z</lastmod>
+    <lastmod>2026-03-10T08:37:05.043Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/08_table1.html</loc>
@@ -27,5 +27,9 @@
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/05_loading_management.html</loc>
     <lastmod>2026-03-09T10:37:48.883Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/04_packages.html</loc>
+    <lastmod>2026-03-10T08:26:50.212Z</lastmod>
   </url>
 </urlset>

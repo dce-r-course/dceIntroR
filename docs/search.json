@@ -15,7 +15,7 @@
     "href": "07_covariates.html#load-packages",
     "title": "7  Covariates",
     "section": "7.2 Load packages",
-    "text": "7.2 Load packages\nLoad the packages we will need under a section called “Load packages”.\n\n\nCode\nlibrary(tidyverse)\nlibrary(purrr)\n\n\nWe will introduce the purrr package, so we should add this as a workflow dependency\n\n\nCode\nusethis::use_package(\"purrr\")",
+    "text": "7.2 Load packages\nLoad the packages we will need under a section called “Load packages”.\n\n\nCode\nlibrary(tidyverse)",
     "crumbs": [
       "Sessions",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
@@ -59,7 +59,7 @@
     "href": "07_covariates.html#clear-environment",
     "title": "7  Covariates",
     "section": "7.8 Clear environment",
-    "text": "7.8 Clear environment\n\n\n          used  (Mb) gc trigger  (Mb) max used  (Mb)\nNcells 2620676 140.0    4704227 251.3  4704227 251.3\nVcells 6387657  48.8   40846228 311.7 51056163 389.6",
+    "text": "7.8 Clear environment\n\n\n          used  (Mb) gc trigger  (Mb) max used  (Mb)\nNcells 2620554 140.0    4697355 250.9  4697355 250.9\nVcells 6387462  48.8   40845848 311.7 50469500 385.1",
     "crumbs": [
       "Sessions",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Covariates</span>"
@@ -436,6 +436,83 @@
     "crumbs": [
       "Sessions",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading, explore, wrangle</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html",
+    "href": "04_packages.html",
+    "title": "4  Working with packages",
+    "section": "",
+    "text": "4.1 What are R packages?\nThink of R packages as apps for R. Just as your phone comes with basic apps but can do much more when you install new ones, R can also be extended with packages that add new tools and functions.\nA package is simply a collection of R code written by others. It often includes:\nPackages make it easier to share and reuse code.\nFor example:",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#what-are-r-packages",
+    "href": "04_packages.html#what-are-r-packages",
+    "title": "4  Working with packages",
+    "section": "",
+    "text": "Functions – reusable pieces of code\nData – example datasets\nDocumentation – instructions on how to use it\n\n\n\n\ndplyr and data.table helps with data management\nggplot2 helps with data visualisation\nsurvival helps with time-to-event analyses",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#install-packages",
+    "href": "04_packages.html#install-packages",
+    "title": "4  Working with packages",
+    "section": "4.2 Install packages",
+    "text": "4.2 Install packages\nMost R packages can be installed directly from the Comprehensive R Archive Network (CRAN) — the main online “store” for R packages. CRAN hosts stable and peer-reviewed packages.\nTo install a package, use the function:\n\n\nCode\ninstall.packages(\"package_name\")\n\n\nFor example:\n\n\nCode\n# Packages for data management\ninstall.packages(\"dplyr\")\n\n# Packages for visualization\ninstall.packages(\"ggplot2\")\n\n# Packages for analayses\ninstall.packages(\"survival\")\n\n\nYou only need to install a package once on your computer. After it’s installed, R remembers it. That’s why it’s not best practice to include install.packages() inside your scripts — it’s something you do only when setting up your environment.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#load-packages",
+    "href": "04_packages.html#load-packages",
+    "title": "4  Working with packages",
+    "section": "4.3 Load packages",
+    "text": "4.3 Load packages\nAfter installing a package, you need to load it into R before you can use its functions. This must be done every time you start R. It’s good practice to include a section at the top of your script called “Load packages”\nIn your R file, make a section called: “Load packages”\nSpecify which packages to load by typing:\n\n\nCode\nlibrary(\"package name\")\n\n\nFor example:\n\n\nCode\nlibrary(tidyverse)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#alternative-to-loading-the-package",
+    "href": "04_packages.html#alternative-to-loading-the-package",
+    "title": "4  Working with packages",
+    "section": "4.4 Alternative to loading the package",
+    "text": "4.4 Alternative to loading the package\nIt is not always necessary to load a package before using its functions — as long as it is installed.\nYou can call a specific function directly from its package like this:\n\n\nCode\ndplyr::select()\n\n\nHere, dplyr::select() tells R to use the select() function from the dplyr package.\n\nThis is useful when multiple packages contain functions with the same name (for example, select exists in both dplyr and MASS).\n\nUsing the package::function() format ensures you call the correct one.\n\nThe downside is that you must remember which package the function belongs to.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#getting-help-on-functions",
+    "href": "04_packages.html#getting-help-on-functions",
+    "title": "4  Working with packages",
+    "section": "4.5 Getting help on functions",
+    "text": "4.5 Getting help on functions\nIf you need help with a function, you can search for it in the Help panel in RStudio.\n\nAlternatively, you can type:\n\n\nCode\nhelp(\"select\", package = \"dplyr\")\n\n?dplyr::select\n\n\nThis will open the R documentation for that specific function.",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
+    ]
+  },
+  {
+    "objectID": "04_packages.html#packages-in-an-r-project",
+    "href": "04_packages.html#packages-in-an-r-project",
+    "title": "4  Working with packages",
+    "section": "4.6 Packages in an R Project",
+    "text": "4.6 Packages in an R Project\nNow that we have created the R Project R_intro_dce, let’s take a brief look at how packages can be managed within an R Project.\nIn your project folder, you can see a file called DESCRIPTION. This file can be used to describe several aspects of your project — including which packages are used.\nThis is called formal package dependency management. It provides a clear overview of the packages required to run all the code in your project.\nWithout this setup — using what is called informal dependency management — you would need to manually check each script for a section like “Load packages,” which quickly becomes difficult to maintain.\n\n4.6.1 Add packages to the DESCRIPTION file\nHow do you add packages to the DESCRIPTION file? There are several options, but one smooth and convenient approach is to use the use_package() function from the usethis package.\nIf you know you will be using dplyr, simply run:\n\n\nCode\nusethis::use_package(\"dplyr\")\n\n\nThis automatically adds dplyr to the list of required packages in your DESCRIPTION file.\n\n\n4.6.2 Build vs. workflow dependency\nYou can distinguish between two types of dependencies:\n\nBuild dependencies are the packages needed to run your analysis — for example, dplyr, ggplot2, or survival.\nWorkflow dependencies are packages that support your workflow but are not required for the analysis itself — for example, usethis and styler\n\nWhen you use use_package(), packages are added as build dependencies by default (under Imports). If you want to specify a package as a workflow dependency, you can add it under Suggests like this:\n\n\nCode\nusethis::use_package(\"usethis\", \"suggests\")\n\n\nYou can then open the DESCRIPTION file and see that build dependencies are listed under Imports, while workflow dependencies appear under Suggests.\n\n\n4.6.3 Install packages with pak\nOnce your project lists its dependencies in the DESCRIPTION file, installing them all becomes simple.\nJust open your R Project and run:\n\n\nCode\npak::pak()\n\n\n…. at least if you have pak installed :-)",
+    "crumbs": [
+      "Sessions",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with packages</span>"
     ]
   }
 ]
