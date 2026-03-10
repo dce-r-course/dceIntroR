@@ -17,15 +17,9 @@ Load the packages we will need under a section called "Load packages".
 ```{r, message=FALSE, warning = FALSE}
 
 library(tidyverse)
-library(purrr)
 
 ```
 
-We will introduce the `purrr` package, so we should add this as a workflow dependency
-
-```{r, eval = FALSE}
-usethis::use_package("purrr")
-```
 
 ## Load the datasets
 
