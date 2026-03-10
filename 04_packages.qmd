@@ -93,9 +93,11 @@ If you need help with a function, you can search for it in the `Help` panel in R
 Alternatively, you can type:
 
 ```{r, eval=FALSE,message=FALSE, warning=FALSE}
-?dplyr::select
 
 help("select", package = "dplyr")
+
+?dplyr::select
+
 ```
 
 This will open the R documentation for that specific function.
