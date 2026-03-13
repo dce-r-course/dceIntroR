@@ -458,7 +458,7 @@ Make a function
 identify_comorbidity <- function(data, disease_name) {
   
   # step 01
-  print(disease_name)
+  message(disease_name)
   
   # step 02
   code <- comorbidity_definitions$pattern[comorbidity_definitions$name == disease_name]
