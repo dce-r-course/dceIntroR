@@ -458,7 +458,7 @@ Make a function
 identify_comorbidity <- function(data, disease_name) {
   
   # step 01
-  message(disease_name)
+  print(disease_name)
   
   # step 02
   code <- comorbidity_definitions$pattern[comorbidity_definitions$name == disease_name]
@@ -497,7 +497,8 @@ for (disease_name in comorbidity_definitions$name) {
   
   output <- identify_comorbidity(
     data = data_cov_diag,
-    disease_name = disease_name)
+    disease_name = disease_name
+    )
   
   data_covariate_mi <- dplyr::left_join(data_covariate_mi, output, by = "id") |> 
     dplyr::distinct()
