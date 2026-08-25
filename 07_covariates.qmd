@@ -20,7 +20,6 @@ library(tidyverse)
 
 ```
 
-
 ## Load the datasets
 
 Load the datasets we will need under a section called "Load data"
@@ -42,19 +41,19 @@ First, we must decide which covariates we would like to include.
 
 From `basic_data`:
 
--   age
+- age
 
--   sex
+- sex
 
 From `diag_data`:
 
--   Hypertension
+- Hypertension
 
--   Hypercholesterolaemia
+- Hypercholesterolaemia
 
--   Diabetes
+- Diabetes
 
--   Heart failure
+- Heart failure
 
 ## Age and sex
 
@@ -83,9 +82,9 @@ data_cov_02
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   `floor()`: rounds exact age down
+- `floor()`: rounds exact age down
 
--   `as.numeric()`: specifies that the difference between `index_date` and `birth_date` should be a numeric value, which allows us to divide by 365.25 to obtain age in years.
+- `as.numeric()`: specifies that the difference between `index_date` and `birth_date` should be a numeric value, which allows us to divide by 365.25 to obtain age in years.
 :::
 
 ### Normal distributed
@@ -114,17 +113,17 @@ data |>
 
 Let’s break that down:
 
--   `data`: Specify which data we will be using
--   `ggplot()`: This sets up the plot.
--   `aes():` Short for aesthetics — this is where you define what goes on the x- and y-axes (and optionally color, size, shape, etc.).
--   `geom_*()`: These are the layers that define *how* the data should be visualised — for example:
-    -   `geom_point()` for scatter plots
+- `data`: Specify which data we will be using
+- `ggplot()`: This sets up the plot.
+- `aes():` Short for aesthetics — this is where you define what goes on the x- and y-axes (and optionally color, size, shape, etc.).
+- `geom_*()`: These are the layers that define *how* the data should be visualised — for example:
+  - `geom_point()` for scatter plots
 
-    -   `geom_bar()` for bar charts
+  - `geom_bar()` for bar charts
 
-    -   `geom_line()` for line plots
+  - `geom_line()` for line plots
 
-    -   `geom_histogram()` for histograms
+  - `geom_histogram()` for histograms
 
 Let's see if the age distribution is normally distributed and stratify by sex.
 
@@ -147,47 +146,47 @@ data_cov_02 |>
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   `mutate(sex = factor(...))`
+- `mutate(sex = factor(...))`
 
-    Converts the numeric sex variable (1/2) into a labeled factor with levels "Male" and "Female" — making the plot more interpretable.
+  Converts the numeric sex variable (1/2) into a labeled factor with levels "Male" and "Female" — making the plot more interpretable.
 
--   `ggplot(aes(...))`
+- `ggplot(aes(...))`
 
-    Initialises a ggplot object using age as the variable to be plotted in a Q-Q plot.
+  Initialises a ggplot object using age as the variable to be plotted in a Q-Q plot.
 
-    -   sample = age: Specifies the variable to be compared against a theoretical normal distribution.
+  - sample = age: Specifies the variable to be compared against a theoretical normal distribution.
 
-    -   group = sex: Ensures separate Q-Q plots are generated for each sex group.
+  - group = sex: Ensures separate Q-Q plots are generated for each sex group.
 
-    -   color and fill: Assign colors based on sex.
+  - color and fill: Assign colors based on sex.
 
--   `geom_qq()`
+- `geom_qq()`
 
-    Adds a Q-Q plot layer — this visualizes how the distribution of age compares to a normal distribution.
+  Adds a Q-Q plot layer — this visualizes how the distribution of age compares to a normal distribution.
 
--   `geom_qq_line()`
+- `geom_qq_line()`
 
-    Adds a reference line to the Q-Q plot — if the data follows a normal distribution, points should lie close to this line.
+  Adds a reference line to the Q-Q plot — if the data follows a normal distribution, points should lie close to this line.
 
--   `facet_wrap(~sex)`
+- `facet_wrap(~sex)`
 
-    Creates separate plots for "Male" and "Female" — allowing for side-by-side comparison of age distributions.
+  Creates separate plots for "Male" and "Female" — allowing for side-by-side comparison of age distributions.
 
--   `ggsci::scale_fill_nejm()` and `ggsci::scale_color_nejm()`
+- `ggsci::scale_fill_nejm()` and `ggsci::scale_color_nejm()`
 
-    Applies a color palette inspired by the *New England Journal of Medicine*.
+  Applies a color palette inspired by the *New England Journal of Medicine*.
 
-    Note, here we call the functions directly from the `ggsci` package. We could also load the package under "Load packages". That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our `DESCRIPTION` file.
+  Note, here we call the functions directly from the `ggsci` package. We could also load the package under "Load packages". That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our `DESCRIPTION` file.
 
-    ```{r, eval = FALSE}
+  ```{r, eval = FALSE}
 
-    usethis::use_package("ggsci")
+  usethis::use_package("ggsci")
 
-    ```
+  ```
 
--   `theme_bw()`
+- `theme_bw()`
 
-    Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
+  Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout extensively.
 :::
 
 #### Histogram
@@ -209,31 +208,31 @@ data_cov_02 |>
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   `mutate(sex = factor(...))`
+- `mutate(sex = factor(...))`
 
-    Converts the numeric sex variable (1 = Male, 2 = Female) into a labeled factor for clearer plotting and legend labels.
+  Converts the numeric sex variable (1 = Male, 2 = Female) into a labeled factor for clearer plotting and legend labels.
 
--   `ggplot(aes(...))`
+- `ggplot(aes(...))`
 
--   Initializes the plot using age as the x-axis variable.
+- Initializes the plot using age as the x-axis variable.
 
-    -   group = sex: Ensures separate density curves per sex.
+  - group = sex: Ensures separate density curves per sex.
 
-    -   color and fill: Assign colors based on sex for visual distinction.
+  - color and fill: Assign colors based on sex for visual distinction.
 
--   `geom_histogram(aes(y = ..density..), alpha = .25)`\
-    Plots a histogram of the age variable, scaled to show density rather than raw counts.
+- `geom_histogram(aes(y = ..density..), alpha = .25)`\
+  Plots a histogram of the age variable, scaled to show density rather than raw counts.
 
-    -   alpha = .25: Makes the bars semi-transparent so overlapping areas are visible.
+  - alpha = .25: Makes the bars semi-transparent so overlapping areas are visible.
 
--   `stat_function(fun = dnorm, ...)`
+- `stat_function(fun = dnorm, ...)`
 
-    Adds a normal distribution curve over the histogram using the overall mean and standard deviation of age.
+  Adds a normal distribution curve over the histogram using the overall mean and standard deviation of age.
 
-    -   This helps visually compare the actual age distribution to a theoretical normal distribution.
+  - This helps visually compare the actual age distribution to a theoretical normal distribution.
 
--   `facet_wrap(~ sex)`\
-    Creates separate panels for "Male" and "Female" — allowing side-by-side comparison of age distributions.
+- `facet_wrap(~ sex)`\
+  Creates separate panels for "Male" and "Female" — allowing side-by-side comparison of age distributions.
 
 `ggsci::scale_fill_nejm()` and `ggsci::scale_color_nejm()`
 
@@ -241,9 +240,9 @@ Applies a color palette inspired by the *New England Journal of Medicine*.
 
 Note, here we call the functions directly from the `ggsci` package. We could also load the package under "Load packages". That will largely depend on how frequently we will use it, and whether it conflicts with other packages. But, we should add it as a workflow-dependency package in our `DESCRIPTION` file.
 
--   `theme_bw()`
+- `theme_bw()`
 
-    Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
+  Applies a minimal black-and-white theme — removes background shading and grid clutter for a cleaner appearance. There are tons of themes you can use. Moreover, using the `theme()` function, you can customise your layout intensively.
 :::
 
 ## Comorbidities
@@ -289,15 +288,13 @@ data_baseline_mi <- data_pop_mi |>
 
 1.  Add `diag_data` to our new `data_baseline_mi`
 
-2.  Keep only diagnoses recorded before index date and after lookback period
+2.  Keep only diagnoses recorded before the index date and within the lookback period
 
 3.  Then we have our basic dataset with all preadmission hospital contacts
 
 ```{r, warning = FALSE, message = FALSE}
 
 lookback_years <- 10
-
-lookback <- lookback_years*-1
 
 data_cov_diag <- data_baseline_mi |> 
   left_join(diag_data, by = "id") |> 
@@ -306,16 +303,28 @@ data_cov_diag <- data_baseline_mi |>
   ) |> 
   filter(
     diff < 0,
-    diff > 365.25*lookback
-  ) |> 
-  select(-diff)
+    diff > (-365.25*lookback_years)
+  ) 
 
 data_cov_diag
+```
+
+Now, we could do some checks. This is easily done with some base R manouvers.
+
+```{r}
+# Is the largest difference between index date and covariate admission lower than or equal to the lookback period?
+min(data_cov_diag[["diff"]])
+
+# Is the lowest difference between index date and covariate admission lower than 0 days?
+max(data_cov_diag[["diff"]])
+
 ```
 
 #### Step 3.
 
 Identify a given covariate. Let's begin with hypertension.
+
+Note: This approach keeps only those with a given covariate within the lookback period.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -335,7 +344,7 @@ cov_hypertension <- data_cov_diag |>
 
 #### Step 4.
 
-Add the covariate to the baseline and replace `NA` with `0`
+We therefore need to add the covariate to the baseline and replace `NA` with `0.`
 
 ```{r, warning = FALSE, message = FALSE}
 data_baseline_mi <- 
@@ -375,7 +384,7 @@ data_baseline_mi
 
 Keep on repeating..
 
-While this do work, it gets slightly redundant — and we are repeating ourselves a lot!
+While this approach does work, it gets slightly redundant, and we are repeating ourselves a lot!
 
 Let's explore a different approach using functions and loops.
 
@@ -389,15 +398,15 @@ rm(data_baseline_mi, data_cov_diag, cov_hyperchol, cov_hypertension, hypertensio
 
 As the number of comorbidities grows, repeating the same code for each one becomes inefficient and hard to maintain. A more efficient and slightly advanced approach is to:
 
--   Create a **baseline dataset** with one row per patient containing only `id` and `index_date`
+- Create a **baseline dataset** with one row per patient containing only `id` and `index_date`
 
--   Add preadmission hospital contacts to get a dataset like our `data_cov_diag`
+- Add preadmission hospital contacts to get a dataset like our `data_cov_diag`
 
--   Define a **comorbidity table** with comorbidity names and ICD-10 patterns
+- Define a **comorbidity table** with comorbidity names and ICD-10 patterns
 
--   Write a **function** that identifies patients who has a history with a given comorbidity
+- Write a **function** that identifies patients who have a history of a given comorbidity
 
--   Use `for loop` to apply the function over several comorbidities and combine the results into a single dataset
+- Use `for loop` to apply the function over several comorbidities and combine the results into a single dataset
 
 This method is scalable, readable, and easy to adapt to new comorbidities.
 
@@ -411,16 +420,23 @@ data_covariate_mi <- data_pop_mi |>
   select(id, index_date)
 
 
-data_cov_diag <- data_covariate_mi |>
+lookback_years <- 10
+
+data_cov_diag <- data_covariate_mi |> 
   left_join(diag_data, by = "id") |> 
   mutate(
     diff = as.numeric(adm_date - index_date) # can also be switched, then adjust definition of lookback
   ) |> 
   filter(
     diff < 0,
-    diff > 365.25*lookback
-  ) |> 
-  select(-diff)
+    diff > (-365.25*lookback_years)
+  ) 
+
+data_cov_diag
+
+
+min(data_cov_diag[["diff"]])
+max(data_cov_diag[["diff"]])
 ```
 
 #### Step 2.
@@ -443,7 +459,7 @@ comorbidity_definitions
 
 Make a function
 
-1.  We first `print` the name of the covariate. This help us keeping track on the progress.
+1.  We first `message` the name of the covariate. This help us keeping track on the progress.
 
 2.  We then set the code pattern to be used. We simply extract the code related to the covariate as defined in our `comorbidity_definions` data.
 
@@ -457,25 +473,27 @@ Make a function
 
 identify_comorbidity <- function(data, disease_name) {
   
+  disease_name_sym <- rlang::sym(disease_name)
+  
   # step 01
   print(disease_name)
   
   # step 02
-  code <- comorbidity_definitions$pattern[comorbidity_definitions$name == disease_name]
+  code <- comorbidity_definitions[["pattern"]][comorbidity_definitions[["name"]] == disease_name]
   
   cov_data <- data |> 
     
     # step 03
     dplyr::mutate(
-      {{ disease_name }} := dplyr::case_when(
+      !!disease_name_sym := dplyr::case_when(
         str_detect(diag_a, code) | str_detect(diag_b, code) ~ 1,
         .default = 0
       )
     ) |> 
     
     # step 04
-    dplyr::filter(get({{disease_name}}) == 1) |> 
-    dplyr::select(id, {{disease_name}}) |> 
+    dplyr::filter(!!disease_name_sym == 1) |> 
+    dplyr::select(id, !!disease_name_sym) |> 
     dplyr::distinct()
   
   # step 05
@@ -493,7 +511,7 @@ Essentially, the `for loop` runs the function above for each disease name in our
 
 ```{r, warning = FALSE, message = FALSE}
 
-for (disease_name in comorbidity_definitions$name) {
+for (disease_name in comorbidity_definitions[["name"]]) {
   
   output <- identify_comorbidity(
     data = data_cov_diag,

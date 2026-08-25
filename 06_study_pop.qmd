@@ -48,25 +48,25 @@ Now, we will look into different ways to restrict your dataset to patients with 
 
 Let's have a look at some predefined specifications:
 
--   Which contacts?
+- Which contacts?
 
-    -   We will only look at MI diagnoses recorded from inpatient hospital contacts.
+  - We will only look at MI diagnoses recorded from inpatient hospital contacts.
 
--   Which codes?
+- Which codes?
 
-    -   In the `diag_data`, MI is recorded with the ***International Classification of Diseases, Tenth Revision*** (ICD-10) `DI21`.
+  - In the `diag_data`, MI is recorded with the ***International Classification of Diseases, Tenth Revision*** (ICD-10) `DI21`.
 
--   Which type of diagnosis?
+- Which type of diagnosis?
 
-    -   We will use both primary (`diag_a`) and secondary diagnoses (`diag_b`) registrations.
+  - We will use both primary (`diag_a`) and secondary diagnoses (`diag_b`) registrations.
 
--   Which event?
+- Which event?
 
-    -   We are interested in only first-time MIs. Accordingly, we will need ensure that we order our data correctly before restricting to the first event.
+  - We are interested in only first-time MIs. Accordingly, we will need to ensure that we order our data correctly before restricting to the first event.
 
--   Which study period?
+- Which study period?
 
-    -   We are interested in events throughout the entire period covered in the dataset (2010 through 2024). We will simply pretend that hospital history before this period is irrelevant (which, of course, is not a fair assumption). But in general, be aware of whether you are finding the first event in the patient's hospital history or the first event in your study period.
+  - We are interested in events throughout the entire period covered in the dataset (2010 through 2024). We will simply pretend that hospital history before this period is irrelevant (which, of course, is not a fair assumption). But in general, be aware of whether you are finding the first event in the patient's hospital history or the first event in your study period.
 
 Considering these predefined specifications and with the functions we used in the last session in mind, take **a minute** to reflect on how you would approach this task using `dplyr` manoeuvres.
 
@@ -96,26 +96,30 @@ data_updated <- data |>
   ...
 ```
 
-Here, any changes to `data` will be saved in `data_updated`, which will appear in your Environment when you've run the code. Note, you do not necessarily need to give the updated data a new name.
+Here, any changes to `data` will be saved in `data_updated`, which will appear in your Environment when you've run the code.
+
+*Note*: you do not necessarily need to give the updated data a new name. You might also choose to overwrite a dataset.
 
 Back to our MI task! Let's call our new dataset `study_pop_mi`.
 
-```{r, , warning=FALSE, message=FALSE, eval = FALSE}
+```{r, , warning=FALSE, message=FALSE}
+
 study_pop_01 <- diag_data
+
 ```
 
 #### 2. Inpatient contacts
 
 Restrict to inpatient contacts.
 
-Remember that the type of hospital contact is stored in the column `contact_type` and it takes the values {1 = inpatient; 2 = outpatient}. When we want to restrict to inpatient contacts, we will be choosing on rows. Therefore, we will use the `filter` function.
+Remember that the type of hospital contact is stored in the column `contact_type,` and it takes the values {1 = inpatient; 2 = outpatient}. When we want to restrict to inpatient contacts, we will be choosing on rows. Therefore, we will use the `filter` function.
 
 ```{r, warning=FALSE, message=FALSE}
-study_pop_02 <- diag_data |> 
+study_pop_02 <- study_pop_01 |> 
   filter(contact_type == 1)
 ```
 
-A quick way to see, if we've succeeded
+A quick way to see if we've succeeded
 
 ```{r, warning=FALSE, message=FALSE}
 study_pop_02 |> 
@@ -130,7 +134,7 @@ Now that we have restricted the `diag_data` to inpatient contacts, we can move o
 
 The `diag_a` and `diag_b` are character vectors. And now we would like to look for whether a certain pattern (*i.e.*, a diagnosis code) is present in any rows. There are plenty of different ways to do this.
 
-We will be using the `str_detect` function from `stringr`. Essentially, what we should know about `str_detect` for now is that it takes the argument: (1) which column; (2) to search for what.
+We will be using the `str_detect` function from `stringr`. Essentially, what we should know about `str_detect` for now is that it takes the arguments: (1) which column; (2) what to search for.
 
 Remember, you can always read more about the function by running:
 
@@ -142,7 +146,7 @@ Because `diag_a` and `diag_b` are character vectors, the pattern must also be wr
 
 So, the ICD-10 code for MI is `DI21`, which then would be "DI21". We are "lucky" that MI only has one ICD-10 code. If your pattern has multiple codes, you could write, for instance, "DA01\|DA02", saying "DA01" OR "DA02". And let's say you were interested in the codes DI801, DI802, and DI803, you could write "DI80\[1-3\]". Moreover, `str_detect` searches for any patterns that match your input pattern. So the input "DI21" would also keep "DI214" (subcodes).
 
-But let's get back to filter our data so only MI codes are kept.
+But let's get back to filtering our data so only MI codes are kept.
 
 ```{r, warning=FALSE, message=FALSE}
 study_pop_03 <- study_pop_02 |> 
@@ -151,15 +155,17 @@ study_pop_03 <- study_pop_02 |>
   )
 ```
 
-This code takes the `study_pop_02` dataset, filters on rows so that only rows where `diag_a` or `diag_b` has a value that matches the pattern "DI21" is kept, and then saves the transformed data as `study_pop_03`.
+This code takes the `study_pop_02` dataset, filters rows so that only rows where `diag_a` or `diag_b` has a value that matches the pattern "DI21" are kept, and then saves the transformed data as `study_pop_03`.
 
-While this works, there is some simple ways we can optimise this code.
+*Note*: When the pattern is written as "DI21", str_detect will look for this pattern at any place in the character vector. So, a hypothetical pattern of "AIDI21" will remain. If you want to specify only to include character values starting with the pattern, you simply add "\^" at the beginning, *e.g.*, "\^DI21".
+
+While this works, there are some simple ways we can optimise this code.
 
 First of all, we will introduce the concept of: **avoid repeating yourself!**
 
 Here, we write the pattern "DI21" twice. It is fairly simple here, but sometimes, your ICD patterns will be extremely long and complicated. And whenever you have to repeat yourself, the risk of typos increases, and your code will become extremely long.
 
-So a simple way to avoid repeating yourself, is by defining your MI pattern before running the code:
+So a simple way to avoid repeating yourself is by defining your MI pattern before running the code:
 
 ```{r, warning=FALSE, message=FALSE}
 mi_code <- "DI21"
@@ -170,7 +176,7 @@ study_pop_03 <- study_pop_02 |>
   )
 ```
 
-This essentially does exactly the same, but you only need to define the pattern once. This also means that if you need to revise your pattern, you only need to do it in this one place!
+This essentially does the same, but you only need to define the pattern once. This also means that if you need to revise your pattern, you only need to do it in this one place!
 
 ::: {.callout-note collapse="true"}
 **More advanced**
@@ -190,9 +196,9 @@ study_pop_03 <- study_pop_02 |>
          )
 ```
 
--   `if_any()`: This function checks if **any** of the specified columns meet a condition. It’s useful when you want to apply the *same* logical test across multiple columns. Especially if we operate on more than just a few columns.
--   `c(diag_a, diag_b)`: This tells `if_any()` to apply the condition to both `diag_a` and `diag_b`.
--   `~ str_detect(.x, mi_code)`: This is an anonymous function where `.x` represents each column. `str_detect()` checks if the `mi_code` string is found in the column.
+- `if_any()`: This function checks if **any** of the specified columns meet a condition. It’s useful when you want to apply the *same* logical test across multiple columns. Especially if we operate on more than just a few columns.
+- `c(diag_a, diag_b)`: This tells `if_any()` to apply the condition to both `diag_a` and `diag_b`.
+- `~ str_detect(.x, mi_code)`: This is an anonymous function where `.x` represents each column. `str_detect()` checks if the `mi_code` string is found in the column.
 :::
 
 #### 4. First-time events
@@ -213,15 +219,15 @@ study_pop_03 |>
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   `add_count(id)` adds a column `n` with the number of times each `id` appears.
+- `add_count(id)` adds a column `n` with the number of times each `id` appears.
 
 <!-- -->
 
--   `filter(n > 1)` keeps only those with more than one MI admission.
+- `filter(n > 1)` keeps only those with more than one MI admission.
 
 <!-- -->
 
--   `arrange(id)` sorts the data by `id`
+- `arrange(id)` sorts the data by `id`
 :::
 
 We can see that at least some persons have multiple MI admissions.
@@ -240,15 +246,15 @@ study_pop_03 |>
 ::: {.callout-note collapse="true"}
 **Explanation**
 
--   First `count(id)` gives the number of rows per patient. Returns only `id` and `n`
+- First `count(id)` gives the number of rows per patient. Returns only `id` and `n`
 
 <!-- -->
 
--   Then `filter(n > 1)` keeps only those with multiple events.
+- Then `filter(n > 1)` keeps only those with multiple events.
 
 <!-- -->
 
--   Finally, `count()` gives the total number of such patients.
+- Finally, `count()` gives the total number of such patients.
 :::
 
 Let's take our `study_pop_03` and only keep first-time events.
@@ -351,7 +357,7 @@ Instead of keeping the `dis_date`, we can calculate the length of hospital stay.
 
 ```{r, warning = FALSE, message = FALSE}
 study_pop_final <- study_pop_final |> 
-  mutate(los = as.numeric(dis_date-index_date),
+  mutate(los = as.numeric(difftime(dis_date,index_date, units = "days")),
          .after = index_date)
 
 head(study_pop_final)

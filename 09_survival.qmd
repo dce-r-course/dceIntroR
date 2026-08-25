@@ -40,7 +40,9 @@ basic_data <- readRDS(here::here("data-raw/basic_data.rds"))
 
 ## Time-to-event setup
 
-Now, we will setup our dataset for a time-to-event analysis. We will follow patients from `index_date` until death, 1 year of follow-up, or December 31, 2024, whichever occurred first. We here just assume no emigration.
+Now, we will setup our dataset for a time-to-event analysis. We will follow patients from `index_date` until death, 1 year of follow-up, or December 31, 2024, whichever occurred first.
+
+*Note:* We here just assume no emigration.
 
 ### Step 01: Add death date
 
@@ -57,7 +59,7 @@ data_tte
 ```{r, warning=FALSE, message=FALSE}
 data_tte <- data_tte |> 
   dplyr::mutate(
-    max_fu = lubridate::ymd(index_date) + lubridate::years(1), # 1 year of follow-up
+    max_fu = lubridate::add_with_rollback(lubridate::ymd(index_date), lubridate::years(1)), # 1 year of follow-up
     stop_study = lubridate::ymd("2024-12-31")) # stop of study
 
 data_tte
@@ -68,7 +70,7 @@ data_tte
 
 ```{r, warning=FALSE, message=FALSE}
 data_tte <- data_tte |> 
-  mutate(across(c(death_date, max_fu, stop_study), ~ as.Date(.x)), # ensure that dates are <date> format
+  mutate(across(c(death_date, max_fu, stop_study), ~ lubridate::ymd(.x)), # ensure that dates are <date> format
          end_date = pmin(death_date, max_fu, stop_study, na.rm = TRUE) # Follow-up ends at death, 1 year, or study stop — whichever comes 
   )
 
@@ -81,7 +83,7 @@ data_tte
 ```{r, warning=FALSE, message=FALSE}
 data_tte <- data_tte |> 
   mutate(
-         time = as.numeric(end_date - index_date) # here in days
+         time = as.numeric(difftime(end_date, index_date, units = "days")) # here in days
          )
 
 data_tte
@@ -93,20 +95,13 @@ You may wish to check some restrictions:
 ```{r, warning=FALSE, message=FALSE}
 
 # No negative time values
-data_tte |> 
-  filter(time < 0 )
+min(data_tte[["time"]])
 
 # Max follow-up time
-data_tte |> 
-  filter(time == max(time)) |> 
-  select(time) |> 
-  distinct()
+max(data_tte[["time"]])
 
 # Max date of stop
-data_tte |> 
-  filter(end_date == max(end_date)) |> 
-  select(end_date) |> 
-  distinct()
+max(data_tte[["end_date"]])
 ```
 
 ### Step 05. Create a status indicator
@@ -160,18 +155,18 @@ ggsurvfit(fit_km) +
 
 There are several different ways to do this. Probably also some more elegant ways.
 
-Now, we will store the output from the `fit_km` object in a format allowing us to extract results — and plot the risk curves
+#### Explore estimates at specific time points
 
-#### Generate data
+Lets generate a dataset with mortality risk estimates with 1 day intervals from day 0 until end of follow-up.
 
 ```{r, warning=FALSE, message=FALSE}
 max_fu <- max(data_tte$time)
 s_fit <- summary(fit_km, times = 0:max_fu)
 
 round_function <- function(x){
-  ifelse(x >= 10,
-         sprintf("%.1f", x), # 1 digit if 10 or higher
-         sprintf("%.2f", x)) # 2 digits if lower
+  
+  sprintf("%.1f", x)
+  
 }
 
 data_mortality <- data.frame(
@@ -240,10 +235,12 @@ mutate(
 
 #### Plot
 
+We can also plot a mortality risk curve using the same dataset.
+
 ```{r, warning=FALSE, message=FALSE}
 
 plot_mortality <- 
-data_mortality |>
+  data_mortality |>
   mutate(across(c(risk_crude, time, ll_crude, ul_crude), ~ as.numeric(.x))) |> 
   ggplot(aes(y = risk_crude, x = time, group = group, col = group, fill = group, ymin = ll_crude, ymax = ul_crude)) +
   geom_line(show_legend = T, linewidth = .8) +

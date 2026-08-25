@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/07_covariates.html</loc>
-    <lastmod>2026-03-13T19:41:42.941Z</lastmod>
+    <lastmod>2026-08-25T09:15:11.469Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/08_table1.html</loc>
-    <lastmod>2025-11-19T11:39:09.478Z</lastmod>
+    <lastmod>2026-08-25T09:15:20.984Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/09_survival.html</loc>
-    <lastmod>2026-03-09T10:27:14.273Z</lastmod>
+    <lastmod>2026-08-25T09:38:54.659Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/06_study_pop.html</loc>
-    <lastmod>2026-03-09T10:26:36.954Z</lastmod>
+    <lastmod>2026-08-25T10:03:24.222Z</lastmod>
   </url>
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/index.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://dce-r-course.github.io/dceIntroR/04_packages.html</loc>
     <lastmod>2026-03-10T08:26:50.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dce-r-course.github.io/dceIntroR/000_schedule.html</loc>
+    <lastmod>2025-11-04T11:47:25.193Z</lastmod>
   </url>
 </urlset>

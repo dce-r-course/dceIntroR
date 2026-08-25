@@ -139,6 +139,27 @@ data_baseline_mi <- data_baseline_mi |>
   mutate(
     agegroup = factor(agegroup, levels = c("<50", "50-80", ">80"))
   )
+
+data_baseline_mi |>
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  tbl_summary(
+    include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
+    by = sex,
+    missing = "no",
+    label = list(
+      age ~ "Median age, in years (Q1;Q3)",
+      agegroup ~ "Age group",
+      los ~ "Median hospital stay, in days (Q1;Q3)",
+      hypertension ~ "Hypertension",
+      hypercholesterolaemia ~ "Hypercholesterolaemia",
+      diabetes ~ "Diabetes",
+      heart_failure ~ "Heart failure"
+    ),
+    statistic = list(all_continuous() ~ "{median} ({p25};{p75})") # customise the Q1;Q3
+  ) |>
+  bold_labels() |>
+  modify_header(label = "**Variable**") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**")
 ```
 
 ### Add overall
@@ -171,9 +192,11 @@ data_baseline_mi |>
 
 When we are happy with the ouput, we can save the Table 1. You can save as an Excel-file, making it ready for your manuscript (if you write that in e.g., Microsoft Word).
 
+Where to save it? That's essentially up to you. You could make a new folder and name it "results" or something similar. Using this approach, you can save it an .html file for later exploration. You can also save as .xlsx, but may require some additional cleaning.
+
 ```{r, warning = FALSE, message = FALSE}
-table1 <-
-  data_baseline_mi |>
+
+data_baseline_mi |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
   tbl_summary(
     include = c(age, agegroup, sex, los, hypertension, hypercholesterolaemia, diabetes, heart_failure),
@@ -193,12 +216,17 @@ table1 <-
   bold_labels() |>
   modify_header(label = "**Variable**") |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex**") |>
-  add_overall(last = TRUE)
+  add_overall(last = TRUE) |> 
+  gtsummary::as_tibble() |> 
+  writexl::write_xlsx(here::here("results/table1.xlsx"))
 ```
 
-Where to save it? That's essentially up to you. You could make a new folder and name it "results" or something similar. Using this approach, you can save it an .html file for later exploration. You can also save as .xlsx, but may require some additional cleaning.
+## Clear environment
 
-```{r, warning = FALSE, message = FALSE}
-table1_gt <- as_gt(table1)
-gt::gtsave(table1_gt, filename = here::here("results/table1.html"))
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
+
+rm(list=ls()) # clears your working environment
+
+gc() # free unused memory
+
 ```

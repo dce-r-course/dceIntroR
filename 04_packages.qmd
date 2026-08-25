@@ -8,21 +8,21 @@ Think of R packages as *apps for R*. Just as your phone comes with basic apps bu
 
 A package is simply a collection of `R code` written by others. It often includes:
 
--   **Functions** – reusable pieces of code
+- **Functions**: reusable pieces of code
 
--   **Data** – example datasets
+- **Data**: example datasets
 
--   **Documentation** – instructions on how to use it
+- **Documentation**: instructions on how to use it
 
 Packages make it easier to share and reuse code.
 
 For example:
 
--   `dplyr` and `data.table` helps with data management
+- `dplyr` and `data.table` helps with data management
 
--   `ggplot2` helps with data visualisation
+- `ggplot2` helps with data visualisation
 
--   `survival` helps with time-to-event analyses
+- `survival` helps with time-to-event analyses
 
 ## Install packages
 
@@ -41,14 +41,14 @@ For example:
 # Packages for data management
 install.packages("dplyr")
 
-# Packages for visualization
+# Packages for visualisation
 install.packages("ggplot2")
 
-# Packages for analayses
+# Packages for analyses
 install.packages("survival")
 ```
 
-You only need to install a package once on your computer. After it’s installed, `R` remembers it. That’s why it’s *not* best practice to include `install.packages()` inside your scripts — it’s something you do only when setting up your environment.
+You only need to install a package once on your computer. After it’s installed, `R` remembers it. That’s why it’s *not* best practice to include `install.packages()` inside your scripts. It’s something you do only when setting up your environment. However, it is recommended to update packages once in a while.
 
 ## Load packages
 
@@ -70,7 +70,7 @@ library(tidyverse)
 
 ## Alternative to loading the package
 
-It is not always necessary to load a package before using its functions — as long as it is installed.
+It is not always necessary to load a package before using its functions, as long as it is installed.
 
 You can call a specific function directly from its package like this:
 
@@ -78,17 +78,17 @@ You can call a specific function directly from its package like this:
 dplyr::select()
 ```
 
-Here, `dplyr::select()` tells R to use the `select()` function from the `dplyr` package.\
+Here, `dplyr::select()` tells R to use the `select()` function from the `dplyr` package.
 
-This is useful when multiple packages contain functions with the same name (for example, `select` exists in both `dplyr` and `MASS`).\
+This is useful when multiple packages contain functions with the same name (for example, `select` exists in both `dplyr` and `MASS`).
 
-Using the `package::function()` format ensures you call the correct one.\
+Using the `package::function()` format ensures you call the correct one.
 
 The downside is that you must remember which package the function belongs to.
 
 ## Getting help on functions
 
-If you need help with a function, you can search for it in the `Help` panel in RStudio.\
+If you need help with a function, you can search for it in the `Help` panel in RStudio.
 
 Alternatively, you can type:
 
@@ -106,11 +106,11 @@ This will open the R documentation for that specific function.
 
 Now that we have created the R Project `R_intro_dce`, let’s take a brief look at how packages can be managed within an R Project.
 
-In your project folder, you can see a file called `DESCRIPTION`. This file can be used to describe several aspects of your project — including which packages are used.
+In your project folder, you can see a file called `DESCRIPTION`. This file can be used to describe several aspects of your project, including which packages are used.
 
 This is called **formal package dependency management**. It provides a clear overview of the packages required to run all the code in your project.
 
-Without this setup — using what is called **informal dependency management** — you would need to manually check each script for a section like “Load packages,” which quickly becomes difficult to maintain.
+Without this setup, using what is called **informal dependency management**, you would need to manually check each script for a section like “Load packages,” which quickly becomes difficult to maintain.
 
 ### Add packages to the DESCRIPTION file
 
@@ -128,9 +128,9 @@ This automatically adds `dplyr` to the list of required packages in your `DESCRI
 
 You can distinguish between two types of dependencies:
 
--   **Build dependencies** are the packages needed to run your analysis — for example, `dplyr`, `ggplot2`, or `survival`.
+- **Build dependencies** are the packages needed to run your analysis, for example, `dplyr`, `ggplot2`, or `survival`.
 
--   **Workflow dependencies** are packages that support your workflow but are not required for the analysis itself — for example, `usethis` and `styler`
+- **Workflow dependencies** are packages that support your workflow but are not required for the analysis itself, for example, `usethis` and `styler`
 
 When you use `use_package(),` packages are added as build dependencies by default (under `Imports`). If you want to specify a package as a workflow dependency, you can add it under `Suggests` like this:
 
