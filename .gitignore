@@ -28,3 +28,6 @@ _temp/
 .luarc.json
 
 /.quarto/
+.positai
+
+**/*.quarto_ipynb
