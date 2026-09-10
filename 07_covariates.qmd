@@ -73,7 +73,7 @@ Now, we can calculate age at admission
 ```{r, warning = FALSE, message = FALSE}
 data_cov_02 <- data_cov_01 |> 
   mutate(
-    age = floor(as.numeric(index_date - birth_date)/365.25)
+    age = floor(as.numeric(difftime(index_date,birth_date, units = "days"))/365.25)
   )
 
 data_cov_02
@@ -299,7 +299,7 @@ lookback_years <- 10
 data_cov_diag <- data_baseline_mi |> 
   left_join(diag_data, by = "id") |> 
   mutate(
-    diff = as.numeric(adm_date - index_date) # can also be switched, then adjust definition of lookback
+    diff = as.numeric(difftime(adm_date,index_date, units = "days")) # can also be switched, then adjust definition of lookback
   ) |> 
   filter(
     diff < 0,
@@ -425,7 +425,7 @@ lookback_years <- 10
 data_cov_diag <- data_covariate_mi |> 
   left_join(diag_data, by = "id") |> 
   mutate(
-    diff = as.numeric(adm_date - index_date) # can also be switched, then adjust definition of lookback
+    diff = as.numeric(difftime(adm_date,index_date, units = "days")) # can also be switched, then adjust definition of lookback
   ) |> 
   filter(
     diff < 0,
