@@ -328,7 +328,7 @@ Note: This approach keeps only those with a given covariate within the lookback 
 
 ```{r, warning = FALSE, message = FALSE}
 
-hypertension_code <- c("DI1[0-5]")
+hypertension_code <- c("^DI1[0-5]")
 
 cov_hypertension <- data_cov_diag |> 
   mutate(
@@ -359,7 +359,7 @@ Repeat the same procedure for hypercholesterolaemia
 
 ```{r, warning = FALSE, message = FALSE}
 
-hyperchol_code <- "DE78"
+hyperchol_code <- "^DE78"
 
 cov_hyperchol <- data_cov_diag |> 
   mutate(
@@ -449,7 +449,7 @@ Then we list the diseases of interest and their ICD-10 codes in a vector. This c
 comorbidity_definitions <- 
   tibble::tibble(
   name = c("hypertension", "hypercholesterolaemia", "diabetes", "heart_failure"),
-  pattern = c("DI1[0-5]", "DE78", "DE1[0-4]", "DI50")
+  pattern = c("^DI1[0-5]", "^DE78", "^DE1[0-4]", "^DI50")
 )
 
 comorbidity_definitions
