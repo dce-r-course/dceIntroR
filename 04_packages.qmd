@@ -65,7 +65,7 @@ library("package name")
 For example:
 
 ```{r, message=FALSE, warning=FALSE}
-library(tidyverse)
+library("tidyverse")
 ```
 
 ## Alternative to loading the package
