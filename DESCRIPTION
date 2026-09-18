@@ -13,7 +13,9 @@ Suggests:
 Imports: 
     dplyr,
     ggplot2,
+    ggpubr,
     ggsci,
+    ggsurvfit,
     glue,
     gtsummary,
     here,

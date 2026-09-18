@@ -68,6 +68,14 @@ For example:
 library("tidyverse")
 ```
 
+::: callout-note
+Best practice would be to pass the name of the package as a string due to non-standard evaluation. However, in reality both `"tidyverse"` and `tidyverse` works. Although the following code becomes unclear:
+```{r, eval=FALSE}
+tidyverse <- 2+2
+library(tidyverse)
+```
+:::
+
 ## Alternative to loading the package
 
 It is not always necessary to load a package before using its functions, as long as it is installed.
