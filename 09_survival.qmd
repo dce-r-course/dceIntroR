@@ -26,6 +26,7 @@ Add new packages to the `DESCRIPTION` file.
 
 ```{r, eval = FALSE}
 usethis::use_package("survival")
+usethis::use_package("ggsurvfit")
 usethis::use_package("glue")
 usethis::use_package("writexl")
 ```
