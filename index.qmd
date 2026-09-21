@@ -8,6 +8,8 @@ This course is based on the initiative of happy amateurs. Therefore, the approac
 
 # Acknowledgements
 
+Thanks to all collaborators: Susanne Hamborg Larsen; Jannik Wheler; Uffe Heide-Jørgensen; Lars Pedersen
+
 The setup and content of this course draw inspiration from the excellent and more comprehensive courses developed by [rostools](https://github.com/rostools)
 
 -   [Intro Reproducible Research in R](https://r-cubed-intro.rostools.org/)

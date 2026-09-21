@@ -246,7 +246,7 @@
     "href": "index.html",
     "title": "Introduction to R for Registry-Based Health Research",
     "section": "",
-    "text": "Welcome\nThis course is intended to serve as a beginner’s guide to help you get started using R for data management, analysis, and visualisation in health research.\n\n\nAttention\nThis course is based on the initiative of happy amateurs. Therefore, the approaches to data management and visualisations may not reflect the most “correct”, efficient, or elegant way, but are intended only to serve as a way to help you get started with R.\n\n\nAcknowledgements\nThe setup and content of this course draw inspiration from the excellent and more comprehensive courses developed by rostools\n\nIntro Reproducible Research in R\nIntermediate Reproducible Research in R\nAdvanced Intermediate Reproducible Research in R",
+    "text": "Welcome\nThis course is intended to serve as a beginner’s guide to help you get started using R for data management, analysis, and visualisation in health research.\n\n\nAttention\nThis course is based on the initiative of happy amateurs. Therefore, the approaches to data management and visualisations may not reflect the most “correct”, efficient, or elegant way, but are intended only to serve as a way to help you get started with R.\n\n\nAcknowledgements\nThanks to all collaborators: Susanne Hamborg Larsen; Jannik Wheler; Uffe Heide-Jørgensen; Lars Pedersen\nThe setup and content of this course draw inspiration from the excellent and more comprehensive courses developed by rostools\n\nIntro Reproducible Research in R\nIntermediate Reproducible Research in R\nAdvanced Intermediate Reproducible Research in R",
     "crumbs": [
       "Welcome"
     ]
